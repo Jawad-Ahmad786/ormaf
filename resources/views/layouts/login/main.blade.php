@@ -43,8 +43,11 @@ if ($isScssConverted) {
 <!-- custom Css-->
 <link href="{{asset('assets/login/css/custom.min.css')}}" rel="stylesheet" type="text/css" />
 
+@stack('css')
+
 </head>
 <body>
+
 @yield('content')
     <!-- end auth-page-wrapper -->
 

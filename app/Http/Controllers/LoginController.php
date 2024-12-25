@@ -8,15 +8,25 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     public function create() {
+
         return view('auth.login');
+
    }
+
    public function store(StoreRequest $request) {
-        $credentials = $request->validated();
+
+      $credentials = $request->validated();
+
       if(Auth::attempt($credentials)) {
+
          $request->session()->regenerate();
-         return redirect(route('home', ['locale' => app()->getLocale()]));
+
+         return redirect(route('welcome', ['locale' => app()->getLocale()]));
+
       } else {
+
         return redirect()->back()->with('error', 'These credentials do not match our records');
+
       }
    }
 }
