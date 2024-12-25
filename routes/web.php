@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Middleware\LocaleMiddleware;
 use Illuminate\Support\Facades\App;
@@ -26,6 +27,11 @@ Route::prefix('{locale}')->middleware(LocaleMiddleware::class)->group(function (
     Route::get('wiz3', [WelcomeController::class, 'wizThree'])->name('wiz3');
     Route::get('wiz4', [WelcomeController::class, 'wizFour'])->name('wiz4');
     Route::get('wiz-end', [WelcomeController::class, 'wizEnd'])->name('wiz.end');
+
+    Route::get('subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions.index');
+    Route::get('subscriptions/modules', [SubscriptionController::class, 'modules'])->name('subscriptions.modules');
+    Route::get('subscriptions/plans', [SubscriptionController::class, 'plans'])->name('subscriptions.plans');
+    Route::get('subscriptions/info', [SubscriptionController::class, 'info'])->name('subscriptions.info');
 });
 
 Route::get('/', function () {
