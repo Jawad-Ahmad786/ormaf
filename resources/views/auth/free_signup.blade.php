@@ -29,7 +29,14 @@
                     </div>
                 </div>
                 <!-- end row -->
-
+                @if(session()->has('error'))
+                <div class="alert alert-dismissible">
+                </div>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>{{ session('error') }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+               @endif
                 <div class="row justify-content-center">
                     <div class="col-md-8 col-lg-6 col-xl-5">
                         <div class="card mt-4">
@@ -107,55 +114,68 @@
 																<input type="text" class="form-control" id="address" placeholder="Address" name="address" value="{{ old('address') }}" />
                                                               @error('address')
                                                                 <div class="text-danger">{{ $message }}</div>
-                                                               @enderror
+                                                              @enderror
 															</div>
 
-															<div class="col-md-5">
-																<label for="country" class="form-label">Country</label>
-																<select class="form-select" name="country" id="country">
-																	<option value="">Choose...</option>
-																	<option value="pakistan">Pakistan</option>
-																</select>
-															@error('country')
-                                                                <div class="text-danger">{{ $message }}</div>
+                                                        <div class="row mt-3">
+                                                        <!-- Country Dropdown -->
+                                                        <div class="col-md-4">
+                                                            <label for="country" class="form-label">Country</label>
+                                                            <select class="form-select" name="country" id="country">
+                                                                <option value="">Choose...</option>
+                                                                @foreach ($countries as $country)
+                                                                    <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            @error('country')
+                                                            <div class="text-danger">{{ $message }}</div>
                                                             @enderror
-															</div>
+                                                        </div>
 
-															<div class="col-md-4">
-																<label for="state" class="form-label">State</label>
-																<select class="form-select" id="state" name="state">
-																	<option value="">Choose...</option>
-																	<option value="punjab">Punjab</option>
-                                                                    <option value="sindh">Sindh</option>
-                                                                    <option value="kpk">KPK</option>
-                                                                    <option value="balochistan">Balochistan</option>
-																</select>
-															   @error('state')
-                                                                <div class="text-danger">{{ $message }}</div>
-                                                               @enderror
-															</div>
-															<div class="col-md-3">
-																<label for="zip" class="form-label">Zip</label>
-																<input type="text" name="zip_code" class="form-control" id="zip" placeholder="" value="{{ old('zip_code') }}" />
-                                                            @error('zip_code')
-                                                                <div class="text-danger">{{ $message }}</div>
+                                                        <!-- State Dropdown -->
+                                                        <div class="col-md-4">
+                                                            <label for="state" class="form-label">State</label>
+                                                            <select class="form-select" name="state" id="state">
+                                                                <option value="">Choose...</option>
+                                                            </select>
+                                                            @error('state')
+                                                            <div class="text-danger">{{ $message }}</div>
                                                             @enderror
-															</div>
-														</div>
-                                                         <div class="col-12">
-																<label for="city" class="form-label">City</label>
-																<input type="text" name="city" class="form-control" id="city" placeholder="Enter City" value="{{ old('city') }}" />
+                                                        </div>
+
+                                                        <!-- City Dropdown -->
+                                                        <div class="col-md-4">
+                                                            <label for="city" class="form-label">City</label>
+                                                            <select class="form-select" name="city" id="city">
+                                                                <option value="">Choose...</option>
+                                                            </select>
                                                             @error('city')
-                                                                <div class="text-danger">{{ $message }}</div>
+                                                            <div class="text-danger">{{ $message }}</div>
                                                             @enderror
-														</div>
-													<hr class="my-4 text-muted">
+                                                        </div>
+                                                        </div>
+                                                        </div>
+                                                       <div class="row">
+                                                        <!-- Zip Code Input -->
+                                                        <div class="col-12 mt-3">
+                                                            <label for="zip" class="form-label">Zip Code</label>
+                                                            <input type="text" name="zip_code" class="form-control" id="zip" placeholder="Enter Zip Code" value="{{ old('zip_code') }}" />
+                                                            @error('zip_code')
+                                                            <div class="text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                        </div>
+                                                        </div>
+                                                        <hr class="my-4 text-muted">
 
-													<div class="form-check mb-2">
-														<input type="checkbox" name="terms_conditions" class="form-check-input" id="terms_conditions">
-														<label class="form-check-label" for="terms_conditions">By continuing, I agree to the ORMAF <a href="#">Terms and Conditions</a></label>
-													</div>
-												</div>
+                                                        <!-- Terms and Conditions -->
+                                                        <div class="form-check mb-2">
+                                                        <input type="checkbox" name="terms_conditions" class="form-check-input" id="terms_conditions">
+                                                        <label class="form-check-label" for="terms_conditions">
+                                                            By continuing, I agree to the ORMAF <a href="#">Terms and Conditions</a>
+                                                        </label>
+                                                        </div>
+
 												<!-- end tab pane -->
 											</div>
 											<!-- end tab content -->
@@ -172,7 +192,7 @@
                         <!-- end card -->
 
                         <div class="mt-4 text-center">
-                            <p class="mb-0">Already have an account ? <a href="{{ route('login.create', [ 'locale' => app()->getLocale()])}}" class="fw-semibold text-primary text-decoration-underline"> Signin </a> </p>
+                            <p class="mb-0">Already have an account ? <a href="{{ route('login', [ 'locale' => app()->getLocale()])}}" class="fw-semibold text-primary text-decoration-underline"> Signin </a> </p>
                         </div>
 
                     </div>
@@ -183,6 +203,50 @@
         </div>
         <!-- end auth page content -->
     </div>
+    <script>
+    $(document).ready(function () {
+        // When the country is selected
+        $('#country').on('change', function () {
+            const countryId = $(this).val();
+            let locale = "{{ app()->getLocale() }}"; // Get the locale from Laravel
+            $('#state').html('<option value="">Choose...</option>');
+            $('#city').html('<option value="">Choose...</option>');
+            let url = `/${locale}/locations/states/${countryId}`;
+
+            if (countryId) {
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function (states) {
+                        states.forEach(state => {
+                            $('#state').append(`<option value="${state.id}">${state.name}</option>`);
+                        });
+                    }
+                });
+            }
+        });
+
+        // When the state is selected
+        $('#state').on('change', function () {
+            const stateId = $(this).val();
+            let locale = "{{ app()->getLocale() }}"; // Get the locale from Laravel
+            $('#city').html('<option value="">Choose...</option>');
+            let url = `/${locale}/locations/cities/${stateId}`;
+            console.log('url', url);
+            if (stateId) {
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function (cities) {
+                        cities.forEach(city => {
+                            $('#city').append(`<option value="${city.id}">${city.name}</option>`);
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
 @endsection
 @push('scripts')
  <!-- validation init -->

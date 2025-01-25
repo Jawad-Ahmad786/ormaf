@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\City;
+use App\Models\Country;
+use App\Models\State;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,15 +16,14 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Country::class)->constrained();
+            $table->foreignIdFor(State::class)->constrained();
+            $table->foreignIdFor(City::class)->constrained();
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('organization_name');
-            $table->string('country');
-            $table->string('state');
-            $table->string('city');
             $table->string('address');
             $table->string('zip_code');
             $table->boolean('terms_conditions')->default(0);

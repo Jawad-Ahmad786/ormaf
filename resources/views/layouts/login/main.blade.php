@@ -27,8 +27,11 @@ if ($isScssConverted) {
 ?>
 
 <!doctype html>
+
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+
 <head>
+
 <meta charset="utf-8" />
 
 <title>@yield('title', 'Home') | ORMAF Performance and Risk Management Software</title>
@@ -41,6 +44,8 @@ if ($isScssConverted) {
 
 <meta content="Binary Grids" name="author" />
 
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 <!-- Layout config Js -->
 <script src="{{asset('assets/login/js/layout.js')}}"></script>
 <!-- Bootstrap Css -->
@@ -51,6 +56,8 @@ if ($isScssConverted) {
 <link href="{{asset('assets/login/css/app.min.css')}}" rel="stylesheet" type="text/css" />
 <!-- custom Css-->
 <link href="{{asset('assets/login/css/custom.min.css')}}" rel="stylesheet" type="text/css" />
+<!-- Jquery -->
+<script type="text/javascript" src="{{asset('assets/login/js/js/jquery-1.10.2.min.js')}}"></script>
 
 @stack('css')
 

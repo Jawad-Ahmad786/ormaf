@@ -46,7 +46,7 @@
                                     <p class="text-muted">Sign in to continue to ORMAF</p>
                                 </div>
                                 <div class="p-2 mt-4">
-                                    <form action="{{ route('login.store', ['locale' => app()->getLocale()]) }}" method="post">
+                                    <form action="{{ route('login', ['locale' => app()->getLocale()]) }}" method="post">
                                        @csrf
                                         <div class="mb-3">
                                             <label for="email" class="form-label">Email</label>

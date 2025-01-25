@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
+use App\Models\Objective;
+use App\Models\Program;
+use Illuminate\Support\Facades\Auth;
 
 class WelcomeController extends Controller
 {
@@ -13,21 +14,21 @@ class WelcomeController extends Controller
     }
 
     public function wizOne() {
-
-        return view('signin.wiz1');
-
+        $department = Auth::user()->department;
+        return view('signin.wiz1', compact('department'));
     }
 
-    public function wizTwo() {
+    public function wizTwo(string $locale) {
 
-        return view('signin.wiz2');
-
+        $objectives = Auth::user()->department->objectives ?? null;
+        return view('signin.wiz2', compact('objectives'));
     }
 
     public function wizThree() {
 
-        return view('signin.wiz3');
-
+        $objectives = Auth::user()->department->objectives;
+        $programs = Program::where('user_id', Auth::user()->id)->get();
+        return view('signin.wiz3', compact('objectives', 'programs'));
     }
 
     public function wizFour() {

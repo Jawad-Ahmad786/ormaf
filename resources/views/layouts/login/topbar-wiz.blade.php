@@ -141,7 +141,14 @@
                         <a class="dropdown-item" href="acc_accounts"><i class="mdi mdi-wallet text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Subscription:  <b>exp on 21/2/25</b></span></a>
                         <a class="dropdown-item" href="acc_accounts"><span class="badge bg-success-subtle text-success mt-1 float-end">New</span><i class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Settings</span></a>
                         <a class="dropdown-item" href="auth-lockscreen-basic"><i class="mdi mdi-lock text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Lock screen</span></a>
-                        <a class="dropdown-item" href="../logout"><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
+                     <form method="post" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="dropdown-item btn">
+                        <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
+                        <span class="align-middle" data-key="t-logout">Logout</span>
+                    </button>
+                    </form>
+
                     </div>
                 </div>
             </div>

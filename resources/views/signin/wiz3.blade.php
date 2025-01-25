@@ -1,5 +1,5 @@
-<?php
-include("../layouts/login/paasetting.php");
+{{-- <?php
+{{-- include("../layouts/login/paasetting.php"); --}}
 
 try
 {
@@ -75,7 +75,7 @@ else
 	$retireveDepartmentOb->setDepartmentID($department_details[0]['department_id']);
 	$departmentDetails = $retireveDepartmentOb->retrieveDepartmentDetailByDepartmentID();
 }
-?>
+?> --}}
 @extends('layouts.login.main')
 @section('title', 'Wiz 3')
 @section('content')
@@ -172,79 +172,77 @@ jQuery(document).ready(function() {
                                 <div class="card-body p-0">
 
                                     <div class="align-items-center p-3 justify-content-between d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="text-muted"><span class="fw-semibold">2</span> of <span class="fw-semibold">5</span> remaining</div>
-                                        </div>
+
                                         <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalgrid"><i class="ri-add-line align-middle me-1"></i> Add Program</button>
 
 										<!-- Modal Start -->
-										<div class="modal fade" id="exampleModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalgridLabel">Add Program</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form action="javascript:void(0);">
-                                                            <div class="row g-3">
-                                                                <div class="col-xxl-6">
-                                                                    <div>
-                                                                        <label for="firstName" class="form-label">Program Name</label>
-                                                                        <input type="text" class="form-control" id="Program" placeholder="Enter Program Name">
-                                                                    </div>
-                                                                </div>
-                                                                <!--end col-->
-                                                                <div class="col-xxl-6">
+									<div class="modal fade" id="exampleModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalgridLabel">Add Program</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form id="programForm" method="post" action="{{ route('program.store', ['locale' => app()->getLocale()]) }}">
+                                                     @csrf
+                                                        <div class="row g-3">
+                                                            <!-- Program Name -->
+                                                            <div class="col-xxl-6">
+                                                                <label for="Program" class="form-label">Program Name</label>
+                                                                <input name="name" type="text" class="form-control" id="Program" placeholder="Enter Program Name">
+                                                                <span class="text-danger" id="nameError"></span>
+                                                            </div>
 
-                                                                        <label for="lastName" class="form-label">Program Alignment to Strategic Outcome</label>
-                                                                        <select class="form-select" id="country" required>
-                                                                            <option value="">Select...</option>
-                                                                            <option>Objective 1</option>
-                                                                            <option>Objective 2</option>
-                                                                        </select>
-                                                                        <div class="invalid-feedback">Please select an Objective</div>
+                                                            <!-- Program Alignment -->
+                                                            <div class="col-xxl-6">
+                                                                <label for="objective_id" class="form-label">Program Alignment to Strategic Outcome</label>
+                                                                <select class="form-select" id="objective_id" name="objective">
+                                                                    <option value="">Select...</option>
+                                                                    @foreach ($objectives as $objective)
+                                                                        <option value="{{ $objective->id }}">{{ $objective->name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                <span class="text-danger" id="objectiveError"></span>
+                                                            </div>
 
-                                                                </div>
-                                                                <!--end col-->
+                                                            <!-- Checkbox for Sub-Programs -->
                                                                 <div class="col-lg-12">
-                                                                   <div class="form-check mb-2">
-                                                                    <input type="checkbox" class="form-check-input" id="same-address">
-                                                                    <label class="form-check-label" for="same-address">This Proram has Sub-Programs</label>
-                                                                </div>
-                                                                </div>
-                                                                <!--end col-->
-                                                                <div class="col-xxl-6">
-                                                                    <div class="col-xxl-6">
-                                                                        <label for="lastName" class="form-label">Program Manager</label>
-                                                                        <select class="form-select" id="country" required>
-                                                                            <option value="">Select...</option>
-                                                                            <option>Objective 1</option>
-                                                                            <option>Objective 2</option>
-                                                                        </select>
-                                                                        <div class="invalid-feedback">Please select an Objective</div>
+                                                                    <div class="form-check mb-2">
+                                                                        <input name="parent" type="checkbox" class="form-check-input" id="parent">
+                                                                        <label class="form-check-label" for="parent">This Program has Sub-Programs</label>
                                                                     </div>
+                                                                    <span class="text-danger" id="parentError"></span>
                                                                 </div>
-                                                                <!--end col-->
+
+                                                                <!-- Program Manager -->
                                                                 <div class="col-xxl-6">
-                                                                    <label for="passwordInput" class="form-label">Password</label>
-                                                                    <input type="password" class="form-control" id="passwordInput" value="451326546" placeholder="Enter password">
+                                                                    <label for="manager" class="form-label">Program Manager</label>
+                                                                    <input type="text" class="form-control" id="manager" name="manager" value="{{ auth()->user()->first_name }}">
+                                                                    <span class="text-danger" id="managerError"></span>
                                                                 </div>
-                                                                <!--end col-->
+
+                                                                <!-- Program Value -->
+                                                                <div class="col-xxl-6">
+                                                                    <label for="value" class="form-label">Program Value</label>
+                                                                    <input type="number" class="form-control" name="value" id="value" value="451326546" placeholder="Enter value">
+                                                                    <span class="text-danger" id="valueError"></span>
+                                                                </div>
+
+                                                                <!-- Submit Buttons -->
                                                                 <div class="col-lg-12">
                                                                     <div class="hstack gap-2 justify-content-end">
                                                                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                                                                         <button type="submit" class="btn btn-primary">Submit</button>
                                                                     </div>
                                                                 </div>
-                                                                <!--end col-->
                                                             </div>
-                                                            <!--end row-->
                                                         </form>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                            </div>
+
 										<!-- Modal End -->
 
                                     </div><!-- end card header -->
@@ -253,22 +251,20 @@ jQuery(document).ready(function() {
                                         <ul class="list-group list-group-flush border-dashed px-3">
                                             <li class="list-group-item ps-0">
                                                 <div class="d-flex align-items-start">
-                                                    <div class="form-check ps-0 flex-sharink-0">
-                                                        <input type="checkbox" class="form-check-input ms-0" id="task_one">
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <label class="form-check-label mb-0 ps-2" for="task_one">Program 1</label>
+                                                    @if($programs)
+                                                     @foreach ($programs as $program)
+                                                         <div class="flex-grow-1">
+                                                        <label class="form-check-label mb-0 ps-2" for="task_one">{{ $program->name }}</label>
                                                     </div>
                                                     <div class="flex-shrink-0 ms-2">
                                                         <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
                                                     </div>
+                                                     @endforeach
+                                                     @endif
                                                 </div>
                                             </li>
 
                                         </ul><!-- end ul -->
-                                    </div>
-                                    <div class="p-3 pt-2">
-                                        <a href="javascript:void(0);" class="text-muted text-decoration-underline">Show more...</a>
                                     </div>
                                 </div><!-- end card body -->
                             </div>
@@ -295,7 +291,7 @@ jQuery(document).ready(function() {
 													});
 												</script>
 
-												<?php
+												{{-- <?php
 												if( $_SESSION['security']['categoryID']==3)
 												{ ?>
 												<form action="" id="org_chart_form" method="post">
@@ -310,10 +306,10 @@ jQuery(document).ready(function() {
 												  ?>
 												  </select>
 												</form>
-												 <?php }?>
+												 <?php }?> --}}
 
 												<ul id="org" style="display:none">
-														<?php
+														{{-- <?php
 														$userOb = new classUser;
 														$user_group_by = $userOb->getUserGroupBy($_SESSION['security']['userID']);
 
@@ -650,7 +646,7 @@ jQuery(document).ready(function() {
 																</li>
 														   <?php
 														}
-														?>
+														?> --}}
 														</ul>
 
 												<div id="chart" class="orgChart"></div>
@@ -696,6 +692,50 @@ jQuery(document).ready(function() {
 
     </div>
     <!-- END layout-wrapper -->
+    <script>
+    $('#programForm').on('submit', function (e) {
+    e.preventDefault(); // Prevent default form submission
+
+    let form = $(this);
+    let url = form.attr('action'); // Get the form action URL
+    let formData = form.serialize(); // Serialize the form data
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: formData,
+
+        success: function (response) {
+            // Close the modal on success
+            $('#exampleModalgrid').modal('hide');
+            alert(response.message); // Show success message
+            location.reload(); // Reload the page
+        },
+        error: function (response) {
+            // Clear all previous error messages
+            $('.text-danger').remove(); // Remove all old error spans
+
+            // Check for validation errors (status 422)
+            if (response.status === 422) {
+                let errors = response.responseJSON.errors;
+                for (let field in errors) {
+                    if (errors.hasOwnProperty(field)) {
+                        // Append each error message below the corresponding input field
+                        errors[field].forEach(function (error) {
+                            $(`[name="${field}"]`).after(`<span class="text-danger">${error}</span>`);
+                        });
+                    }
+                }
+            }
+         // Handle general errors (e.g., status 500)
+            if (response.status === 500) {
+                alert(response.responseJSON.message); // Display the general error message
+            }
+        },
+    });
+});
+
+</script>
 @endsection
 @push('scripts')
     <!-- apexcharts -->
@@ -710,3 +750,4 @@ jQuery(document).ready(function() {
 
     <!-- App js -->
     <script src="{{asset('assets/login/js/app.js')}}"></script>
+@endpush

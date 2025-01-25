@@ -29,7 +29,7 @@
 								<h4 class="fs-18 lh-base mb-0">Step 1 - Setup your <span class="text-success">Organization</span> </h4>
 								<p class="mb-3 mt-2 pt-1 text-muted">Enter your Department's detail</p>
 								<div class="d-flex pull-right mb-2">
-									<button type="button" class="btn btn-primary btn-label right ms-auto nexttab nexttab" data-nexttab="steparrow-description-info-tab"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Next</button>
+									<button type="button" class="btn btn-primary btn-label right ms-auto nexttab nexttab" data-nexttab="{{route('wiz2', ['locale' => app()->getLocale()])}}"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Next</button>
 								</div>
 							</div>
 							<img src="{{asset('assets/login/images/bg-d.png')}}" alt="" class="img-fluid" />
@@ -56,12 +56,13 @@
                                             </ul>
                                         </div><!-- end card header -->
                                 <div class="card-body">
-                                    <form action="#" class="form-steps" autocomplete="off">
+                                    <form action="{{ route('department.update', ['locale' => app()->getLocale(), 'department' => $department]) }}" method="post" class="form-steps" autocomplete="off" enctype="multipart/form-data">
+                                     @csrf
                                         <div class="text-center">
 											<div class="profile-user position-relative d-inline-block mx-auto mb-2">
 												<img src="{{asset('assets/login/images/users/user-dummy-img.jpg')}}" class="rounded-circle avatar-lg img-thumbnail user-profile-image" alt="user-profile-image">
 												<div class="avatar-xs p-0 rounded-circle profile-photo-edit">
-													<input id="profile-img-file-input" type="file" class="profile-img-file-input" accept="image/png, image/jpeg">
+													<input id="profile-img-file-input" type="file" class="profile-img-file-input" name="logo">
 													<label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
 														<span class="avatar-title rounded-circle bg-light text-body">
 															<i class="ri-camera-fill"></i>
@@ -70,19 +71,28 @@
 												</div>
 											</div>
 											<h5 class="fs-14">Add Logo</h5>
+                                                    @error('logo')
+                                                       <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
 										</div>
 
                                         <div>
                                                     <div class="mb-3">
                                                         <label for="formFile" class="form-label">Abbr.</label>
-                                                        <input type="text" class="form-control" id="gen-info-username-input" placeholder="Department Name Abbreviation" required >
+                                                        <input type="text" name="abbrevation" class="form-control" id="gen-info-username-input" placeholder="Department Name Abbreviation" value="{{ $department->abbrevation }}">
+                                                    @error('abbrevation')
+                                                       <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                     </div>
                                                     <div>
                                                         <label class="form-label" for="des-info-description-input">Department</label>
-                                                        <textarea class="form-control" placeholder="Department Name" id="des-info-description-input" rows="3" required></textarea>
-                                                        <div class="invalid-feedback">Please enter Department Name</div>
+                                                        <textarea class="form-control" placeholder="Department Name" id="des-info-description-input" name="name" rows="3">{{ $department->name }}</textarea>
+                                                    @error('name')
+                                                       <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                     </div>
                                                 </div>
+                                                <button class="btn btn-success mt-3" type="submit">Save</button>
                                         <!-- end tab content -->
                                     </form>
                                 </div>
@@ -116,9 +126,14 @@
         <!-- end main content-->
 
     </div>
+    <script>
+    $(document).on('click', '.nexttab', function () {
+        let url = $(this).data('nexttab');
+        window.location.href = url;
+    });
+    </script>
     <!-- END layout-wrapper -->
-    @endsection
- @push('scripts')
+     @push('scripts')
     <!-- apexcharts -->
     <script src="{{asset('assets/login/libs/apexcharts/apexcharts.min.js')}}"></script>
 
@@ -132,3 +147,5 @@
     <!-- App js -->
     <script src="{{asset('assets/login/js/app.js')}}"></script>
     @endpush
+    @endsection
+

@@ -29,8 +29,20 @@
 								<h4 class="fs-18 lh-base mb-0">Step 2 - Identify your <span class="text-success">Strategic Objectives</span> </h4>
 								<p class="mb-3 mt-2 pt-1 text-muted">Enter your Department's strategic objectives/outcomes.</p>
 								<div class="d-flex pull-right mb-2">
-									<button type="button" class="btn btn-light btn-label previestab" data-previous="steparrow-gen-info-tab"><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back</button>
-									<button type="button" class="btn btn-primary btn-label right ms-auto nexttab nexttab" data-nexttab="steparrow-description-info-tab"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Next</button>
+									<button
+                                        type="button"
+                                        class="btn btn-light btn-label previestab"
+                                        data-previous="{{ route('wiz1', ['locale' => app()->getLocale()]) }}"
+                                    >
+                                        <i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-primary btn-label right ms-auto nexttab"
+                                        data-nexttab="{{ route('wiz3', ['locale' => app()->getLocale()]) }}">
+                                        <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i> Next
+                                    </button>
 								</div>
 							</div>
 							<img src="{{asset('assets/login/images/bg-d.png')}}" alt="" class="img-fluid" />
@@ -78,65 +90,63 @@
 
                                     <div class="align-items-center p-3 justify-content-between d-flex">
                                         <div class="flex-shrink-0">
-                                            <div class="text-muted"><span class="fw-semibold">2</span> of <span class="fw-semibold">5</span> remaining</div>
                                         </div>
                                         <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalgrid"><i class="ri-add-line align-middle me-1"></i> Add Objective</button>
 
 										<!-- Modal Start -->
-										<div class="modal fade" id="exampleModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalgridLabel">Add Objective</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form action="javascript:void(0);">
-                                                            <div class="row g-3">
-                                                                <div class="col-lg-12">
-																		<label class="form-label" for="des-info-description-input">Objective</label>
-																		<textarea class="form-control" placeholder="Department's Objective" id="des-info-description-input" rows="3" required></textarea>
-																		<div class="invalid-feedback">Please enter Objective</div>
-                                                                </div>
-                                                                <!--end col-->
-                                                                <div class="col-lg-12">
-                                                                    <div class="hstack gap-2 justify-content-end">
-                                                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                                        <button type="submit" class="btn btn-primary">Add</button>
-                                                                    </div>
-                                                                </div>
-                                                                <!--end col-->
-                                                            </div>
-                                                            <!--end row-->
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+									<div class="modal fade" id="exampleModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalgridLabel">Add Objective</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="objectiveForm" method="post" action="{{ route('objective.store', ['locale' => app()->getLocale()]) }}">
+                    @csrf
+                    <div class="row g-3">
+                        <div class="col-lg-12">
+                            <label class="form-label" for="des-info-description-input">Objective</label>
+                            <textarea name="name" class="form-control" placeholder="Department's Objective" id="des-info-description-input" rows="3"></textarea>
+                            <div id="nameError" class="text-danger mt-2"></div> <!-- Placeholder for error -->
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 										<!-- Modal End -->
 
                                     </div><!-- end card header -->
 
                                     <div data-simplebar style="max-height: 256px;">
                                         <ul class="list-group list-group-flush border-dashed px-3">
-                                            <li class="list-group-item ps-0">
-                                                <div class="d-flex align-items-start">
-                                                    <div class="form-check ps-0 flex-sharink-0">
-                                                        <input type="checkbox" class="form-check-input ms-0" id="task_one">
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <label class="form-check-label mb-0 ps-2" for="task_one">Objective 1</label>
-                                                    </div>
-                                                    <div class="flex-shrink-0 ms-2">
-                                                        <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-                                                    </div>
+                                 @if(!is_null($objectives))
+                                    @foreach ($objectives as $objective)
+                                        <li class="list-group-item ps-0" id="objective-{{ $objective->id }}">
+                                            <div class="d-flex align-items-start">
+                                                <div class="flex-grow-1">
+                                                    <label class="form-check-label mb-0 ps-2">{{ $objective->name }}</label>
                                                 </div>
-                                            </li>
+                                                <div class="flex-shrink-0 ms-2">
+                                                    <button type="button" class="btn btn-link text-danger p-0 delete-objective" data-id="{{ $objective->id }}" title="Delete">
+                                                        <i class="ri-delete-bin-fill align-bottom me-2"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                @endif
 
                                         </ul><!-- end ul -->
-                                    </div>
-                                    <div class="p-3 pt-2">
-                                        <a href="javascript:void(0);" class="text-muted text-decoration-underline">Show more...</a>
                                     </div>
                                 </div><!-- end card body -->
                             </div>
@@ -191,7 +201,84 @@
         <!-- end main content-->
     </div>
     <!-- END layout-wrapper -->
-@endsection
+    <script>
+$(document).ready(function () {
+  $(document).on('click', '.delete-objective', function () {
+    let objectiveId = $(this).data('id'); // Get the objective ID
+    let locale = "{{ app()->getLocale() }}"; // Get the locale from Laravel
+    let token = $('meta[name="csrf-token"]').attr('content'); // Get the CSRF token
+    let url = `/${locale}/objective/destroy/${objectiveId}`;
+
+    if (confirm('Are you sure you want to delete this objective?')) {
+        $.ajax({
+            url: url,
+            type: 'POST', // HTTP method
+            data: {
+                _token: token, // CSRF token
+            },
+            success: function (response) {
+                // Remove the objective's list item on success
+                $(`#objective-${objectiveId}`).remove();
+                alert(response.message);
+            },
+            error: function (xhr) {
+                // Handle the error
+                console.error(xhr.responseText);
+                alert('Failed to delete the objective.');
+            }
+        });
+    }
+});
+$(document).on('click', '.previestab', function () {
+    let previousUrl = $(this).data('previous'); // Get the URL for the previous step
+    window.location.href = previousUrl; // Redirect to the previous step
+});
+
+$(document).on('click', '.nexttab', function () {
+    let nextUrl = $(this).data('nexttab'); // Get the URL for the next step
+    window.location.href = nextUrl; // Redirect to the next step
+});
+
+    $('#objectiveForm').on('submit', function (e) {
+        e.preventDefault(); // Prevent default form submission
+
+        let form = $(this);
+        let url = form.attr('action'); // Get the form action URL
+        let formData = form.serialize(); // Serialize the form data
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: formData,
+            success: function (response) {
+                // Close the modal on success
+                $('#exampleModalgrid').modal('hide');
+                location.reload();
+            },
+            error: function (response) {
+                // Clear previous error messages
+                $('#nameError').text('');
+
+                // Check for validation errors
+                if (response.status === 422) {
+                    let errors = response.responseJSON.errors;
+                    if (errors.name) {
+                        // Display all error messages for the "name" field
+                        errors.name.forEach(function (error) {
+                            $('#nameError').append('<div>' + error + '</div>');
+                        });
+                    }
+                }
+            },
+        });
+    });
+    $('#exampleModalgrid').on('hidden.bs.modal', function () {
+        $('#nameError').html(''); // Clear error messages
+        $('#des-info-description-input').val(''); // Clear the input field (optional)
+    });
+});
+
+</script>
 @push('scripts')
     <!-- apexcharts -->
     <script src="{{asset('assets/login/libs/apexcharts/apexcharts.min.js')}}"></script>
@@ -206,3 +293,5 @@
     <!-- App js -->
     <script src="{{asset('assets/login/js/app.js')}}"></script>
 @endpush
+
+@endsection

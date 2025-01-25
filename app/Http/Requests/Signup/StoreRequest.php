@@ -4,6 +4,7 @@ namespace App\Http\Requests\Signup;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Rule;
 
 class StoreRequest extends FormRequest
 {
@@ -29,9 +30,9 @@ class StoreRequest extends FormRequest
              'password'   => ['required', 'confirmed', Password::min(8)],
              'zip_code'   => ['required'],
              'organization_name' => ['required'],
-             'country'    => ['required'],
-             'state'      => ['required'],
-             'city'       => ['required'],
+             'country' => ['required', Rule::exists('countries', 'id')],
+             'state'   => ['required', Rule::exists('states', 'id')->where('country_id', $this->country)],
+             'city'    => ['required', Rule::exists('cities', 'id')->where('state_id', $this->state)],
              'address'    => ['required']
         ];
     }
