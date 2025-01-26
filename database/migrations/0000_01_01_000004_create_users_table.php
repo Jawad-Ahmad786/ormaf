@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('address');
             $table->string('zip_code');
+            $table->integer('added_by')->nullable();
             $table->boolean('terms_conditions')->default(0);
             $table->rememberToken();
             $table->timestamps();

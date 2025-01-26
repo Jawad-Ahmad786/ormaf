@@ -53,20 +53,65 @@
                         <div class="col-xl-12">
                             <div class="card">
                                 <div class="step-arrow-nav mb-4">
-                                            <ul class="nav nav-pills custom-nav nav-justified bg-success-subtle" role="tablist">
-                                                <li class="nav-item" role="presentation">
-                                                    <a href="{{ route('wiz1', ['locale' => app()->getLocale()]) }}"><button class="nav-link" id="steparrow-gen-info-tab" data-bs-toggle="pill" data-bs-target="#steparrow-gen-info" type="button" role="tab" aria-controls="steparrow-gen-info" aria-selected="true">Department</button></a>
-                                                </li>
-                                                <li class="nav-item" role="presentation">
-                                                    <a href="{{ route('wiz2', ['locale' => app()->getLocale()]) }}"><button class="nav-link active" id="steparrow-description-info-tab" data-bs-toggle="pill" data-bs-target="#steparrow-description-info" type="button" role="tab" aria-controls="steparrow-description-info" aria-selected="false">Objectives</button></a>
-                                                </li>
-                                                <li class="nav-item" role="presentation">
-                                                    <a href="{{ route('wiz3', ['locale' => app()->getLocale()]) }}"><button class="nav-link" id="pills-experience-tab" data-bs-toggle="pill" data-bs-target="#pills-experience" type="button" role="tab" aria-controls="pills-experience" aria-selected="false">Programs</button></a>
-                                                </li>
-                                                <li class="nav-item" role="presentation">
-                                                    <a href="{{ route('wiz4', ['locale' => app()->getLocale()]) }}"><button class="nav-link" id="pills-experience-tab" data-bs-toggle="pill" data-bs-target="#pills-experience" type="button" role="tab" aria-controls="pills-experience" aria-selected="false">Team</button></a>
-                                                </li>
-                                            </ul>
+                                           <ul class="nav nav-pills custom-nav nav-justified bg-success-subtle" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a href="{{ route('wiz1', ['locale' => app()->getLocale()]) }}">
+            <button class="nav-link {{ Route::currentRouteName() === 'wiz1' ? 'active' : '' }}"
+                    id="steparrow-gen-info-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#steparrow-gen-info"
+                    type="button"
+                    role="tab"
+                    aria-controls="steparrow-gen-info"
+                    aria-selected="{{ Route::currentRouteName() === 'wiz1' ? 'true' : 'false' }}">
+                Department
+            </button>
+        </a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a href="{{ route('wiz2', ['locale' => app()->getLocale()]) }}">
+            <button class="nav-link {{ Route::currentRouteName() === 'wiz2' ? 'active' : '' }}"
+                    id="steparrow-description-info-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#steparrow-description-info"
+                    type="button"
+                    role="tab"
+                    aria-controls="steparrow-description-info"
+                    aria-selected="{{ Route::currentRouteName() === 'wiz2' ? 'true' : 'false' }}">
+                Objectives
+            </button>
+        </a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a href="{{ route('wiz3', ['locale' => app()->getLocale()]) }}">
+            <button class="nav-link {{ Route::currentRouteName() === 'wiz3' ? 'active' : '' }}"
+                    id="pills-experience-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pills-experience"
+                    type="button"
+                    role="tab"
+                    aria-controls="pills-experience"
+                    aria-selected="{{ Route::currentRouteName() === 'wiz3' ? 'true' : 'false' }}">
+                Team
+            </button>
+        </a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a href="{{ route('wiz4', ['locale' => app()->getLocale()]) }}">
+            <button class="nav-link {{ Route::currentRouteName() === 'wiz4' ? 'active' : '' }}"
+                    id="pills-programs-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pills-programs"
+                    type="button"
+                    role="tab"
+                    aria-controls="pills-programs"
+                    aria-selected="{{ Route::currentRouteName() === 'wiz4' ? 'true' : 'false' }}">
+                Programs
+            </button>
+        </a>
+    </li>
+</ul>
+
                                         </div><!-- end card header -->
                                 <div class="row">
                         <div class="col-xl-6">

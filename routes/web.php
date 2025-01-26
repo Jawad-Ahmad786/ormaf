@@ -45,13 +45,10 @@ Route::prefix('{locale}')->middleware(['locale'])->group(function () {
             ->name('free-signup.create')
             ->middleware('guest'); // Signup page for unauthenticated users
         Route::post('/', [RegisterController::class, 'store'])
-            ->name('free-signup.store')
-            ->middleware('guest');
+            ->name('free-signup.store');
     });
-        Route::get('/locations/states/{countryId}', [LocationsController::class, 'getStates'])
-             ->middleware('guest');
-        Route::get('/locations/cities/{stateId}', [LocationsController::class, 'getCities'])
-            ->middleware('guest');
+        Route::get('/locations/states/{countryId}', [LocationsController::class, 'getStates']);
+        Route::get('/locations/cities/{stateId}', [LocationsController::class, 'getCities']);
 
     // Authenticated User Routes
     Route::middleware(['auth', 'verified'])->group(function () {

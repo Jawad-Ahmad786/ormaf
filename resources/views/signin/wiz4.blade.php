@@ -1,5 +1,5 @@
-<?php
-include("paasetting.php");
+{{-- <?php
+{{-- include("../layouts/login/paasetting.php"); --}}
 
 try
 {
@@ -75,11 +75,14 @@ else
 	$retireveDepartmentOb->setDepartmentID($department_details[0]['department_id']);
 	$departmentDetails = $retireveDepartmentOb->retrieveDepartmentDetailByDepartmentID();
 }
-?>
+?> --}}
 @extends('layouts.login.main')
 @section('title', 'Wiz 4')
 @section('content')
     @push('css')
+    <!-- plugin css -->
+    <link href="{{asset('assets/login/libs/jsvectormap/css/jsvectormap.min.css')}}" rel="stylesheet" type="text/css" />
+
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/login/js/org_chart/css/chart.css')}}">
 
 	<script type="text/javascript" src="{{asset('assets/login/js/js/jquery-1.10.2.min.js')}}"></script>
@@ -88,6 +91,7 @@ else
 	<script type="text/javascript" src="popUp/popUp.js"></script>
 	<script type="text/javascript" src="{{asset('assets/login/js/org_chart/js/jquery_002.js')}}"></script>
     @endpush
+
 <script>
 jQuery(document).ready(function() {
     $("#org").jOrgChart({
@@ -117,10 +121,10 @@ jQuery(document).ready(function() {
 					<div class="card overflow-hidden">
 						<div class="card-body bg-marketplace d-flex">
 							<div class="flex-grow-1">
-								<h4 class="fs-18 lh-base mb-0">Step 4 - Setup your <span class="text-success">Team</span> </h4>
-								<p class="mb-3 mt-2 pt-1 text-muted">Enter the Team members helping you in managing your Programs.</p>
+								<h4 class="fs-18 lh-base mb-0">Step 4 - Outline your <span class="text-success">Programs Structure</span> </h4>
+								<p class="mb-3 mt-2 pt-1 text-muted">Enter the Programs, Sub-Programs and Projects which you would be managing.</p>
 								<div class="d-flex pull-right mb-2">
-									<button type="button" class="btn btn-light btn-label previestab" data-previous="steparrow-gen-info-tab"><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back</button>
+									<button type="button" class="btn btn-light btn-label previestab" data-previous="{{ route('wiz3', ['locale' => app()->getLocale()]) }}"><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back</button>
 									<button type="button" class="btn btn-primary btn-label right ms-auto nexttab nexttab" data-nexttab="steparrow-description-info-tab"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Finish</button>
 								</div>
 							</div>
@@ -131,27 +135,73 @@ jQuery(document).ready(function() {
 					<div class="row ">
                         <div class="col-xl-12">
                             <div class="card">
-                                <div class="step-arrow-nav mb-4">
-                                            <ul class="nav nav-pills custom-nav nav-justified bg-success-subtle" role="tablist">
-                                                <li class="nav-item" role="presentation">
-                                                    <a href="{{ route('wiz1', ['locale' => app()->getLocale()]) }}"><button class="nav-link" id="steparrow-gen-info-tab" data-bs-toggle="pill" data-bs-target="#steparrow-gen-info" type="button" role="tab" aria-controls="steparrow-gen-info" aria-selected="true">Department</button></a>
-                                                </li>
-                                                <li class="nav-item" role="presentation">
-                                                    <a href="{{ route('wiz2', ['locale' => app()->getLocale()]) }}"><button class="nav-link" id="steparrow-description-info-tab" data-bs-toggle="pill" data-bs-target="#steparrow-description-info" type="button" role="tab" aria-controls="steparrow-description-info" aria-selected="false">Objectives</button></a>
-                                                </li>
-                                                <li class="nav-item" role="presentation">
-                                                    <a href="{{ route('wiz3', ['locale' => app()->getLocale()]) }}"><button class="nav-link" id="pills-experience-tab" data-bs-toggle="pill" data-bs-target="#pills-experience" type="button" role="tab" aria-controls="pills-experience" aria-selected="false">Programs</button></a>
-                                                </li>
-                                                <li class="nav-item" role="presentation">
-                                                    <a href="{{ route('wiz4', ['locale' => app()->getLocale()]) }}"><button class="nav-link active" id="pills-experience-tab" data-bs-toggle="pill" data-bs-target="#pills-experience" type="button" role="tab" aria-controls="pills-experience" aria-selected="false">Team</button></a>
-                                                </li>
-                                            </ul>
-                                        </div><!-- end card header -->
+                              <div class="step-arrow-nav mb-4">
+   <ul class="nav nav-pills custom-nav nav-justified bg-success-subtle" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a href="{{ route('wiz1', ['locale' => app()->getLocale()]) }}">
+            <button class="nav-link {{ Route::currentRouteName() === 'wiz1' ? 'active' : '' }}"
+                    id="steparrow-gen-info-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#steparrow-gen-info"
+                    type="button"
+                    role="tab"
+                    aria-controls="steparrow-gen-info"
+                    aria-selected="{{ Route::currentRouteName() === 'wiz1' ? 'true' : 'false' }}">
+                Department
+            </button>
+        </a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a href="{{ route('wiz2', ['locale' => app()->getLocale()]) }}">
+            <button class="nav-link {{ Route::currentRouteName() === 'wiz2' ? 'active' : '' }}"
+                    id="steparrow-description-info-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#steparrow-description-info"
+                    type="button"
+                    role="tab"
+                    aria-controls="steparrow-description-info"
+                    aria-selected="{{ Route::currentRouteName() === 'wiz2' ? 'true' : 'false' }}">
+                Objectives
+            </button>
+        </a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a href="{{ route('wiz3', ['locale' => app()->getLocale()]) }}">
+            <button class="nav-link {{ Route::currentRouteName() === 'wiz3' ? 'active' : '' }}"
+                    id="pills-experience-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pills-experience"
+                    type="button"
+                    role="tab"
+                    aria-controls="pills-experience"
+                    aria-selected="{{ Route::currentRouteName() === 'wiz3' ? 'true' : 'false' }}">
+                Team
+            </button>
+        </a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a href="{{ route('wiz4', ['locale' => app()->getLocale()]) }}">
+            <button class="nav-link {{ Route::currentRouteName() === 'wiz4' ? 'active' : '' }}"
+                    id="pills-programs-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pills-programs"
+                    type="button"
+                    role="tab"
+                    aria-controls="pills-programs"
+                    aria-selected="{{ Route::currentRouteName() === 'wiz4' ? 'true' : 'false' }}">
+                Programs
+            </button>
+        </a>
+    </li>
+</ul>
+
+</div>
+
                                 <div class="row">
                         <div class="col-xl-6">
                             <div class="card card-height-100">
                                 <div class="card-header align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">Team Members</h4>
+                                    <h4 class="card-title mb-0 flex-grow-1">Programs & Sub-Programs</h4>
                                     <div class="flex-shrink-0">
                                         <div class="dropdown card-header-dropdown">
                                             <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -168,158 +218,99 @@ jQuery(document).ready(function() {
                                 <div class="card-body p-0">
 
                                     <div class="align-items-center p-3 justify-content-between d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="text-muted"><span class="fw-semibold">2</span> of <span class="fw-semibold">5</span> remaining</div>
-                                        </div>
-                                        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalgrid"><i class="ri-add-line align-middle me-1"></i> Add Team Member</button>
+
+                                        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalgrid"><i class="ri-add-line align-middle me-1"></i> Add Program</button>
 
 										<!-- Modal Start -->
-										<div class="modal fade" id="exampleModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalgridLabel">Add Program</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form action="javascript:void(0);">
-                                                            <div class="row g-3">
-                                                                <div class="col-xxl-6">
-                                                                    <div>
-                                                                        <label for="firstName" class="form-label">Program Name</label>
-                                                                        <input type="text" class="form-control" id="Program" placeholder="Enter Program Name">
-                                                                    </div>
-                                                                </div>
-                                                                <!--end col-->
-                                                                <div class="col-xxl-6">
+									<div class="modal fade" id="exampleModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalgridLabel">Add Program</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form id="programForm" method="post" action="{{ route('program.store', ['locale' => app()->getLocale()]) }}">
+                                                     @csrf
+                                                        <div class="row g-3">
+                                                            <!-- Program Name -->
+                                                            <div class="col-xxl-6">
+                                                                <label for="Program" class="form-label">Program Name</label>
+                                                                <input name="name" type="text" class="form-control" id="Program" placeholder="Enter Program Name">
+                                                                <span class="text-danger" id="nameError"></span>
+                                                            </div>
 
-                                                                        <label for="lastName" class="form-label">Program Alignment to Strategic Outcome</label>
-                                                                        <select class="form-select" id="country" required>
-                                                                            <option value="">Select...</option>
-                                                                            <option>Objective 1</option>
-                                                                            <option>Objective 2</option>
-                                                                        </select>
-                                                                        <div class="invalid-feedback">Please select an Objective</div>
+                                                            <!-- Program Alignment -->
+                                                            <div class="col-xxl-6">
+                                                                <label for="objective_id" class="form-label">Program Alignment to Strategic Outcome</label>
+                                                                <select class="form-select" id="objective_id" name="objective">
+                                                                    <option value="">Select...</option>
+                                                                    @foreach ($objectives as $objective)
+                                                                        <option value="{{ $objective->id }}">{{ $objective->name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                <span class="text-danger" id="objectiveError"></span>
+                                                            </div>
 
-                                                                </div>
-                                                                <!--end col-->
+                                                            <!-- Checkbox for Sub-Programs -->
                                                                 <div class="col-lg-12">
-                                                                   <div class="form-check mb-2">
-                                                                    <input type="checkbox" class="form-check-input" id="same-address">
-                                                                    <label class="form-check-label" for="same-address">This Proram has Sub-Programs</label>
-                                                                </div>
-                                                                </div>
-                                                                <!--end col-->
-                                                                <div class="col-xxl-6">
-                                                                    <div class="col-xxl-6">
-                                                                        <label for="lastName" class="form-label">Program Manager</label>
-                                                                        <select class="form-select" id="country" required>
-                                                                            <option value="">Select...</option>
-                                                                            <option>Objective 1</option>
-                                                                            <option>Objective 2</option>
-                                                                        </select>
-                                                                        <div class="invalid-feedback">Please select an Objective</div>
+                                                                    <div class="form-check mb-2">
+                                                                        <input name="parent" type="checkbox" class="form-check-input" id="parent">
+                                                                        <label class="form-check-label" for="parent">This Program has Sub-Programs</label>
                                                                     </div>
+                                                                    <span class="text-danger" id="parentError"></span>
                                                                 </div>
-                                                                <!--end col-->
+
+                                                                <!-- Program Manager -->
                                                                 <div class="col-xxl-6">
-                                                                    <label for="passwordInput" class="form-label">Password</label>
-                                                                    <input type="password" class="form-control" id="passwordInput" value="451326546" placeholder="Enter password">
+                                                                    <label for="manager" class="form-label">Program Manager</label>
+                                                                    <input type="text" class="form-control" id="manager" name="manager" value="{{ auth()->user()->first_name }}">
+                                                                    <span class="text-danger" id="managerError"></span>
                                                                 </div>
-                                                                <!--end col-->
+
+                                                                <!-- Program Value -->
+                                                                <div class="col-xxl-6">
+                                                                    <label for="value" class="form-label">Program Value</label>
+                                                                    <input type="number" class="form-control" name="value" id="value" value="451326546" placeholder="Enter value">
+                                                                    <span class="text-danger" id="valueError"></span>
+                                                                </div>
+
+                                                                <!-- Submit Buttons -->
                                                                 <div class="col-lg-12">
                                                                     <div class="hstack gap-2 justify-content-end">
                                                                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                                                                         <button type="submit" class="btn btn-primary">Submit</button>
                                                                     </div>
                                                                 </div>
-                                                                <!--end col-->
                                                             </div>
-                                                            <!--end row-->
                                                         </form>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                            </div>
+
 										<!-- Modal End -->
 
                                     </div><!-- end card header -->
-									<div>
-                                        <div class="table-responsive table-card mb-3">
-                                            <table class="table align-middle table-nowrap mb-0" id="customerTable">
-                                                <thead class="table-light">
-                                                    <tr>
-                                                        <th class="sort" data-sort="name" scope="col">Name</th>
-                                                        <th class="sort" data-sort="email_id" scope="col">Contact</th>
-                                                        <th class="sort" data-sort="tags" scope="col">Role</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody class="list form-check-all">
-                                                    <tr>
-                                                        <td class="name">
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="flex-shrink-0"><img src="../assets/images/users/avatar-8.jpg" alt="" class="avatar-xs rounded-circle"></div>
-                                                                <div class="flex-grow-1 ms-2 name">Khawar Javaid</div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="email_id">414-453-5725<br>
-														tonyanoble@pwgs.com</td>
-                                                        <td class="tags">
-                                                            <span class="badge bg-primary-subtle text-primary">Manager</span>
-                                                        </td>
-                                                    </tr>
-													<tr>
-                                                        <td class="name">
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="flex-shrink-0"><img src="../assets/images/users/avatar-8.jpg" alt="" class="avatar-xs rounded-circle"></div>
-                       <?php
-include("../config/config.php");
 
+                                    <div data-simplebar style="max-height: 256px;">
+                                        <ul class="list-group list-group-flush border-dashed px-3">
+                                            <li class="list-group-item ps-0">
+                                                <div class="d-flex align-items-start">
+                                                    @if($programs)
+                                                     @foreach ($programs as $program)
+                                                         <div class="flex-grow-1">
+                                                        <label class="form-check-label mb-0 ps-2" for="task_one">{{ $program->name }}</label>
+                                                    </div>
+                                                    <div class="flex-shrink-0 ms-2">
+                                                        <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
+                                                    </div>
+                                                     @endforeach
+                                                     @endif
+                                                </div>
+                                            </li>
 
-?>
-<?php include '../layouts/main-diff-layouts.php'; ?>
-<!doctype html>
-<html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
-
-<head>
-
-    <?php includeFileWithVariables('../layouts/title-meta.php', array('title' => 'Welcome')); ?>
-                                         <div class="flex-grow-1 ms-2 name">Khawar Javaid</div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="email_id">414-453-5725<br>
-														tonyanoble@pwgs.com</td>
-                                                        <td class="tags">
-                                                            <span class="badge bg-primary-subtle text-primary">Manager</span>
-                       <?php
-include("../config/config.php");
-
-
-?>
-<?php include '../layouts/main-diff-layouts.php'; ?>
-<!doctype html>
-<html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
-
-<head>
-
-    <?php includeFileWithVariables('../layouts/title-meta.php', array('title' => 'Welcome')); ?>
-                                 </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-
-                                        </div>
-                                        <!--<div class="d-flex justify-content-end mt-3">
-                                            <div class="pagination-wrap hstack gap-2">
-                                                <a class="page-item pagination-prev disabled" href="#">
-                                                    Previous
-                                                </a>
-                                                <ul class="pagination listjs-pagination mb-0"></ul>
-                                                <a class="page-item pagination-next" href="#">
-                                                    Next
-                                                </a>
-                                            </div>
-                                        </div>-->
+                                        </ul><!-- end ul -->
                                     </div>
                                 </div><!-- end card body -->
                             </div>
@@ -346,7 +337,7 @@ include("../config/config.php");
 													});
 												</script>
 
-												<?php
+												{{-- <?php
 												if( $_SESSION['security']['categoryID']==3)
 												{ ?>
 												<form action="" id="org_chart_form" method="post">
@@ -361,10 +352,10 @@ include("../config/config.php");
 												  ?>
 												  </select>
 												</form>
-												 <?php }?>
+												 <?php }?> --}}
 
 												<ul id="org" style="display:none">
-														<?php
+														{{-- <?php
 														$userOb = new classUser;
 														$user_group_by = $userOb->getUserGroupBy($_SESSION['security']['userID']);
 
@@ -701,7 +692,7 @@ include("../config/config.php");
 																</li>
 														   <?php
 														}
-														?>
+														?> --}}
 														</ul>
 
 												<div id="chart" class="orgChart"></div>
@@ -747,7 +738,59 @@ include("../config/config.php");
 
     </div>
     <!-- END layout-wrapper -->
-    @endsection
+    <script>
+    $('#programForm').on('submit', function (e) {
+    e.preventDefault(); // Prevent default form submission
+
+    let form = $(this);
+    let url = form.attr('action'); // Get the form action URL
+    let formData = form.serialize(); // Serialize the form data
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: formData,
+
+        success: function (response) {
+            // Close the modal on success
+            $('#exampleModalgrid').modal('hide');
+            alert(response.message); // Show success message
+            location.reload(); // Reload the page
+        },
+        error: function (response) {
+            // Clear all previous error messages
+            $('.text-danger').remove(); // Remove all old error spans
+
+            // Check for validation errors (status 422)
+            if (response.status === 422) {
+                let errors = response.responseJSON.errors;
+                for (let field in errors) {
+                    if (errors.hasOwnProperty(field)) {
+                        // Append each error message below the corresponding input field
+                        errors[field].forEach(function (error) {
+                            $(`[name="${field}"]`).after(`<span class="text-danger">${error}</span>`);
+                        });
+                    }
+                }
+            }
+         // Handle general errors (e.g., status 500)
+            if (response.status === 500) {
+                alert(response.responseJSON.message); // Display the general error message
+            }
+        },
+    });
+});
+$(document).on('click', '.previestab', function () {
+    let previousUrl = $(this).data('previous'); // Get the URL for the previous step
+    window.location.href = previousUrl; // Redirect to the previous step
+});
+
+$(document).on('click', '.nexttab', function () {
+    let nextUrl = $(this).data('nexttab'); // Get the URL for the next step
+    window.location.href = nextUrl; // Redirect to the next step
+});
+</script>
+@endsection
 @push('scripts')
     <!-- apexcharts -->
     <script src="{{asset('assets/login/libs/apexcharts/apexcharts.min.js')}}"></script>

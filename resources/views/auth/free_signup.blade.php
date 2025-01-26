@@ -60,6 +60,7 @@
 															<div class="col-sm-6">
 																<label for="firstName" class="form-label">First name</label>
 																<input type="text" class="form-control" id="firstName" placeholder="Enter first name" value="{{ old('first_name') }}"  name="first_name">
+                                                                <input type="hidden" name="is_direct_signup" value="true">
 															@error('first_name')
                                                                 <div class="text-danger">{{ $message }}</div>
                                                             @enderror
@@ -106,7 +107,7 @@
 																<input type="text" class="form-control" name="organization_name" id="organization_name" placeholder="Organization Name" value="{{ old('organization_name') }}">
 															@error('organization_name')
                                                                 <div class="text-danger">{{ $message }}</div>
-                                                           @enderror
+                                                            @enderror
 															</div>
 
 															<div class="col-12">
@@ -232,7 +233,7 @@
             let locale = "{{ app()->getLocale() }}"; // Get the locale from Laravel
             $('#city').html('<option value="">Choose...</option>');
             let url = `/${locale}/locations/cities/${stateId}`;
-            console.log('url', url);
+
             if (stateId) {
                 $.ajax({
                     url: url,

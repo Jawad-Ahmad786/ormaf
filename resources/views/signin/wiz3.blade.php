@@ -1,5 +1,5 @@
 {{-- <?php
-{{-- include("../layouts/login/paasetting.php"); --}}
+include("paasetting.php");
 
 try
 {
@@ -80,9 +80,6 @@ else
 @section('title', 'Wiz 3')
 @section('content')
     @push('css')
-    <!-- plugin css -->
-    <link href="{{asset('assets/login/libs/jsvectormap/css/jsvectormap.min.css')}}" rel="stylesheet" type="text/css" />
-
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/login/js/org_chart/css/chart.css')}}">
 
 	<script type="text/javascript" src="{{asset('assets/login/js/js/jquery-1.10.2.min.js')}}"></script>
@@ -91,7 +88,6 @@ else
 	<script type="text/javascript" src="popUp/popUp.js"></script>
 	<script type="text/javascript" src="{{asset('assets/login/js/org_chart/js/jquery_002.js')}}"></script>
     @endpush
-
 <script>
 jQuery(document).ready(function() {
     $("#org").jOrgChart({
@@ -111,7 +107,6 @@ jQuery(document).ready(function() {
         <!-- Start right Content here -->
         <!-- ============================================================== -->
         <div class="main-content">
-
             <div class="page-content">
 
 				<div class="bg-overlay bg-overlay-pattern"></div>
@@ -121,11 +116,19 @@ jQuery(document).ready(function() {
 					<div class="card overflow-hidden">
 						<div class="card-body bg-marketplace d-flex">
 							<div class="flex-grow-1">
-								<h4 class="fs-18 lh-base mb-0">Step 3 - Outline your <span class="text-success">Programs Structure</span> </h4>
-								<p class="mb-3 mt-2 pt-1 text-muted">Enter the Programs, Sub-Programs and Projects which you would be managing.</p>
+								<h4 class="fs-18 lh-base mb-0">Step 3 - Setup your <span class="text-success">Team</span> </h4>
+                                @if(session()->has('error'))
+                                <div class="alert alert-dismissible">
+                                </div>
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>{{ session('error') }}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                                @endif
+								<p class="mb-3 mt-2 pt-1 text-muted">Enter the Team members helping you in managing your Programs.</p>
 								<div class="d-flex pull-right mb-2">
-									<button type="button" class="btn btn-light btn-label previestab" data-previous="steparrow-gen-info-tab"><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back</button>
-									<button type="button" class="btn btn-primary btn-label right ms-auto nexttab nexttab" data-nexttab="steparrow-description-info-tab"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Next</button>
+									<button type="button" class="btn btn-light btn-label previestab" data-previous="{{ route('wiz2', ['locale' => app()->getLocale()]) }}"><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back</button>
+									<button type="button" class="btn btn-primary btn-label right ms-auto nexttab nexttab" data-nexttab="{{ route('wiz4', ['locale' => app()->getLocale()]) }}"><i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Next</button>
 								</div>
 							</div>
 							<img src="{{asset('assets/login/images/bg-d.png')}}" alt="" class="img-fluid" />
@@ -136,26 +139,71 @@ jQuery(document).ready(function() {
                         <div class="col-xl-12">
                             <div class="card">
                                 <div class="step-arrow-nav mb-4">
-                                            <ul class="nav nav-pills custom-nav nav-justified bg-success-subtle" role="tablist">
-                                                <li class="nav-item" role="presentation">
-                                                    <a href="{{ route('wiz1', ['locale' => app()->getLocale()]) }}"><button class="nav-link" id="steparrow-gen-info-tab" data-bs-toggle="pill" data-bs-target="#steparrow-gen-info" type="button" role="tab" aria-controls="steparrow-gen-info" aria-selected="true">Department</button></a>
-                                                </li>
-                                                <li class="nav-item" role="presentation">
-                                                    <a href="{{ route('wiz2', ['locale' => app()->getLocale()]) }}"><button class="nav-link" id="steparrow-description-info-tab" data-bs-toggle="pill" data-bs-target="#steparrow-description-info" type="button" role="tab" aria-controls="steparrow-description-info" aria-selected="false">Objectives</button></a>
-                                                </li>
-                                                <li class="nav-item" role="presentation">
-                                                    <a href="{{ route('wiz3', ['locale' => app()->getLocale()]) }}"><button class="nav-link active" id="pills-experience-tab" data-bs-toggle="pill" data-bs-target="#pills-experience" type="button" role="tab" aria-controls="pills-experience" aria-selected="false">Programs</button></a>
-                                                </li>
-                                                <li class="nav-item" role="presentation">
-                                                    <a href="{{ route('wiz4', ['locale' => app()->getLocale()]) }}"><button class="nav-link" id="pills-experience-tab" data-bs-toggle="pill" data-bs-target="#pills-experience" type="button" role="tab" aria-controls="pills-experience" aria-selected="false">Team</button></a>
-                                                </li>
-                                            </ul>
+                                         <ul class="nav nav-pills custom-nav nav-justified bg-success-subtle" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a href="{{ route('wiz1', ['locale' => app()->getLocale()]) }}">
+            <button class="nav-link {{ Route::currentRouteName() === 'wiz1' ? 'active' : '' }}"
+                    id="steparrow-gen-info-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#steparrow-gen-info"
+                    type="button"
+                    role="tab"
+                    aria-controls="steparrow-gen-info"
+                    aria-selected="{{ Route::currentRouteName() === 'wiz1' ? 'true' : 'false' }}">
+                Department
+            </button>
+        </a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a href="{{ route('wiz2', ['locale' => app()->getLocale()]) }}">
+            <button class="nav-link {{ Route::currentRouteName() === 'wiz2' ? 'active' : '' }}"
+                    id="steparrow-description-info-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#steparrow-description-info"
+                    type="button"
+                    role="tab"
+                    aria-controls="steparrow-description-info"
+                    aria-selected="{{ Route::currentRouteName() === 'wiz2' ? 'true' : 'false' }}">
+                Objectives
+            </button>
+        </a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a href="{{ route('wiz3', ['locale' => app()->getLocale()]) }}">
+            <button class="nav-link {{ Route::currentRouteName() === 'wiz3' ? 'active' : '' }}"
+                    id="pills-experience-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pills-experience"
+                    type="button"
+                    role="tab"
+                    aria-controls="pills-experience"
+                    aria-selected="{{ Route::currentRouteName() === 'wiz3' ? 'true' : 'false' }}">
+                Team
+            </button>
+        </a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a href="{{ route('wiz4', ['locale' => app()->getLocale()]) }}">
+            <button class="nav-link {{ Route::currentRouteName() === 'wiz4' ? 'active' : '' }}"
+                    id="pills-programs-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pills-programs"
+                    type="button"
+                    role="tab"
+                    aria-controls="pills-programs"
+                    aria-selected="{{ Route::currentRouteName() === 'wiz4' ? 'true' : 'false' }}">
+                Programs
+            </button>
+        </a>
+    </li>
+</ul>
+
                                         </div><!-- end card header -->
                                 <div class="row">
                         <div class="col-xl-6">
                             <div class="card card-height-100">
                                 <div class="card-header align-items-center d-flex">
-                                    <h4 class="card-title mb-0 flex-grow-1">Programs & Sub-Programs</h4>
+                                    <h4 class="card-title mb-0 flex-grow-1">Team Members</h4>
                                     <div class="flex-shrink-0">
                                         <div class="dropdown card-header-dropdown">
                                             <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -172,64 +220,88 @@ jQuery(document).ready(function() {
                                 <div class="card-body p-0">
 
                                     <div class="align-items-center p-3 justify-content-between d-flex">
-
-                                        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalgrid"><i class="ri-add-line align-middle me-1"></i> Add Program</button>
+                                        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalgrid"><i class="ri-add-line align-middle me-1"></i> Add Team Member</button>
 
 										<!-- Modal Start -->
-									<div class="modal fade" id="exampleModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalgridLabel">Add Program</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form id="programForm" method="post" action="{{ route('program.store', ['locale' => app()->getLocale()]) }}">
-                                                     @csrf
-                                                        <div class="row g-3">
-                                                            <!-- Program Name -->
-                                                            <div class="col-xxl-6">
-                                                                <label for="Program" class="form-label">Program Name</label>
-                                                                <input name="name" type="text" class="form-control" id="Program" placeholder="Enter Program Name">
-                                                                <span class="text-danger" id="nameError"></span>
-                                                            </div>
-
-                                                            <!-- Program Alignment -->
-                                                            <div class="col-xxl-6">
-                                                                <label for="objective_id" class="form-label">Program Alignment to Strategic Outcome</label>
-                                                                <select class="form-select" id="objective_id" name="objective">
-                                                                    <option value="">Select...</option>
-                                                                    @foreach ($objectives as $objective)
-                                                                        <option value="{{ $objective->id }}">{{ $objective->name }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                                <span class="text-danger" id="objectiveError"></span>
-                                                            </div>
-
-                                                            <!-- Checkbox for Sub-Programs -->
-                                                                <div class="col-lg-12">
-                                                                    <div class="form-check mb-2">
-                                                                        <input name="parent" type="checkbox" class="form-check-input" id="parent">
-                                                                        <label class="form-check-label" for="parent">This Program has Sub-Programs</label>
+										<div class="modal fade" id="exampleModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalgridLabel">Add Team Member</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <!-- Error messages will be displayed here -->
+                                                        <div id="errorMessages"></div>
+                                                        <form id="addTeamMemberForm" method="post" action="{{ route('free-signup.store', ['locale' => app()->getLocale()]) }}">
+                                                            @csrf
+                                                            <div class="row g-3">
+                                                                <div class="col-xxl-6">
+                                                                    <div>
+                                                                        <label for="firstName" class="form-label">First Name</label>
+                                                                        <input type="text" name="first_name" class="form-control" id="firstName" placeholder="Enter First Name">
+                                                                        <input type="hidden" name="added_by" value="{{ auth()->id() }}">
                                                                     </div>
-                                                                    <span class="text-danger" id="parentError"></span>
                                                                 </div>
+                                                                <!-- End of first name -->
 
-                                                                <!-- Program Manager -->
                                                                 <div class="col-xxl-6">
-                                                                    <label for="manager" class="form-label">Program Manager</label>
-                                                                    <input type="text" class="form-control" id="manager" name="manager" value="{{ auth()->user()->first_name }}">
-                                                                    <span class="text-danger" id="managerError"></span>
+                                                                    <label for="lastName" class="form-label">Last Name</label>
+                                                                    <input type="text" name="last_name" class="form-control" id="lastName" placeholder="Enter Last Name">
                                                                 </div>
 
-                                                                <!-- Program Value -->
                                                                 <div class="col-xxl-6">
-                                                                    <label for="value" class="form-label">Program Value</label>
-                                                                    <input type="number" class="form-control" name="value" id="value" value="451326546" placeholder="Enter value">
-                                                                    <span class="text-danger" id="valueError"></span>
+                                                                    <label for="email" class="form-label">Email</label>
+                                                                    <input type="email" name="email" class="form-control" id="email" placeholder="Enter Email">
                                                                 </div>
 
-                                                                <!-- Submit Buttons -->
+                                                                <div class="col-xxl-6">
+                                                                    <label for="passwordInput" class="form-label">Password</label>
+                                                                    <input type="password" name="password" class="form-control" id="passwordInput" placeholder="Enter password">
+                                                                </div>
+
+                                                                <div class="col-xxl-6">
+                                                                    <label for="confirmPasswordInput" class="form-label">Confirm Password</label>
+                                                                    <input type="password" name="password_confirmation" class="form-control" id="confirmPasswordInput" placeholder="Confirm password">
+                                                                </div>
+
+                                                                <!-- Country Dropdown -->
+                                                                <div class="col-xxl-6">
+                                                                    <label for="country" class="form-label">Country</label>
+                                                                    <select class="form-select" name="country" id="country">
+                                                                        <option value="">Choose...</option>
+                                                                        @foreach ($countries as $country)
+                                                                            <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+
+                                                                <!-- State Dropdown -->
+                                                                <div class="col-xxl-6">
+                                                                    <label for="state" class="form-label">State</label>
+                                                                    <select name="state" id="state" class="form-select">
+                                                                        <option value="">Choose...</option>
+                                                                    </select>
+                                                                </div>
+
+                                                                <!-- City Dropdown -->
+                                                                <div class="col-xxl-6">
+                                                                    <label for="city" class="form-label">City</label>
+                                                                    <select name="city" id="city" class="form-select">
+                                                                        <option value="">Choose...</option>
+                                                                    </select>
+                                                                </div>
+
+                                                                <div class="col-xxl-6">
+                                                                    <label for="address" class="form-label">Address</label>
+                                                                    <input type="text" name="address" class="form-control" id="address" placeholder="Enter Address">
+                                                                </div>
+
+                                                                <div class="col-xxl-6">
+                                                                    <label for="zip_code" class="form-label">Zip Code</label>
+                                                                    <input type="text" name="zip_code" class="form-control" id="zip_code" placeholder="Enter Zip Code">
+                                                                </div>
+
                                                                 <div class="col-lg-12">
                                                                     <div class="hstack gap-2 justify-content-end">
                                                                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
@@ -241,30 +313,87 @@ jQuery(document).ready(function() {
                                                     </div>
                                                 </div>
                                             </div>
-                                            </div>
+                                        </div>
 
 										<!-- Modal End -->
 
                                     </div><!-- end card header -->
+									<div>
+                                        <div class="table-responsive table-card mb-3">
+                                            <table class="table align-middle table-nowrap mb-0" id="customerTable">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th class="sort" data-sort="name" scope="col">First Name</th>
+                                                        <th class="sort" data-sort="email_id" scope="col">Last Name</th>
+                                                        <th class="sort" data-sort="tags" scope="col">Email</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="list form-check-all">
+                                                    <tr>
+                                                        <td class="name">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="flex-shrink-0"><img src="../assets/images/users/avatar-8.jpg" alt="" class="avatar-xs rounded-circle"></div>
+                                                                <div class="flex-grow-1 ms-2 name">Khawar Javaid</div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="email_id">414-453-5725<br>
+														tonyanoble@pwgs.com</td>
+                                                        <td class="tags">
+                                                            <span class="badge bg-primary-subtle text-primary">Manager</span>
+                                                        </td>
+                                                    </tr>
+													<tr>
+                                                        <td class="name">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="flex-shrink-0"><img src="../assets/images/users/avatar-8.jpg" alt="" class="avatar-xs rounded-circle"></div>
+                       <?php
+{{-- include("../config/config.php"); --}}
 
-                                    <div data-simplebar style="max-height: 256px;">
-                                        <ul class="list-group list-group-flush border-dashed px-3">
-                                            <li class="list-group-item ps-0">
-                                                <div class="d-flex align-items-start">
-                                                    @if($programs)
-                                                     @foreach ($programs as $program)
-                                                         <div class="flex-grow-1">
-                                                        <label class="form-check-label mb-0 ps-2" for="task_one">{{ $program->name }}</label>
-                                                    </div>
-                                                    <div class="flex-shrink-0 ms-2">
-                                                        <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-                                                    </div>
-                                                     @endforeach
-                                                     @endif
-                                                </div>
-                                            </li>
 
-                                        </ul><!-- end ul -->
+?>
+{{-- <?php include '../layouts/main-diff-layouts.php'; ?> --}}
+<!doctype html>
+<html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
+
+<head>
+
+    {{-- <?php includeFileWithVariables('../layouts/title-meta.php', array('title' => 'Welcome')); ?> --}}
+                                         <div class="flex-grow-1 ms-2 name">Khawar Javaid</div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="email_id">414-453-5725<br>
+														tonyanoble@pwgs.com</td>
+                                                        <td class="tags">
+                                                            <span class="badge bg-primary-subtle text-primary">Manager</span>
+                       <?php
+{{-- include("../config/config.php"); --}}
+
+
+?>
+{{-- <?php include '../layouts/main-diff-layouts.php'; ?> --}}
+<!doctype html>
+<html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
+
+<head>
+
+    {{-- <?php includeFileWithVariables('../layouts/title-meta.php', array('title' => 'Welcome')); ?> --}}
+                                 </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                        <!--<div class="d-flex justify-content-end mt-3">
+                                            <div class="pagination-wrap hstack gap-2">
+                                                <a class="page-item pagination-prev disabled" href="#">
+                                                    Previous
+                                                </a>
+                                                <ul class="pagination listjs-pagination mb-0"></ul>
+                                                <a class="page-item pagination-next" href="#">
+                                                    Next
+                                                </a>
+                                            </div>
+                                        </div>-->
                                     </div>
                                 </div><!-- end card body -->
                             </div>
@@ -283,15 +412,15 @@ jQuery(document).ready(function() {
                                 		<div class="text-center">
                                     		<div class="profile-user position-relative d-inline-block mx-auto mb-2">
 
-												<script>
+												{{-- <scrip>
 												$(document).ready(function() {
 													$('#org_chart_select').change(function() {
 														$("#org_chart_form").submit();
 													});
 													});
-												</script>
+												</scrip>
 
-												{{-- <?php
+												<?php
 												if( $_SESSION['security']['categoryID']==3)
 												{ ?>
 												<form action="" id="org_chart_form" method="post">
@@ -306,10 +435,10 @@ jQuery(document).ready(function() {
 												  ?>
 												  </select>
 												</form>
-												 <?php }?> --}}
+												 <?php }?>
 
 												<ul id="org" style="display:none">
-														{{-- <?php
+														<?php
 														$userOb = new classUser;
 														$user_group_by = $userOb->getUserGroupBy($_SESSION['security']['userID']);
 
@@ -646,8 +775,8 @@ jQuery(document).ready(function() {
 																</li>
 														   <?php
 														}
-														?> --}}
-														</ul>
+														?>
+														</ul> --}}
 
 												<div id="chart" class="orgChart"></div>
 
@@ -692,54 +821,105 @@ jQuery(document).ready(function() {
 
     </div>
     <!-- END layout-wrapper -->
-    <script>
-    $('#programForm').on('submit', function (e) {
-    e.preventDefault(); // Prevent default form submission
+     <script>
+    $(document).ready(function () {
+        // When the country is selected
+        $('#country').on('change', function () {
+            const countryId = $(this).val();
+            let locale = "{{ app()->getLocale() }}"; // Get the locale from Laravel
+            $('#state').html('<option value="">Choose...</option>');
+            $('#city').html('<option value="">Choose...</option>');
+            let url = `/${locale}/locations/states/${countryId}`;
+            console.log("Locale is: ", locale); // This should output the current locale, e.g., 'en', 'fr'.
 
-    let form = $(this);
-    let url = form.attr('action'); // Get the form action URL
-    let formData = form.serialize(); // Serialize the form data
 
-    $.ajax({
-        url: url,
-        type: 'POST',
-        data: formData,
-
-        success: function (response) {
-            // Close the modal on success
-            $('#exampleModalgrid').modal('hide');
-            alert(response.message); // Show success message
-            location.reload(); // Reload the page
-        },
-        error: function (response) {
-            // Clear all previous error messages
-            $('.text-danger').remove(); // Remove all old error spans
-
-            // Check for validation errors (status 422)
-            if (response.status === 422) {
-                let errors = response.responseJSON.errors;
-                for (let field in errors) {
-                    if (errors.hasOwnProperty(field)) {
-                        // Append each error message below the corresponding input field
-                        errors[field].forEach(function (error) {
-                            $(`[name="${field}"]`).after(`<span class="text-danger">${error}</span>`);
+            if (countryId) {
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function (states) {
+                        states.forEach(state => {
+                            $('#state').append(`<option value="${state.id}">${state.name}</option>`);
                         });
                     }
-                }
+                });
             }
-         // Handle general errors (e.g., status 500)
-            if (response.status === 500) {
-                alert(response.responseJSON.message); // Display the general error message
+        });
+
+        // When the state is selected
+        $('#state').on('change', function () {
+            const stateId = $(this).val();
+            let locale = "{{ app()->getLocale() }}"; // Get the locale from Laravel
+            $('#city').html('<option value="">Choose...</option>');
+            let url = `/${locale}/locations/cities/${stateId}`;
+
+            if (stateId) {
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function (cities) {
+                        cities.forEach(city => {
+                            $('#city').append(`<option value="${city.id}">${city.name}</option>`);
+                        });
+                    }
+                });
             }
-        },
-    });
+        });
+ $(document).on('click', '.previestab', function () {
+    let previousUrl = $(this).data('previous'); // Get the URL for the previous step
+    window.location.href = previousUrl; // Redirect to the previous step
 });
 
+$(document).on('click', '.nexttab', function () {
+    let nextUrl = $(this).data('nexttab'); // Get the URL for the next step
+    window.location.href = nextUrl; // Redirect to the next step
+});
+$('#addTeamMemberForm').on('submit', function(event) {
+        event.preventDefault(); // Prevent form from reloading the page
+
+        // Clear previous errors
+        $('#errorMessages').empty();
+
+        var formData = $(this).serialize(); // Collect form data
+
+        $.ajax({
+            url: $(this).attr('action'), // Get the form action URL
+            method: 'POST',
+            data: formData,
+            success: function(response) {
+                // If successful, you can handle redirection or close the modal
+                if (response.success) {
+                    alert(response.message);
+                    $('#exampleModalgrid').modal('hide');
+                }
+            },
+            error: function(xhr) {
+                // Handle validation errors
+                var errors = xhr.responseJSON.errors;
+                var errorHtml = '<div class="alert alert-danger alert-dismissible fade show" role="alert">';
+                if (xhr.responseJSON.error) {
+                    errorHtml += '<strong>' + xhr.responseJSON.error + '</strong>';
+                } else {
+                    // Loop through errors and show each one
+                    $.each(errors, function(field, messages) {
+                         $.each(messages, function(index, message) {
+                            errorHtml += '<strong>' + message + '</strong><br>';
+                        });
+                    });
+                }
+                errorHtml += '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                errorHtml += '</div>';
+                $('#errorMessages').html(errorHtml); // Display errors inside the modal
+            }
+        });
+    });
+
+    });
 </script>
-@endsection
+    @endsection
 @push('scripts')
     <!-- apexcharts -->
-    <script src="{{asset('assets/login/libs/apexcharts/apexcharts.min.js')}}"></script>
+    <scrip src="{{asset('assets/login/libs/apexcharts/apexcharts.min.js')}}"></scrip>
 
     <!-- Vector map-->
     <script src="{{asset('assets/login/libs/jsvectormap/js/jsvectormap.min.js')}}"></script>
