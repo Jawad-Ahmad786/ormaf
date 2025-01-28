@@ -139,64 +139,7 @@ jQuery(document).ready(function() {
                         <div class="col-xl-12">
                             <div class="card">
                                 <div class="step-arrow-nav mb-4">
-                                         <ul class="nav nav-pills custom-nav nav-justified bg-success-subtle" role="tablist">
-    <li class="nav-item" role="presentation">
-        <a href="{{ route('wiz1', ['locale' => app()->getLocale()]) }}">
-            <button class="nav-link {{ Route::currentRouteName() === 'wiz1' ? 'active' : '' }}"
-                    id="steparrow-gen-info-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#steparrow-gen-info"
-                    type="button"
-                    role="tab"
-                    aria-controls="steparrow-gen-info"
-                    aria-selected="{{ Route::currentRouteName() === 'wiz1' ? 'true' : 'false' }}">
-                Department
-            </button>
-        </a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a href="{{ route('wiz2', ['locale' => app()->getLocale()]) }}">
-            <button class="nav-link {{ Route::currentRouteName() === 'wiz2' ? 'active' : '' }}"
-                    id="steparrow-description-info-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#steparrow-description-info"
-                    type="button"
-                    role="tab"
-                    aria-controls="steparrow-description-info"
-                    aria-selected="{{ Route::currentRouteName() === 'wiz2' ? 'true' : 'false' }}">
-                Objectives
-            </button>
-        </a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a href="{{ route('wiz3', ['locale' => app()->getLocale()]) }}">
-            <button class="nav-link {{ Route::currentRouteName() === 'wiz3' ? 'active' : '' }}"
-                    id="pills-experience-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#pills-experience"
-                    type="button"
-                    role="tab"
-                    aria-controls="pills-experience"
-                    aria-selected="{{ Route::currentRouteName() === 'wiz3' ? 'true' : 'false' }}">
-                Team
-            </button>
-        </a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a href="{{ route('wiz4', ['locale' => app()->getLocale()]) }}">
-            <button class="nav-link {{ Route::currentRouteName() === 'wiz4' ? 'active' : '' }}"
-                    id="pills-programs-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#pills-programs"
-                    type="button"
-                    role="tab"
-                    aria-controls="pills-programs"
-                    aria-selected="{{ Route::currentRouteName() === 'wiz4' ? 'true' : 'false' }}">
-                Programs
-            </button>
-        </a>
-    </li>
-</ul>
+                                    @include('signin.tabs')
 
                                         </div><!-- end card header -->
                                 <div class="row">
@@ -319,8 +262,8 @@ jQuery(document).ready(function() {
 
                                     </div><!-- end card header -->
 									<div>
-                                        <div class="table-responsive table-card mb-3">
-                                            <table class="table align-middle table-nowrap mb-0" id="customerTable">
+                                        <div class="table-responsive table-card mb-3 mt-3">
+                                              <table class="table align-middle table-nowrap mb-0" id="customerTable">
                                                 <thead class="table-light">
                                                     <tr>
                                                         <th class="sort" data-sort="name" scope="col">First Name</th>
@@ -329,58 +272,25 @@ jQuery(document).ready(function() {
                                                     </tr>
                                                 </thead>
                                                 <tbody class="list form-check-all">
+                                                 @if(!is_null($teamMembers))
+                                                    @foreach ($teamMembers as $member)
                                                     <tr>
                                                         <td class="name">
                                                             <div class="d-flex align-items-center">
-                                                                <div class="flex-shrink-0"><img src="../assets/images/users/avatar-8.jpg" alt="" class="avatar-xs rounded-circle"></div>
-                                                                <div class="flex-grow-1 ms-2 name">Khawar Javaid</div>
+                                                                <div class="flex-shrink-0"><img src="{{asset('assets/login/images/users/avatar-8.jpg')}}" alt="" class="avatar-xs rounded-circle"></div>
+                                                                <div class="flex-grow-1 ms-2 name">{{ $member->first_name }}</div>
                                                             </div>
                                                         </td>
-                                                        <td class="email_id">414-453-5725<br>
-														tonyanoble@pwgs.com</td>
+                                                        <td class="email_id">{{ $member->last_name }}
+														</td>
                                                         <td class="tags">
-                                                            <span class="badge bg-primary-subtle text-primary">Manager</span>
+                                                            <span class="badge bg-primary-subtle text-primary">{{ $member->email }}</span>
                                                         </td>
                                                     </tr>
-													<tr>
-                                                        <td class="name">
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="flex-shrink-0"><img src="../assets/images/users/avatar-8.jpg" alt="" class="avatar-xs rounded-circle"></div>
-                       <?php
-{{-- include("../config/config.php"); --}}
-
-
-?>
-{{-- <?php include '../layouts/main-diff-layouts.php'; ?> --}}
-<!doctype html>
-<html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
-
-<head>
-
-    {{-- <?php includeFileWithVariables('../layouts/title-meta.php', array('title' => 'Welcome')); ?> --}}
-                                         <div class="flex-grow-1 ms-2 name">Khawar Javaid</div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="email_id">414-453-5725<br>
-														tonyanoble@pwgs.com</td>
-                                                        <td class="tags">
-                                                            <span class="badge bg-primary-subtle text-primary">Manager</span>
-                       <?php
-{{-- include("../config/config.php"); --}}
-
-
-?>
-{{-- <?php include '../layouts/main-diff-layouts.php'; ?> --}}
-<!doctype html>
-<html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
-
-<head>
-
-    {{-- <?php includeFileWithVariables('../layouts/title-meta.php', array('title' => 'Welcome')); ?> --}}
-                                 </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                                    @endforeach
+                                                    @endif
+													</tbody>
+                                                    </table>
 
                                         </div>
                                         <!--<div class="d-flex justify-content-end mt-3">
@@ -891,6 +801,7 @@ $('#addTeamMemberForm').on('submit', function(event) {
                 if (response.success) {
                     alert(response.message);
                     $('#exampleModalgrid').modal('hide');
+                    location.reload();
                 }
             },
             error: function(xhr) {

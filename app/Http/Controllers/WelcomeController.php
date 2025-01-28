@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Country;
 use App\Models\Objective;
 use App\Models\Program;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class WelcomeController extends Controller
@@ -27,15 +28,18 @@ class WelcomeController extends Controller
     }
 
     public function wizThree() {
+
          $countries = Country::all();
-         return view('signin.wiz3', compact('countries'));
+         $teamMembers = User::where('added_by', Auth::user()->id)->get() ?? null;
+         return view('signin.wiz3', compact('countries', 'teamMembers'));
     }
 
     public function wizFour() {
 
         $objectives = Auth::user()->department->objectives;
-        $programs = Program::where('user_id', Auth::user()->id)->get();
-        return view('signin.wiz4', compact('objectives', 'programs'));
+        $programs = Auth::user()->programs ?? null;
+        $programMembers = User::where('added_by', Auth::user()->id)->get() ?? null;
+        return view('signin.wiz4', compact('objectives', 'programs', 'programMembers'));
 
     }
 

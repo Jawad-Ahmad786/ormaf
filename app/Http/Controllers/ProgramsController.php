@@ -21,6 +21,7 @@ class ProgramsController extends Controller
         $data['parent'] = $request->parent ? 1 : 0;
 
         $program = $this->programService->store($data);
+        $program->members()->attach($request->members);
 
      if (!$program) {
         return response()->json([

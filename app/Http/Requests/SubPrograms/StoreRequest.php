@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Programs;
+namespace App\Http\Requests\SubPrograms;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,11 +22,8 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-             'name' => ['required', 'max:255'],
-             'objective' => ['required', 'exists:objectives,id'],
-             'manager' => ['required', 'max:255'],
-             'value' => ['required', 'numeric', 'min:0'],
-             'members' => ['required', 'array']
+             'program_id' => ['required', 'exists:programs,id'],
+             'name' => ['required', 'max:255']
         ];
     }
 }

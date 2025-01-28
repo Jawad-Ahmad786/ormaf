@@ -136,66 +136,9 @@ jQuery(document).ready(function() {
                         <div class="col-xl-12">
                             <div class="card">
                               <div class="step-arrow-nav mb-4">
-   <ul class="nav nav-pills custom-nav nav-justified bg-success-subtle" role="tablist">
-    <li class="nav-item" role="presentation">
-        <a href="{{ route('wiz1', ['locale' => app()->getLocale()]) }}">
-            <button class="nav-link {{ Route::currentRouteName() === 'wiz1' ? 'active' : '' }}"
-                    id="steparrow-gen-info-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#steparrow-gen-info"
-                    type="button"
-                    role="tab"
-                    aria-controls="steparrow-gen-info"
-                    aria-selected="{{ Route::currentRouteName() === 'wiz1' ? 'true' : 'false' }}">
-                Department
-            </button>
-        </a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a href="{{ route('wiz2', ['locale' => app()->getLocale()]) }}">
-            <button class="nav-link {{ Route::currentRouteName() === 'wiz2' ? 'active' : '' }}"
-                    id="steparrow-description-info-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#steparrow-description-info"
-                    type="button"
-                    role="tab"
-                    aria-controls="steparrow-description-info"
-                    aria-selected="{{ Route::currentRouteName() === 'wiz2' ? 'true' : 'false' }}">
-                Objectives
-            </button>
-        </a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a href="{{ route('wiz3', ['locale' => app()->getLocale()]) }}">
-            <button class="nav-link {{ Route::currentRouteName() === 'wiz3' ? 'active' : '' }}"
-                    id="pills-experience-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#pills-experience"
-                    type="button"
-                    role="tab"
-                    aria-controls="pills-experience"
-                    aria-selected="{{ Route::currentRouteName() === 'wiz3' ? 'true' : 'false' }}">
-                Team
-            </button>
-        </a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a href="{{ route('wiz4', ['locale' => app()->getLocale()]) }}">
-            <button class="nav-link {{ Route::currentRouteName() === 'wiz4' ? 'active' : '' }}"
-                    id="pills-programs-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#pills-programs"
-                    type="button"
-                    role="tab"
-                    aria-controls="pills-programs"
-                    aria-selected="{{ Route::currentRouteName() === 'wiz4' ? 'true' : 'false' }}">
-                Programs
-            </button>
-        </a>
-    </li>
-</ul>
+                            @include('signin.tabs')
 
-</div>
+                        </div>
 
                                 <div class="row">
                         <div class="col-xl-6">
@@ -267,7 +210,16 @@ jQuery(document).ready(function() {
                                                                     <input type="text" class="form-control" id="manager" name="manager" value="{{ auth()->user()->first_name }}">
                                                                     <span class="text-danger" id="managerError"></span>
                                                                 </div>
-
+                                                                <!-- Program Members -->
+                                                                <div class="col-xxl-6">
+                                                                    <label for="members" class="form-label">Program Members</label>
+                                                                    <select class="form-select" name="members[]" id="members" multiple>
+                                                                        <option value="">Choose...</option>
+                                                                        @foreach ($programMembers as $member)
+                                                                            <option value="{{ $member->id }}">{{ $member->first_name }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
                                                                 <!-- Program Value -->
                                                                 <div class="col-xxl-6">
                                                                     <label for="value" class="form-label">Program Value</label>
@@ -291,29 +243,75 @@ jQuery(document).ready(function() {
 
 										<!-- Modal End -->
 
-                                    </div><!-- end card header -->
+                                    </div>
+
+                                    <!-- end card header -->
 
                                     <div data-simplebar style="max-height: 256px;">
-                                        <ul class="list-group list-group-flush border-dashed px-3">
-                                            <li class="list-group-item ps-0">
-                                                <div class="d-flex align-items-start">
-                                                    @if($programs)
-                                                     @foreach ($programs as $program)
-                                                         <div class="flex-grow-1">
-                                                        <label class="form-check-label mb-0 ps-2" for="task_one">{{ $program->name }}</label>
-                                                    </div>
-                                                    <div class="flex-shrink-0 ms-2">
-                                                        <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-                                                    </div>
-                                                     @endforeach
-                                                     @endif
+                                      <ul class="list-group list-group-flush border-dashed px-3">
+                                        @if($programs)
+                                            @foreach ($programs as $program)
+                                            <li class="list-group-item d-flex align-items-center justify-content-between">
+                                                <!-- Program Details -->
+                                                <div>
+                                                    <label class="form-check-label fw-bold mb-0">{{ $program->name }}</label>
+                                                </div>
+
+                                                <!-- Action Icons -->
+                                                <div>
+                                                 @if($program->parent)
+                                                    <button data-bs-toggle="modal" data-bs-target="#subProgramsModal_{{$program->id}}" class="btn btn-info btn-sm me-2">Add Subprogram</button>
+                                                    @endif
+                                                    <button class="btn btn-danger btn-sm me-2">
+                                                        <i class="ri-delete-bin-fill align-middle"></i>
+                                                    </button>
                                                 </div>
                                             </li>
+                                                   <div class="modal fade" id="subProgramsModal_{{ $program->id}}" tabindex="-1" aria-labelledby="subProgramsModal">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="subProgamsModal">Add Sub Program</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form id="subProgramForm" method="post" action="{{ route('subprogram.store', ['locale' => app()->getLocale()]) }}">
+                                                     @csrf
+                                                        <div class="row g-3">
+                                                            <!--Sub Program Name -->
+                                                            <div class="col-xxl-6">
+                                                                <label for="Program" class="form-label">Sub Program Name</label>
+                                                                <input name="name" type="text" class="form-control" id="Program" placeholder="Enter Sub Program Name">
+                                                                <span class="text-danger" id="nameError"></span>
+                                                            </div>
+                                                                <!-- Submit Buttons -->
+                                                                <div class="col-lg-12">
+                                                                    <div class="hstack gap-2 justify-content-end">
+                                                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
 
-                                        </ul><!-- end ul -->
+										<!-- Modal End -->
+
+                                            @endforeach
+                                        @else
+                                            <li class="list-group-item text-center text-muted">
+                                                No programs available.
+                                            </li>
+                                        @endif
+                                    </ul>
+                                    <!-- end ul -->
                                     </div>
                                 </div><!-- end card body -->
                             </div>
+
                             <!-- end card -->
                         </div>
                         <!-- end col -->
@@ -754,6 +752,47 @@ jQuery(document).ready(function() {
         success: function (response) {
             // Close the modal on success
             $('#exampleModalgrid').modal('hide');
+            alert(response.message); // Show success message
+            location.reload(); // Reload the page
+        },
+        error: function (response) {
+            // Clear all previous error messages
+            $('.text-danger').remove(); // Remove all old error spans
+
+            // Check for validation errors (status 422)
+            if (response.status === 422) {
+                let errors = response.responseJSON.errors;
+                for (let field in errors) {
+                    if (errors.hasOwnProperty(field)) {
+                        // Append each error message below the corresponding input field
+                        errors[field].forEach(function (error) {
+                            $(`[name="${field}"]`).after(`<span class="text-danger">${error}</span>`);
+                        });
+                    }
+                }
+            }
+         // Handle general errors (e.g., status 500)
+            if (response.status === 500) {
+                alert(response.responseJSON.message); // Display the general error message
+            }
+        },
+    });
+});
+ $('#subProgramForm').on('submit', function (e) {
+    e.preventDefault(); // Prevent default form submission
+
+    let form = $(this);
+    let url = form.attr('action'); // Get the form action URL
+    let formData = form.serialize(); // Serialize the form data
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: formData,
+
+        success: function (response) {
+            // Close the modal on success
+            $('#subProgramsModal').modal('hide');
             alert(response.message); // Show success message
             location.reload(); // Reload the page
         },

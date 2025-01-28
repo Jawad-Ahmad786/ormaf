@@ -11,9 +11,8 @@ class ProgramsService {
           try {
             return Program::create([
                 'name' => $data['name'],
-                'manager' => $data['manager'],
                 'value' => $data['value'],
-                'user_id' => Auth::user()->id,
+                'manager_id' => Auth::user()->id,
                 'objective_id' => $data['objective'],
                 'branch_id' => 0,
                 'whole_of_govt_id' => 0,

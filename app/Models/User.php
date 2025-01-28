@@ -75,6 +75,12 @@ class User extends Authenticatable implements MustVerifyEmail
     public function city() {
         return $this->belongsTo(City::class);
     }
+    public function programs() {
+        return $this->hasMany(Program::class, 'manager_id');
+    }
+    public function members() {
+        return $this->belongsToMany(Program::class, 'program_members');
+    }
     /**
      * Get the attributes that should be cast.
      *

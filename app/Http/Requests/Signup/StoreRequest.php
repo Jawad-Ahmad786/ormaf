@@ -36,4 +36,10 @@ class StoreRequest extends FormRequest
              'address'    => ['required']
         ];
     }
+    public function messages()
+    {
+        return [
+            'organization_name.required_if' => 'Organization name is required'
+        ];
+    }
 }

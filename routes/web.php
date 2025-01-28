@@ -12,6 +12,7 @@ use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\ObjectivesController;
 use App\Http\Controllers\LocationsController;
 use App\Http\Controllers\ProgramsController;
+use App\Http\Controllers\SubProgramController;
 
 // Login/Logout Routes
 Route::get('login', [LoginController::class, 'create'])->name('login')->middleware('guest');
@@ -75,6 +76,9 @@ Route::prefix('{locale}')->middleware(['locale'])->group(function () {
 
     // Programs
     Route::post('program', [ProgramsController::class, 'store'])->name('program.store');
+
+    // Sub Programs
+    Route::post('subprogram', [SubProgramController::class, 'store'])->name('subprogram.store');
 });
 
 // Default Locale Redirect

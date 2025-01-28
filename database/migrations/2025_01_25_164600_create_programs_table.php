@@ -17,14 +17,13 @@ return new class extends Migration
         Schema::create('programs', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Objective::class)->constrained();
-            $table->foreignIdFor(User::class)->constrained();
+            $table->foreignId('manager_id')->constrained('users')->onDelete('cascade');
             $table->string('name');
             $table->integer('branch_id');
             $table->integer('whole_of_govt_id');
             $table->timestamp('start_date');
             $table->timestamp('end_date');
             $table->string('value');
-            $table->string('manager');
             $table->boolean('parent');
             $table->timestamps();
         });
