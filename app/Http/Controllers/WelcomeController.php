@@ -39,7 +39,12 @@ class WelcomeController extends Controller
         $objectives = Auth::user()->department->objectives;
         $programs = Auth::user()->programs ?? null;
         $programMembers = User::where('added_by', Auth::user()->id)->get() ?? null;
-        return view('signin.wiz4', compact('objectives', 'programs', 'programMembers'));
+        $currentUser = Auth::user()->first()->toArray(); // Get the current user's data as an array
+
+        // Merge the arrays but put $currentUser as a single element in the $programManagers array
+        $programManagers = array_merge($programMembers->toArray(), [$currentUser]); // Wrap $currentUser in an array
+
+        return view('signin.wiz4', compact('objectives', 'programs', 'programMembers', 'programManagers'));
 
     }
 
