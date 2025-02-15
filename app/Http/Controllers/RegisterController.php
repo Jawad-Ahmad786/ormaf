@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Country;
 use App\Http\Requests\Signup\StoreRequest;
+use App\Http\Requests\Signup\UpdateRequest;
+use App\Models\LogicModel;
 use App\Services\DepartmentService;
 use App\Services\SubscriptionService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
@@ -36,20 +39,6 @@ class RegisterController extends Controller
 
         $data = $request->validated();
         $data['terms_conditions'] = $request->terms_conditions ? 1 : 0;
-        $addedBy = null;
-
-    if ($request->added_by) {
-
-            $subscription = Auth::user()->subscription;
-            $subscription->user_create_limits -= 1;
-            $subscription->save();
-            $limit = $subscription->user_create_limits;
-            $addedBy = (int)$request->added_by;
-
-         if ($limit < 0) {
-            return response()->json(['error' => 'Your limit for creating members exceeds'], 400);
-           }
-      }
 
         $user = User::create([
             'country_id' => $data['country'],
@@ -61,30 +50,23 @@ class RegisterController extends Controller
             'password' => $data['password'],
             'zip_code' => $data['zip_code'],
             'address' => $data['address'],
-            'added_by' => $addedBy,
             'terms_conditions' => $data['terms_conditions']
         ]);
 
-if ($request->is_direct_signup) {
     // Create Subscription
             $this->subscriptionService->store($user->id);
 
     // Create Department
-            $this->departmentService->store($user->id, $data['organization_name']);
+           $department = $this->departmentService->store($user->id, $data['organization_name']);
 
-            event(new Registered($user)); // Trigger the email verification notification
+           LogicModel::create([
+                'department_id' => $department->id
+           ]);
 
-}
+            event(new Registered($user));
+
             DB::commit();
 
-if ($request->added_by) {
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Member has been added successfully'
-        ]);
-
-    }
 
         return redirect(route('login', ['locale' =>app()->getLocale()]));
 

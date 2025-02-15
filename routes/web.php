@@ -9,10 +9,11 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\EmailVerificationController;
-use App\Http\Controllers\ObjectivesController;
 use App\Http\Controllers\LocationsController;
+use App\Http\Controllers\logicModelComponentsController;
 use App\Http\Controllers\ProgramsController;
 use App\Http\Controllers\SubProgramController;
+use App\Http\Controllers\TeamMembersController;
 
 // Login/Logout Routes
 Route::get('login', [LoginController::class, 'create'])->name('login')->middleware('guest');
@@ -39,15 +40,30 @@ Route::prefix('{locale}')->middleware(['locale'])->group(function () {
     // Public Routes
     Route::get('/', [HomeController::class, 'index'])
         ->name('home')
-        ->withoutMiddleware(['auth', 'verified']); // Home route accessible to everyone
+        ->withoutMiddleware(['auth', 'verified']);
 
     Route::prefix('free-signup')->group(function () {
         Route::get('/', [RegisterController::class, 'create'])
             ->name('free-signup.create')
-            ->middleware('guest'); // Signup page for unauthenticated users
+            ->middleware('guest');
         Route::post('/', [RegisterController::class, 'store'])
             ->name('free-signup.store');
     });
+
+    // Team Members Routes
+      Route::prefix('team-member')->group(function () {
+        Route::post('/', [TeamMembersController::class, 'store'])
+        ->name('team-member.store');
+        Route::get('/{user}/edit', [TeamMembersController::class, 'edit'])
+            ->name('team-member.edit');
+        Route::put('/{user}/update', [TeamMembersController::class, 'update'])
+            ->name('team-member.update');
+        Route::post('/destroy/{user}', [TeamMembersController::class, 'destroy'])
+            ->name('team-member.destroy');
+      });
+
+
+    // Location Routes
         Route::get('/locations/states/{countryId}', [LocationsController::class, 'getStates']);
         Route::get('/locations/cities/{stateId}', [LocationsController::class, 'getCities']);
 
@@ -71,14 +87,21 @@ Route::prefix('{locale}')->middleware(['locale'])->group(function () {
     });
 
     // Objectives
-        Route::post('objective/store', [ObjectivesController::class, 'store'])->name('objective.store');
-        Route::post('objective/destroy/{objective}', [ObjectivesController::class, 'destroy'])->name('objective.destroy');
+        Route::post('objective/store', [logicModelComponentsController::class, 'store'])->name('objective.store');
+        Route::get('objective/edit/{logicModelComponent}', [logicModelComponentsController::class, 'edit'])->name('objective.edit');
+        Route::post('objective/update/{logicModelComponent}', [logicModelComponentsController::class, 'update'])->name('objective.update');
+        Route::post('objective/destroy/{logicModelComponent}', [logicModelComponentsController::class, 'destroy'])->name('objective.destroy');
 
     // Programs
     Route::post('program', [ProgramsController::class, 'store'])->name('program.store');
+    Route::post('program/update/{program}', [ProgramsController::class, 'update'])->name('program.update');
+    Route::post('program/destroy/{program}', [ProgramsController::class, 'destroy'])->name('program.destroy');
 
     // Sub Programs
     Route::post('subprogram', [SubProgramController::class, 'store'])->name('subprogram.store');
+    Route::post('subprogram/update/{SubProgram}', [SubProgramController::class, 'update'])->name('subprogram.update');
+    Route::post('subprogram/destroy/{SubProgram}', [SubProgramController::class, 'destroy'])->name('subprogram.destroy');
+
 });
 
 // Default Locale Redirect

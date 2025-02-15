@@ -13,7 +13,7 @@ class Department extends Model
     public function user() {
         return $this->belongsTo(User::class);
     }
-    public function objectives() {
-        return $this->hasMany(Objective::class);
+    public function logicModel() {
+        return $this->hasOne(LogicModel::class);
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SubPrograms\StoreRequest;
+use App\Http\Requests\SubPrograms\UpdateRequest;
+use App\Models\SubProgram;
 use App\Services\SubProgramsService;
 use Illuminate\Http\Request;
 
@@ -29,5 +31,22 @@ class SubProgramController extends Controller
             'success' => true,
             'message' => 'SubProgram added successfully'
         ], 201);
+    }
+
+    public function update(string $locale, UpdateRequest $request, SubProgram $SubProgram) {
+
+        $data = $request->validated();
+        $this->subProgramsService->update($data, $SubProgram->id);
+
+    return response()->json([
+        'message' => 'SubProgram updated successfully!',
+    ], 200);
+    }
+
+    public function destroy(string $locale, SubProgram $SubProgram) {
+        $SubProgram->delete();
+        return response()->json([
+            'message' => 'Subprogram has been deleted successfully'
+        ]);
     }
 }

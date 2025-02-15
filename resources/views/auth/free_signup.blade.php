@@ -60,7 +60,6 @@
 															<div class="col-sm-6">
 																<label for="firstName" class="form-label">First name</label>
 																<input type="text" class="form-control" id="firstName" placeholder="Enter first name" value="{{ old('first_name') }}"  name="first_name">
-                                                                <input type="hidden" name="is_direct_signup" value="true">
 															@error('first_name')
                                                                 <div class="text-danger">{{ $message }}</div>
                                                             @enderror

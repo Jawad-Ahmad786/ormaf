@@ -6,11 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Program extends Model
 {
-    protected $fillable = ['objective_id', 'manager_id', 'name', 'branch_id', 'whole_of_govt_id', 'start_date', 'end_date', 'value', 'parent'];
+    protected $fillable = ['manager_id', 'logic_model_component_id', 'name', 'branch_id', 'whole_of_govt_id', 'start_date', 'end_date', 'value', 'has_subprograms'];
 
-    public function objective() {
-        return $this->belongsTo(Objective::class);
-    }
     public function subPrograms() {
         return $this->hasMany(SubProgram::class);
     }
@@ -19,5 +16,11 @@ class Program extends Model
     }
     public function members() {
          return $this->belongsToMany(User::class, 'program_members');
+    }
+    public function logicModel() {
+         return $this->hasOne(LogicModel::class);
+    }
+    public function logicModelComponent() {
+        return $this->belongsTo(LogicModelComponent::class);
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Department;
+use App\Models\LogicModel;
+use App\Models\LogicModelComponent;
 use App\Models\Objective;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -16,15 +18,14 @@ return new class extends Migration
     {
         Schema::create('programs', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Objective::class)->constrained();
-            $table->foreignId('manager_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('manager_id')->constrained('users')->cascadeOnDelete();
             $table->string('name');
             $table->integer('branch_id');
             $table->integer('whole_of_govt_id');
             $table->timestamp('start_date');
             $table->timestamp('end_date');
             $table->string('value');
-            $table->boolean('parent');
+            $table->boolean('has_subprograms');
             $table->timestamps();
         });
     }

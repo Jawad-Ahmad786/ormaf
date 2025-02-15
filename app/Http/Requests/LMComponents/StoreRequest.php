@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Programs;
+namespace App\Http\Requests\LMComponents;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,11 +22,7 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-             'name' => ['required', 'max:255'],
-             'objective' => ['required', 'exists:logic_model_components,id'],
-             'manager' => ['required', 'max:255'],
-             'value' => ['required', 'numeric', 'min:0'],
-             'members' => ['required', 'array']
+             'name' => ['required', 'string', 'min:3', 'max:255'],
         ];
     }
 }

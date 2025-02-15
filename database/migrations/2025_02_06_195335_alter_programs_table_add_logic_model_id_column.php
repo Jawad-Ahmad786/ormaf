@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Program;
+use App\Models\LogicModelComponent;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,11 +12,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sub_programs', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(Program::class)->constrained()->cascadeOnDelete();
-            $table->string('name');
-            $table->timestamps();
+        Schema::table('programs', function (Blueprint $table) {
+            $table->foreignIdFor(LogicModelComponent::class)->after('manager_id')->constrained();
         });
     }
 
@@ -25,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sub_programs');
+        //
     }
 };

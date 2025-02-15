@@ -23,7 +23,7 @@ class WelcomeController extends Controller
 
     public function wizTwo(string $locale) {
 
-        $objectives = Auth::user()->department->objectives ?? null;
+        $objectives = Auth::user()->department->logicModel->lmComponents ?? null;
         return view('signin.wiz2', compact('objectives'));
     }
 
@@ -36,15 +36,10 @@ class WelcomeController extends Controller
 
     public function wizFour() {
 
-        $objectives = Auth::user()->department->objectives;
+        $objectives = Auth::user()->department->logicModel->lmComponents;
         $programs = Auth::user()->programs ?? null;
         $programMembers = User::where('added_by', Auth::user()->id)->get() ?? null;
-        $currentUser = Auth::user()->first()->toArray(); // Get the current user's data as an array
-
-        // Merge the arrays but put $currentUser as a single element in the $programManagers array
-        $programManagers = array_merge($programMembers->toArray(), [$currentUser]); // Wrap $currentUser in an array
-
-        return view('signin.wiz4', compact('objectives', 'programs', 'programMembers', 'programManagers'));
+        return view('signin.wiz4', compact('objectives', 'programs', 'programMembers'));
 
     }
 

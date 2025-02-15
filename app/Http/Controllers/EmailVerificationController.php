@@ -20,7 +20,7 @@ class EmailVerificationController extends Controller
      */
     public function verify(EmailVerificationRequest $request)
     {
-        $request->fulfill(); // Mark the user as verified
+        $request->fulfill();
         return redirect()->route('welcome', ['locale' => app()->getLocale()])
         ->with('success', 'Your email has been verified!');
     }

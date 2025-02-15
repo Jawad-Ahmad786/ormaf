@@ -145,30 +145,20 @@ jQuery(document).ready(function() {
                             <div class="card card-height-100">
                                 <div class="card-header align-items-center d-flex">
                                     <h4 class="card-title mb-0 flex-grow-1">Programs & Sub-Programs</h4>
-                                    <div class="flex-shrink-0">
-                                        <div class="dropdown card-header-dropdown">
-                                            <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <span class="text-muted"><i class="ri-settings-4-line align-middle me-1 fs-15"></i>Settings</span>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-end">
-                                                <a class="dropdown-item" href="#">Edit</a>
-                                                <a class="dropdown-item" href="#">Remove</a>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div><!-- end card header -->
 
                                 <div class="card-body p-0">
 
                                     <div class="align-items-center p-3 justify-content-between d-flex">
-                                        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#exampleModalgrid"><i class="ri-add-line align-middle me-1"></i> Add Program</button>
+                                        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#programsModal"><i class="ri-add-line align-middle me-1"></i> Add Program</button>
 
 										<!-- Modal Start -->
-									<div class="modal fade" id="exampleModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel">
+									<div class="modal fade" id="programsModal" tabindex="-1" aria-labelledby="programsModalLabel">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalgridLabel">Add Program</h5>
+                                                    <h5 class="modal-title" id="programsModalLabel">Add Program</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
@@ -197,7 +187,7 @@ jQuery(document).ready(function() {
                                                             <!-- Checkbox for Sub-Programs -->
                                                                 <div class="col-lg-12">
                                                                     <div class="form-check mb-2">
-                                                                        <input name="parent" type="checkbox" class="form-check-input" id="parent">
+                                                                        <input name="has_subprograms" type="checkbox" class="form-check-input" id="parent">
                                                                         <label class="form-check-label" for="parent">This Program has Sub-Programs</label>
                                                                     </div>
                                                                     <span class="text-danger" id="parentError"></span>
@@ -208,7 +198,7 @@ jQuery(document).ready(function() {
                                                                     <label for="manager" class="form-label">Program Manager</label>
                                                                    <select class="form-select" name="manager" id="manager">
                                                                         <option value="">Choose...</option>
-                                                                        @foreach ($programManagers as $manager)
+                                                                        @foreach ($programMembers as $manager)
                                                                             <option value="{{ $manager['id'] }}">{{ $manager['first_name'] }}</option>
                                                                         @endforeach
                                                                     </select>
@@ -247,52 +237,195 @@ jQuery(document).ready(function() {
 										<!-- Modal End -->
 
                                     </div>
-
                                     <!-- end card header -->
 
-                                      <ul class="list-group list-group-flush border-dashed px-3">
-                                       @if($programs)
+                                     <ul class="list-group list-group-flush border-dashed px-3">
+                                        @if($programs)
                                             @foreach ($programs as $program)
                                                 <li class="list-group-item d-flex align-items-center justify-content-between">
                                                     <div>
                                                         <label class="form-check-label fw-bold mb-0">{{ $program->name }}</label>
                                                     </div>
-
                                                     <div>
-                                                        @if($program->parent)
+                                                        @if($program->has_subprograms)
                                                             <button data-bs-toggle="modal" data-bs-target="#subProgramsModal_{{$program->id}}" class="btn btn-info btn-sm me-2">Add Subprogram</button>
                                                         @endif
-                                                        <button class="btn btn-danger btn-sm me-2">
-                                                            <i class="ri-delete-bin-fill align-middle"></i>
+                                                        <button type="button" class="btn btn-link text-warning p-0" data-bs-toggle="modal" data-bs-target="#updateProgramModal_{{ $program->id }}" title="Edit">
+                                                            <i class="ri-edit-line"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-link text-danger p-0 delete-program" data-id="{{ $program->id }}" title="Delete">
+                                                            <i class="ri-delete-bin-fill align-bottom me-2"></i>
                                                         </button>
                                                     </div>
                                                 </li>
-                                                <div class="modal fade" id="subProgramsModal_{{$program->id}}" tabindex="-1" aria-labelledby="subProgramsModal">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="subProgamsModal">Add Sub Program</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <form class="subProgramForm" method="post" action="{{ route('subprogram.store', ['locale' => app()->getLocale()]) }}">
-                                                                @csrf
-                                                                <input type="hidden" name="program_id" class="programIdInput" value="{{ $program->id }}">
-                                                                <input name="name" type="text" class="form-control" placeholder="Enter Sub Program Name">
-                                                                <span class="text-danger" id="nameError"></span><br>
-                                                                <button type="submit" class="mt-3 btn btn-primary">Submit</button>
-                                                            </form>
-                                                            </div>
-                                                              </div>
+
+                                                <!-- Loop through subprograms -->
+                                                @if($program->subprograms->count() > 0)
+                                                    <ul class="list-group ms-4">
+                                                        @foreach ($program->subprograms as $subprogram)
+                                                            <li class="list-group-item d-flex align-items-center justify-content-between">
+                                                                <div>
+                                                                    <label class="form-check-label fw-bold mb-0">{{ $subprogram->name }}</label>
                                                                 </div>
-                                                                  </div>
-                                            @endforeach
-                                          @else
+                                                                <div>
+                                                                    <button type="button" class="btn btn-link text-warning p-0 edit-subprogram" data-bs-toggle="modal" data-bs-target="#updateSubProgramModal_{{$subprogram->id}}" title="Edit">
+                                                                        <i class="ri-edit-line"></i>
+                                                                    </button>
+                                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#deleteSubProgramModal_{{ $subprogram->id }}" class="btn btn-link text-danger p-0 delete-subprogram" data-id="{{ $subprogram->id }}" title="Delete">
+                                                                        <i class="ri-delete-bin-fill align-bottom me-2"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </li>
+                                                             <!-- Update SubProgram Modal -->
+                                                 <div class="modal fade" id="updateSubProgramModal_{{$subprogram->id}}" tabindex="-1" aria-labelledby="updateSubProgramModal">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Update Sub Program</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form id="updateSubProgramForm" method="post" action="{{ route('subprogram.update', ['locale' => app()->getLocale(), $subprogram->id]) }}">
+                                                                    @csrf
+                                                                    <input type="hidden" id="subProgramId" class="subProgramIdInput" value="{{ $subprogram->id }}">
+                                                                    <input name="name" value="{{ $subprogram->name }}" type="text" class="form-control" placeholder="Enter Sub Program Name">
+                                                                    <span class="text-danger" id="nameError"></span><br>
+                                                                    <button type="submit" class="mt-3 btn btn-primary">Submit</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                     <!-- Delete SubProgram Modal -->
+                                               <div class="modal fade" id="deleteSubProgramModal_{{$subprogram->id}}" tabindex="-1" aria-labelledby="deleteSubProgramModal">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Delete Sub Program</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>Are you sure you want to delete this sub-program?</p>
+                                                                <form id="deleteSubProgramForm" method="post" action="{{ route('subprogram.destroy', ['locale' => app()->getLocale(), $subprogram->id]) }}">
+                                                                    @csrf
+                                                                    <div class="text-end">
+                                                                        <input type="hidden" id="deleteSubProgramId" value="{{$subprogram->id}}">
+                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                        @endforeach
+                                                    </ul>
+                                                @endif
+
+                                                <!-- Subprogram Modal -->
+                                                <div class="modal fade" id="subProgramsModal_{{$program->id}}" tabindex="-1" aria-labelledby="subProgramsModal">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Add Sub Program</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form class="subProgramForm" method="post" action="{{ route('subprogram.store', ['locale' => app()->getLocale()]) }}">
+                                                                    @csrf
+                                                                    <input type="hidden" name="program_id" class="programIdInput" value="{{ $program->id }}">
+                                                                    <input name="name" type="text" class="form-control" placeholder="Enter Sub Program Name">
+                                                                    <span class="text-danger" id="nameError"></span><br>
+                                                                    <button type="submit" class="mt-3 btn btn-primary">Submit</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                    <!-- Update Program Modal -->
+                                        <div class="modal fade" id="updateProgramModal_{{ $program->id }}" tabindex="-1" aria-labelledby="updateProgramModalLabel">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="updateProgramModalLabel">Update Program</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form id="updateProgramForm" method="post" action="{{ route('program.update', ['locale' => app()->getLocale(), $program->id]) }}">
+                                                            @csrf
+                                                            <div class="row g-3">
+                                                                <div class="col-xxl-6">
+                                                                    <label for="name" class="form-label">Program Name</label>
+                                                                    <input name="name" value="{{$program->name}}" type="text" class="form-control" id="name" placeholder="Enter Program Name">
+                                                                    <input type="hidden" value="{{$program->id}}" id="programId">
+                                                                    <span class="text-danger" id="nameError"></span>
+                                                                </div>
+
+                                                                <div class="col-xxl-6">
+                                                                    <label for="objective_id" class="form-label">Program Alignment to Strategic Outcome</label>
+                                                                    <select class="form-select" id="objective_id" name="objective">
+                                                                        <option value="">Select...</option>
+                                                                        @foreach ($objectives as $objective)
+                                                                            <option {{ $program->logic_model_component_id == $objective->id ? 'selected' : '' }} value="{{ $objective->id }}">{{ $objective->name }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                    <span class="text-danger" id="objectiveError"></span>
+                                                                </div>
+
+                                                                <div class="col-lg-12">
+                                                                    <div class="form-check mb-2">
+                                                                        <input name="has_subprograms" {{ $program->has_subprograms ? 'checked' : '' }} type="checkbox" class="form-check-input" id="has_subprograms">
+                                                                        <label class="form-check-label" for="has_subprograms">This Program has Sub-Programs</label>
+                                                                    </div>
+                                                                    <span class="text-danger" id="parentError"></span>
+                                                                </div>
+
+                                                                <div class="col-xxl-6">
+                                                                    <label for="manager" class="form-label">Program Manager</label>
+                                                                    <select class="form-select" name="manager" id="manager">
+                                                                        @foreach ($programMembers as $manager)
+                                                                            <option value="{{ $manager['id'] }}" {{ $program->manager_id == $manager['id'] ? 'selected' : '' }}>
+                                                                                {{ $manager['first_name'] }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-xxl-6">
+                                                                    <label for="members" class="form-label">Program Members</label>
+                                                                    <select class="form-select" name="members[]" id="members" multiple>
+                                                                        @foreach ($programMembers as $member)
+                                                                            <option value="{{ $member->id }}" {{ in_array($member->id, $program->members->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                                                                {{ $member->first_name }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-xxl-6">
+                                                                    <label for="value" class="form-label">Program Value</label>
+                                                                    <input type="number" class="form-control" name="value" id="value" value="{{ $program->value }}" placeholder="Enter value">
+                                                                    <span class="text-danger" id="valueError"></span>
+                                                                </div>
+
+                                                                <div class="col-lg-12">
+                                                                    <div class="hstack gap-2 justify-content-end">
+                                                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                        @else
                                             <li class="list-group-item text-center text-muted">
                                                 No programs available.
                                             </li>
                                         @endif
                                     </ul>
+
                                     <!-- end ul -->
                                 </div><!-- end card body -->
                             </div>
@@ -745,7 +878,7 @@ jQuery(document).ready(function() {
 
         success: function (response) {
             // Close the modal on success
-            $('#exampleModalgrid').modal('hide');
+            $('#programsModal').modal('hide');
             alert(response.message); // Show success message
             location.reload(); // Reload the page
         },
@@ -823,6 +956,129 @@ $(document).on('click', '.nexttab', function () {
     let nextUrl = $(this).data('nexttab'); // Get the URL for the next step
     window.location.href = nextUrl; // Redirect to the next step
 });
+
+$(document).on('submit', 'form#updateProgramForm', function (e) {
+    e.preventDefault();
+    let form = $(this);
+    let programId = $('#programId').val();
+    let locale = "{{ app()->getLocale() }}";
+    let url = form.attr('action');
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: form.serialize(),
+        dataType: 'json',
+        success: function (response) {
+            $(`#updateProgramModal_${programId}`).modal('hide');
+            alert(response.message);
+            location.reload();
+        },
+        error: function (xhr) {
+            if (xhr.status === 422) {
+                let errors = xhr.responseJSON.errors;
+                $('#nameError').text(errors.name ? errors.name[0] : '');
+                $('#objectiveError').text(errors.objective ? errors.objective[0] : '');
+                $('#parentError').text(errors.has_subprograms ? errors.has_subprograms[0] : '');
+                $('#valueError').text(errors.value ? errors.value[0] : '');
+            } else {
+                alert('An error occurred: ' + (xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Unknown error'));
+            }
+        }
+    });
+});
+$(document).on('click', '.delete-program', function (){
+
+    let programId = $(this).data('id');
+    let locale = "{{app()->getLocale()}}";
+    let url = `/${locale}/program/destroy/${programId}`;
+    let token = $('meta[name="csrf-token"]').attr('content');
+    let listItem = $(this).closest('.list-group-item');
+
+ if(confirm("Are you sure you want to delete this program?")) {
+    $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
+                _token: token,
+            },
+        success: function(response) {
+                alert(response.message);
+            if (response.success) {
+                    // Remove the main program <li> and any nested <ul> containing subprograms
+                    listItem.next('ul').fadeOut(300, function () {
+                        $(this).remove();
+                    });
+                    listItem.fadeOut(300, function () {
+                        $(this).remove();
+                    });
+                }
+            },
+        error: function(xhr) {
+        }
+    });
+ }
+});
+    $(document).on('submit', 'form#updateSubProgramForm', function (e) {
+    e.preventDefault();
+    let form = $(this);
+    let subProgramId = $('#subProgramId').val();
+    let locale = "{{ app()->getLocale() }}";
+    let url = form.attr('action');
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: form.serialize(),
+        dataType: 'json',
+        success: function (response) {
+            $(`#updateSubProgramModal_${subProgramId}`).modal('hide');
+            alert(response.message);
+            location.reload();
+        },
+        error: function (xhr) {
+            if (xhr.status === 422) {
+                let errors = xhr.responseJSON.errors;
+                $('#nameError').text(errors.name ? errors.name[0] : '');
+            } else {
+                alert('An error occurred: ' + (xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Unknown error'));
+            }
+        }
+    });
+});
+
+$('#deleteSubprogramForm').on('submit', function (e) {
+
+    e.preventDefault();
+    let subProgramId = $('#deleteSubProgramId').val();
+    console.log('delete sub prog id: ', subProgramId);
+    let form = $(this);
+    let url = form.attr('action');
+    let formData = form.serialize();
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: formData,
+
+        success: function (response) {
+            // Close the modal on success
+            $('#deleteSubProgramModal_${subProgramId}').modal('hide');
+            alert(response.message); // Show success message
+            location.reload(); // Reload the page
+        },
+        error: function (response) {
+            // Clear all previous error messages
+            $('.text-danger').remove(); // Remove all old error spans
+         // Handle general errors (e.g., status 500)
+            if (response.status === 500) {
+                alert(response.responseJSON.message); // Display the general error message
+            }
+        },
+    });
+});
+
+
 </script>
 @endsection
 @push('scripts')
