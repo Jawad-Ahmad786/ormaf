@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TeamMembers\StoreRequest;
 use App\Http\Requests\TeamMembers\UpdateRequest;
-use App\Models\LogicModel;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class TeamMembersController extends Controller
 {
@@ -19,7 +19,6 @@ class TeamMembersController extends Controller
         DB::beginTransaction();
 
         try {
-
             $data = $request->validated();
             $data['terms_conditions'] = $request->terms_conditions ? 1 : 0;
             $subscription = Auth::user()->subscription;
@@ -27,9 +26,14 @@ class TeamMembersController extends Controller
             $subscription->save();
             $limit = $subscription->user_create_limits;
 
-            if ($limit < 0) {
+        if ($limit < 0) {
                return response()->json(['error' => 'Your limit for creating members exceeds'], 400);
               }
+
+           if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('Users', 'public');
+                $data['image'] = $imagePath;
+            }
 
            $user = User::create([
                'country_id' => $data['country'],
@@ -42,6 +46,7 @@ class TeamMembersController extends Controller
                'zip_code' => $data['zip_code'],
                'address' => $data['address'],
                'added_by' => Auth::user()->id,
+               'image' => $data['image'] ?? null,
                'terms_conditions' => $data['terms_conditions']
            ]);
 
@@ -50,7 +55,7 @@ class TeamMembersController extends Controller
 
            return response()->json([
                'success' => true,
-               'message' => 'Member has been added successfully'
+               'message' => 'Member added successfully'
            ]);
         }
        catch(\Exception $e) {
@@ -72,7 +77,6 @@ class TeamMembersController extends Controller
     public function update(UpdateRequest $request,$locale, User $user) {
 
         $data = $request->validated();
-
       if(is_null($request->password)) {
         unset($data['password']);
       }
@@ -80,11 +84,22 @@ class TeamMembersController extends Controller
         $data['password'] = Hash::make($data['password']);
       }
 
+      if ($request->hasFile('image')) {
+        if ($user->image) {
+            $oldImagePath = $user->getRawOriginal('image');
+            if ($oldImagePath && Storage::disk('public')->exists($oldImagePath)) {
+                Storage::disk('public')->delete($oldImagePath);
+            }
+        }
+        $imagePath = $request->file('image')->store('Users', 'public');
+        $data['image'] = $imagePath;
+    }
+
       $user->update($data);
 
       return response()->json([
         'success' => true,
-         'message' => 'User Updated Successfully'
+         'message' => 'Member Updated Successfully'
       ]);
     }
     public function destroy(string $locale, User $user) {
@@ -93,10 +108,16 @@ class TeamMembersController extends Controller
 
         if ($user->added_by === $currentUser->id) {
 
-            $user->members()->detach();
+            $user->programMembers()->detach();
+            $user->subprogramMembers()->detach();
+         if($user->image) {
+            $imagePath = $user->getRawOriginal('image');
+            if ($imagePath && Storage::disk('public')->exists($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
+         }
             $user->delete();
 
-            // Increment user_create_limits
             $currentUser->subscription->user_create_limits += 1;
             $currentUser->subscription->save();
 

@@ -30,7 +30,7 @@ class logicModelComponentsController extends Controller
         ]);
      }
         return response()->json([
-            'message' => 'Objective has been added successfully'
+            'message' => 'Objective added successfully'
         ]);
     }
 
@@ -52,7 +52,7 @@ class logicModelComponentsController extends Controller
         ]);
      }
      return response()->json([
-        'message' => 'Objective has been updated successfully'
+        'message' => 'Objective updated successfully'
     ]);
     }
 

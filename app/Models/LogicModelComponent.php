@@ -17,4 +17,7 @@ class LogicModelComponent extends Model
     public function program() {
         return $this->hasOne(Program::class);
     }
+    public function subProgram() {
+        return $this->hasOne(SubProgram::class);
+    }
 }

@@ -23,14 +23,13 @@ class ProgramsService {
             ]);
           }
           catch (\Exception $e) {
-            Log::error($e);  // Or use a more sophisticated logging system
             throw $e;
           }
     }
 
-    public function update(array $data, $programId) {
+    public function update(array $data, $program) {
         try {
-            Program::where('id', $programId)->update([
+            $program->update([
                 'name' => $data['name'],
                 'value' => $data['value'],
                 'manager_id' => Auth::user()->id,

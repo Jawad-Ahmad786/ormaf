@@ -53,9 +53,9 @@
                         @if (Route::has('login'))
                             <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                                 @auth
-                                    <a href="{{ url('/welcome') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Welcome</a>
+                                    <a href="{{ route('welcome', ['locale' => app()->getLocale()]) }}" class="btn btn-primary text-sm text-gray-700 dark:text-gray-500 underline">Welcome</a>
                                 @else
-                                    <a class="btn btn-primary" href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
+                                    <a href="{{ route('login') }}" class="btn btn-primary text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
                                 @endauth
                             </div>
                         @endif
@@ -264,7 +264,7 @@
                                                     </li>
                                                 </ul>
                                                 <div class="mt-4">
-                                                    <a href="modules.php" class="btn btn-soft-success w-100 waves-effect waves-light">Subscribe</a>
+                                                    <a href="{{ route('subscriptions.modules', [app()->getLocale()]) }}" class="btn btn-soft-success w-100 waves-effect waves-light">Subscribe</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -368,7 +368,7 @@
                                                     </li>
                                                 </ul>
                                                 <div class="mt-4">
-                                                    <a href="modules.php" class="btn btn-soft-success w-100 waves-effect waves-light">Subscribe</a>
+                                                    <a href="{{ route('subscriptions.modules', [app()->getLocale()]) }}" class="btn btn-soft-success w-100 waves-effect waves-light">Subscribe</a>
                                                 </div>
                                             </div>
                                         </div>

@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Program;
+use App\Models\SubProgram;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -10,15 +10,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('program_members', function (Blueprint $table) {
+        Schema::create('subprogram_members', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Program::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(SubProgram::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
     public function down(): void
     {
-        Schema::dropIfExists('program_members');
+        Schema::dropIfExists('subprogram_members');
     }
 };

@@ -22,7 +22,11 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-             'name' => ['required', 'max:255']
+            'name' => ['required', 'max:255'],
+            'objective' => ['required', 'exists:logic_model_components,id'],
+            'manager' => ['required', 'max:255'],
+            'value' => ['required', 'numeric', 'min:0'],
+            'members' => ['required', 'array']
         ];
     }
 }

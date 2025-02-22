@@ -1,31 +1,3 @@
-<?php
-// Move the `use` statement to the top of the file
-use ScssPhp\ScssPhp\Compiler;
-
-// Include the SCSS to CSS compilation logic (should ideally be done via Mix or a controller, not directly in Blade)
-$isScssConverted = false;
-
-if ($isScssConverted) {
-    // SCSS Compilation Logic (move this to a service or controller ideally)
-    require_once(base_path('scssphp/scss.inc.php'));
-
-    $compiler = new Compiler();
-    $compineCss = public_path("assets/css/app.min.css");
-    $sourceScss = resource_path("scss/config/default/app.scss");
-
-    $scssContents = file_get_contents($sourceScss);
-    $importPath = resource_path("scss/config/default");
-    $compiler->addImportPath($importPath);
-    $targetCss = $compineCss;
-
-    $css = $compiler->compile($scssContents);
-
-    if (!empty($css) && is_string($css)) {
-        file_put_contents($targetCss, $css);
-    }
-}
-?>
-
 <!doctype html>
 
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">

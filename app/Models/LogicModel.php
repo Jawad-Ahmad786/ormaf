@@ -17,4 +17,7 @@ class LogicModel extends Model
     public function program() {
         return $this->belongsTo(Program::class);
     }
+    public function subProgram() {
+        return $this->belongsTo(SubProgram::class);
+    }
 }

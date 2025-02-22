@@ -7,21 +7,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::table('programs', function (Blueprint $table) {
+         Schema::table('sub_programs', function (Blueprint $table) {
             $table->foreignIdFor(LogicModelComponent::class)->after('manager_id')->constrained();
-        });
+         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        //
+        Schema::table('sub_programs', function (Blueprint $table) {
+            $table->dropForeign(['logic_model_component_id']);
+            $table->dropColumn('logic_model_component_id');
+        });
     }
 };

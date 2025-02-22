@@ -32,7 +32,8 @@ class StoreRequest extends FormRequest
                 'country' => ['required', Rule::exists('countries', 'id')],
                 'state'   => ['required', Rule::exists('states', 'id')->where('country_id', $this->country)],
                 'city'    => ['required', Rule::exists('cities', 'id')->where('state_id', $this->state)],
-                'address'    => ['required']
+                'address'    => ['required'],
+                'image' => ['nullable', 'image', 'max:2048']
         ];
     }
 }

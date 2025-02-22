@@ -217,6 +217,15 @@
                                                                                         placeholder="Enter Zip Code">
                                                                                 </div>
 
+                                                                                  <div class="col-xxl-6">
+                                                                                    <label for="image"
+                                                                                        class="form-label">Image</label>
+                                                                                    <input type="file" name="image"
+                                                                                        class="form-control"
+                                                                                        id="image"
+                                                                                        >
+                                                                                </div>
+
                                                                                 <div class="col-lg-12">
                                                                                     <div
                                                                                         class="hstack gap-2 justify-content-end">
@@ -256,8 +265,7 @@
                                                                                 <td class="name">
                                                                                     <div class="d-flex align-items-center">
                                                                                         <div class="flex-shrink-0"><img
-                                                                                                src="{{ asset('assets/login/images/users/avatar-8.jpg') }}"
-                                                                                                alt=""
+                                                                                                src="{{ $member->image }}"
                                                                                                 class="avatar-xs rounded-circle">
                                                                                         </div>
                                                                                         <div class="flex-grow-1 ms-2 name">
@@ -357,6 +365,11 @@
                                                                                             <div class="col-xxl-6">
                                                                                                 <label for="zip_code" class="form-label">Zip Code</label>
                                                                                                 <input type="text" name="zip_code" class="form-control" id="zip_code">
+                                                                                            </div>
+
+                                                                                              <div class="col-xxl-6">
+                                                                                                <label for="image" class="form-label">Image</label>
+                                                                                                <input type="file" name="image" class="form-control" id="image">
                                                                                             </div>
 
                                                                                             <div class="col-lg-12">
@@ -469,61 +482,63 @@
                 }
             });
             $(document).on('click', '.previestab', function() {
-                let previousUrl = $(this).data('previous'); // Get the URL for the previous step
-                window.location.href = previousUrl; // Redirect to the previous step
+                let previousUrl = $(this).data('previous');
+                window.location.href = previousUrl;
             });
 
             $(document).on('click', '.nexttab', function() {
-                let nextUrl = $(this).data('nexttab'); // Get the URL for the next step
-                window.location.href = nextUrl; // Redirect to the next step
+                let nextUrl = $(this).data('nexttab');
+                window.location.href = nextUrl;
             });
             $('#addTeamMemberForm').on('submit', function(event) {
-                event.preventDefault(); // Prevent form from reloading the page
+        event.preventDefault();
 
-                // Clear previous errors
-                $('#errorMessages').empty();
+        $('#errorMessages').empty();
+        $('#imageError').text('');
 
-                var formData = $(this).serialize(); // Collect form data
+        var formData = new FormData(this);
 
-                $.ajax({
-                    url: $(this).attr('action'), // Get the form action URL
-                    method: 'POST',
-                    data: formData,
-                    success: function(response) {
-                        // If successful, you can handle redirection or close the modal
-                        if (response.success) {
-                            alert(response.message);
-                            $('#createMemberModal').modal('hide');
-                            location.reload();
-                        }
-                    },
-                    error: function(xhr) {
-                        // Handle validation errors
-                        var errors = xhr.responseJSON.errors;
-                        var errorHtml =
-                            '<div class="alert alert-danger alert-dismissible fade show" role="alert">';
-                        if (xhr.responseJSON.error) {
-                            errorHtml += '<strong>' + xhr.responseJSON.error + '</strong>';
-                        } else {
-                            // Loop through errors and show each one
-                            $.each(errors, function(field, messages) {
-                                $.each(messages, function(index, message) {
-                                    errorHtml += '<strong>' + message +
-                                        '</strong><br>';
-                                });
-                            });
-                        }
-                        errorHtml +=
-                            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
-                        errorHtml += '</div>';
-                        $('#errorMessages').html(errorHtml); // Display errors inside the modal
-                    }
-                });
-            });
+        $.ajax({
+            url: $(this).attr('action'),
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response.success) {
+                    alert(response.message);
+                    $('#createMemberModal').modal('hide');
+                    location.reload();
+                }
+            },
+            error: function(xhr) {
+                var errors = xhr.responseJSON.errors;
+                var errorHtml = '<div class="alert alert-danger alert-dismissible fade show" role="alert">';
+
+                if (xhr.responseJSON.error) {
+                    errorHtml += '<strong>' + xhr.responseJSON.error + '</strong>';
+                } else {
+                    $.each(errors, function(field, messages) {
+                        $.each(messages, function(index, message) {
+                            errorHtml += '<strong>' + message + '</strong><br>';
+
+                            if (field === 'image') {
+                                $('#imageError').text(message);
+                            }
+                        });
+                    });
+                }
+
+                errorHtml += '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                errorHtml += '</div>';
+                $('#errorMessages').html(errorHtml);
+            }
+        });
+    });
             $(document).on('click', '.edit-member', function() {
                 let memberId = $(this).data('id');
                 let locale = "{{ app()->getLocale() }}";
-                let url = `/${locale}/team-member/${memberId}/edit`; // Adjust the route as needed
+                let url = `/${locale}/team-member/${memberId}/edit`;
 
                 $.ajax({
                     url: url,
@@ -611,15 +626,16 @@
 
     let memberId = $('#updateMemberModal #member_id').val();
     let locale = "{{ app()->getLocale() }}";
-    let url = `/${locale}/team-member/${memberId}/update`; // Construct URL (no /update if using resource routes)
+    let url = `/${locale}/team-member/${memberId}/update`;
 
-
-    let formData = $(this).serialize();
+    let formData = new FormData(this);
 
     $.ajax({
         url: url,
-        type: 'POST', // Keep this as POST (because of the override)
+        type: 'POST',
         data: formData,
+        processData: false,
+        contentType: false,
         success: function(response) {
             if (response.success) {
                 alert(response.message);
@@ -630,11 +646,9 @@
             }
         },
         error: function(xhr, status, error) {
-            console.error("AJAX Error:", status, error, xhr); // Detailed error logging
-            alert('AJAX error updating member.');
+            alert('Error updating member.');
 
             if (xhr.responseJSON && xhr.responseJSON.errors) {
-                // Display validation errors (if any)
                 let errorHtml = "<ul>";
                 $.each(xhr.responseJSON.errors, function(key, value) {
                     errorHtml += "<li>" + value[0] + "</li>";
@@ -668,7 +682,6 @@ $(document).ready(function () {
                 location.reload();
             },
             error: function (xhr) {
-                console.error(xhr.responseText);
                 alert('Failed to delete the member.');
             }
         });

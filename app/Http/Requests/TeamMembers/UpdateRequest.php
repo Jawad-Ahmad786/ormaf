@@ -36,6 +36,7 @@ class UpdateRequest extends FormRequest
             'state_id' => ['required', Rule::exists('states', 'id')],
             'city_id' => ['required', Rule::exists('cities', 'id')],
             'address' => ['required'],
+            'image' => ['nullable', 'image', 'max:2048']
         ];
     }
 }

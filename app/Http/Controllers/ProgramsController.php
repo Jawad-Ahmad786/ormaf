@@ -48,9 +48,8 @@ class ProgramsController extends Controller
         $data = $request->validated();
         $data['has_subprograms'] = $request->has_subprograms ? 1 : 0;
 
-        $programUpdate = $this->programService->update($data, $program->id);
+        $programUpdate = $this->programService->update($data, $program);
 
-        // Add Team Members
       if($programUpdate){
 
         if ($request->has('members')) {
@@ -59,7 +58,7 @@ class ProgramsController extends Controller
          else {
             $program->members()->sync([]);
         }
-        if($data['has_subprograms'] && $program->subPrograms()->exists()){
+        if(!$data['has_subprograms'] && $program->subPrograms()->exists()){
             $program->subPrograms()->delete();
       }
       }
@@ -79,6 +78,7 @@ class ProgramsController extends Controller
 
         $program->members()->detach();
         $program->subPrograms()->delete();
+        $program->logicModel()->delete();
         $program->delete();
         return response()->json([
             'success' => true,

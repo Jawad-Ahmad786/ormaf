@@ -5,23 +5,21 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
     public static function boot()
     {
         parent::boot();
 
-        // Listen to the 'verified' event
         static::updated(function ($user) {
             if ($user->hasVerifiedEmail()) {
-                // Update the related subscription when email is verified
                 $user->subscription()->update([
                     'is_verified_user' => 1,
                 ]);
@@ -29,11 +27,6 @@ class User extends Authenticatable implements MustVerifyEmail
         });
     }
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'first_name',
         'last_name',
@@ -45,14 +38,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'city_id',
         'address',
         'added_by',
-        'terms_conditions'
+        'terms_conditions',
+        'image',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
@@ -78,14 +67,23 @@ class User extends Authenticatable implements MustVerifyEmail
     public function programs() {
         return $this->hasMany(Program::class, 'manager_id');
     }
-    public function members() {
+    public function subPrograms() {
+        return $this->hasMany(SubProgram::class, 'manager_id');
+    }
+    public function programMembers() {
         return $this->belongsToMany(Program::class, 'program_members');
     }
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+    public function subprogramMembers() {
+        return $this->belongsToMany(SubProgram::class, 'subprogram_members');
+    }
+
+    protected function image(): Attribute
+{
+    return Attribute::make(
+        get: fn ($value) => asset('storage/' . $value),
+    );
+}
+
     protected function casts(): array
     {
         return [

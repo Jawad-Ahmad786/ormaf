@@ -34,7 +34,7 @@
 								<h5>Well Done !</h5>
 								<p class="lead text-muted lh-base">You have Successfully Set up your Organization</p>
 								<div class="d-flex gap-2 justify-content-center mt-4">
-									<a href="summary-dh.php" class="btn btn-primary">Get Started <i class="ri-arrow-right-line align-middle ms-1"></i></a>
+									<a href="{{ route('dashboard', ['locale' => app()->getLocale()]) }}" class="btn btn-primary">Get Started <i class="ri-arrow-right-line align-middle ms-1"></i></a>
 								</div>
 							</div>
 						</div>

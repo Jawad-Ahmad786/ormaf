@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\DepartmentsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\DepartmentsController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SubscriptionController;
@@ -12,7 +13,7 @@ use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\LocationsController;
 use App\Http\Controllers\logicModelComponentsController;
 use App\Http\Controllers\ProgramsController;
-use App\Http\Controllers\SubProgramController;
+use App\Http\Controllers\SubProgramsController;
 use App\Http\Controllers\TeamMembersController;
 
 // Login/Logout Routes
@@ -76,34 +77,38 @@ Route::prefix('{locale}')->middleware(['locale'])->group(function () {
         Route::get('wiz4', [WelcomeController::class, 'wizFour'])->name('wiz4');
         Route::get('wiz-end', [WelcomeController::class, 'wizEnd'])->name('wiz.end');
 
-    // Subscription Routes
-        Route::get('subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions.index');
-        Route::get('subscriptions/modules', [SubscriptionController::class, 'modules'])->name('subscriptions.modules');
-        Route::get('subscriptions/plans', [SubscriptionController::class, 'plans'])->name('subscriptions.plans');
-        Route::get('subscriptions/info', [SubscriptionController::class, 'info'])->name('subscriptions.info');
-
     // Department Routes
         Route::post('department/update/{department}', [DepartmentsController::class, 'update'])->name('department.update');
+
+         // Objectives
+         Route::post('objective/store', [logicModelComponentsController::class, 'store'])->name('objective.store');
+         Route::get('objective/edit/{logicModelComponent}', [logicModelComponentsController::class, 'edit'])->name('objective.edit');
+         Route::post('objective/update/{logicModelComponent}', [logicModelComponentsController::class, 'update'])->name('objective.update');
+         Route::post('objective/destroy/{logicModelComponent}', [logicModelComponentsController::class, 'destroy'])->name('objective.destroy');
+
+     // Programs
+         Route::post('program', [ProgramsController::class, 'store'])->name('program.store');
+         Route::post('program/update/{program}', [ProgramsController::class, 'update'])->name('program.update');
+         Route::post('program/destroy/{program}', [ProgramsController::class, 'destroy'])->name('program.destroy');
+
+     // Sub Programs
+     Route::post('subprogram', [SubProgramsController::class, 'store'])->name('subprogram.store');
+     Route::post('subprogram/update/{subprogram}', [SubProgramsController::class, 'update'])->name('subprogram.update');
+     Route::post('subprogram/destroy/{subprogram}', [SubProgramsController::class, 'destroy'])->name('subprogram.destroy');
+
+     // Dashboard
+     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     });
 
-    // Objectives
-        Route::post('objective/store', [logicModelComponentsController::class, 'store'])->name('objective.store');
-        Route::get('objective/edit/{logicModelComponent}', [logicModelComponentsController::class, 'edit'])->name('objective.edit');
-        Route::post('objective/update/{logicModelComponent}', [logicModelComponentsController::class, 'update'])->name('objective.update');
-        Route::post('objective/destroy/{logicModelComponent}', [logicModelComponentsController::class, 'destroy'])->name('objective.destroy');
+    // Subscription Routes
+ Route::prefix('subscriptions')->group(function () {
+    Route::get('/modules', [SubscriptionController::class, 'modules'])->name('subscriptions.modules');
+    Route::get('/plans', [SubscriptionController::class, 'plans'])->name('subscriptions.plans');
+    Route::get('/info', [SubscriptionController::class, 'info'])->name('subscriptions.info');
 
-    // Programs
-    Route::post('program', [ProgramsController::class, 'store'])->name('program.store');
-    Route::post('program/update/{program}', [ProgramsController::class, 'update'])->name('program.update');
-    Route::post('program/destroy/{program}', [ProgramsController::class, 'destroy'])->name('program.destroy');
-
-    // Sub Programs
-    Route::post('subprogram', [SubProgramController::class, 'store'])->name('subprogram.store');
-    Route::post('subprogram/update/{SubProgram}', [SubProgramController::class, 'update'])->name('subprogram.update');
-    Route::post('subprogram/destroy/{SubProgram}', [SubProgramController::class, 'destroy'])->name('subprogram.destroy');
+ });
 
 });
-
 // Default Locale Redirect
 Route::get('/', function () {
     $locale = App::getLocale(); // Get the default locale

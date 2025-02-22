@@ -17,7 +17,7 @@ class WelcomeController extends Controller
     }
 
     public function wizOne() {
-        $department = Auth::user()->department;
+        $department = Auth::user()->department ?? null;
         return view('signin.wiz1', compact('department'));
     }
 
@@ -44,6 +44,22 @@ class WelcomeController extends Controller
     }
 
     public function wizEnd() {
+
+        $objectives = Auth::user()->department->logicModel->lmComponents ?? null;
+        $teamMembers = User::where('added_by', Auth::user()->id)->get() ?? null;
+        $programs = Auth::user()->programs ?? null;
+
+    if(count($objectives) == 0) {
+        return redirect()->route('wiz2', ['locale' => app()->getLocale()]);
+    } 
+
+    if(count($teamMembers) == 0) {
+        return redirect()->route('wiz3', ['locale' => app()->getLocale()]);
+    }
+
+    if(count($programs) == 0) {
+        return redirect()->route('wiz4', ['locale' => app()->getLocale()]);
+    }   
 
         return view('signin.wizend');
 
