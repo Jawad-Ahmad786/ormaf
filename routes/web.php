@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CheckoutController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DepartmentsController;
@@ -107,6 +108,11 @@ Route::prefix('{locale}')->middleware(['locale'])->group(function () {
     Route::get('/info', [SubscriptionController::class, 'info'])->name('subscriptions.info');
 
  });
+
+//  Stripe Checkout
+Route::get('checkout/{priceId}', [CheckoutController::class, 'checkout'])->name('checkout');
+Route::get('success', [CheckoutController::class, 'success'])->name('checkout.success');
+Route::get('cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
 
 });
 // Default Locale Redirect

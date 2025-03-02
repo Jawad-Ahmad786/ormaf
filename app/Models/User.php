@@ -9,23 +9,11 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Cashier\Billable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable;
-
-    public static function boot()
-    {
-        parent::boot();
-
-        static::updated(function ($user) {
-            if ($user->hasVerifiedEmail()) {
-                $user->subscription()->update([
-                    'is_verified_user' => 1,
-                ]);
-            }
-        });
-    }
+    use HasFactory, Notifiable, Billable;
 
     protected $fillable = [
         'first_name',
