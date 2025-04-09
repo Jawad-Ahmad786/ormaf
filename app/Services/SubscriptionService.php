@@ -20,6 +20,7 @@ class SubscriptionService {
                 'pending_extend_years' => 1,
                 'user_craete_limits' => 3,
                 'free_trial' => 1,
+                'type' => 'free'
         ]);
 
     }

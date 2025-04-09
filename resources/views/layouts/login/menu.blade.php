@@ -1,4 +1,2 @@
-<?php
-	include 'topbar.php';
-	include 'sidebar.php';
-?>
+	@include ('layouts.login.topbar');
+	@include ('layouts.login.sidebar');

@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Country::class)->constrained();
-            $table->foreignIdFor(State::class)->constrained();
-            $table->foreignIdFor(City::class)->constrained();
+            $table->foreignIdFor(Country::class)->nullable()->constrained();
+            $table->foreignIdFor(State::class)->nullable()->constrained();
+            $table->foreignIdFor(City::class)->nullable()->constrained();
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('address');
-            $table->string('zip_code');
+            $table->string('password')->nullable();
+            $table->string('address')->nullable();
+            $table->string('zip_code')->nullable();
             $table->integer('added_by')->nullable();
             $table->boolean('terms_conditions')->default(0);
             $table->string('image')->nullable();

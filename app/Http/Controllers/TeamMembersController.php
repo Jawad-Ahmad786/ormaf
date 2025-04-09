@@ -36,15 +36,9 @@ class TeamMembersController extends Controller
             }
 
            $user = User::create([
-               'country_id' => $data['country'],
-               'state_id'  => $data['state'],
-               'city_id' => $data['city'],
                'first_name' => $data['first_name'],
                'last_name' => $data['last_name'],
                'email' => $data['email'],
-               'password' => $data['password'],
-               'zip_code' => $data['zip_code'],
-               'address' => $data['address'],
                'added_by' => Auth::user()->id,
                'image' => $data['image'] ?? null,
                'terms_conditions' => $data['terms_conditions']
@@ -77,12 +71,6 @@ class TeamMembersController extends Controller
     public function update(UpdateRequest $request,$locale, User $user) {
 
         $data = $request->validated();
-      if(is_null($request->password)) {
-        unset($data['password']);
-      }
-      else {
-        $data['password'] = Hash::make($data['password']);
-      }
 
       if ($request->hasFile('image')) {
         if ($user->image) {

@@ -67,13 +67,12 @@ class RegisterController extends Controller
 
             DB::commit();
 
-
         return redirect(route('login', ['locale' =>app()->getLocale()]));
 
     }
     catch(\Exception $e) {
         DB::rollBack();
-        return back()->with('error', $e->getMessage());
+        return back()->with('error', 'something went wrong');
      }
     }
 }

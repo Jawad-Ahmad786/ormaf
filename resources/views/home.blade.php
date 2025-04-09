@@ -264,7 +264,7 @@
                                                     </li>
                                                 </ul>
                                                 <div class="mt-4">
-                                                    <a href="{{ route('subscriptions.modules', [app()->getLocale()]) }}" class="btn btn-soft-success w-100 waves-effect waves-light">Subscribe</a>
+                                                    <a href="{{ route('subscription.modules', [app()->getLocale()]) }}" class="btn btn-soft-success w-100 waves-effect waves-light">Subscribe</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -368,7 +368,7 @@
                                                     </li>
                                                 </ul>
                                                 <div class="mt-4">
-                                                    <a href="{{ route('subscriptions.modules', [app()->getLocale()]) }}" class="btn btn-soft-success w-100 waves-effect waves-light">Subscribe</a>
+                                                    <a href="{{ route('subscription.modules', [app()->getLocale()]) }}" class="btn btn-soft-success w-100 waves-effect waves-light">Subscribe</a>
                                                 </div>
                                             </div>
                                         </div>

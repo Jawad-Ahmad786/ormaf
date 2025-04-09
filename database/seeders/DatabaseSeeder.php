@@ -8,14 +8,16 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
         $this->call([
                 LocationsSeeder::class,
-                LogicModelComponentTypesSeeder::class
+                LogicModelComponentTypesSeeder::class,
+                ModulesSeeder::class,
+                ModuleItemsSeeder::class,
+                PlansSeeder::class,
+                FeaturesSeeder::class,
+                ModulePlansSeeder::class
         ]);
 
     }

@@ -907,10 +907,10 @@ jQuery(document).ready(function() {
     <!-- END layout-wrapper -->
     <script>
     $('#programForm').on('submit', function (e) {
-    e.preventDefault(); 
+    e.preventDefault();
 
     let form = $(this);
-    let url = form.attr('action'); 
+    let url = form.attr('action');
     let formData = form.serialize();
 
     $.ajax({
@@ -920,11 +920,11 @@ jQuery(document).ready(function() {
 
         success: function (response) {
             $('#programsModal').modal('hide');
-            alert(response.message); 
+            alert(response.message);
             location.reload();
         },
         error: function (response) {
-            $('.text-danger').remove(); 
+            $('.text-danger').remove();
 
             if (response.status === 422) {
                 let errors = response.responseJSON.errors;
@@ -937,7 +937,7 @@ jQuery(document).ready(function() {
                 }
             }
             if (response.status === 500) {
-                alert("something went wrong"); 
+                alert("something went wrong");
             }
         },
     });
@@ -986,13 +986,13 @@ $(document).on('hidden.bs.modal', '.modal', function () {
 });
 
 $(document).on('click', '.previestab', function () {
-    let previousUrl = $(this).data('previous'); 
-    window.location.href = previousUrl; 
+    let previousUrl = $(this).data('previous');
+    window.location.href = previousUrl;
 });
 
 $(document).on('click', '.nexttab', function () {
-    let nextUrl = $(this).data('nexttab'); 
-    window.location.href = nextUrl; 
+    let nextUrl = $(this).data('nexttab');
+    window.location.href = nextUrl;
 });
 
 $(document).on('submit', 'form#updateProgramForm', function (e) {

@@ -14,7 +14,11 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(LogicModelComponentType::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(LogicModel::class)->constrained()->cascadeOnDelete();
+            $table->integer('section_id')->default(0);
             $table->string('name');
+            $table->boolean('pms_exist')->default(0);
+            $table->boolean('rm_exist')->default(0);
+            $table->boolean('default')->default(0);
             $table->timestamps();
         });
     }

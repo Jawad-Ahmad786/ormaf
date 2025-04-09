@@ -6,19 +6,19 @@
                 <div class="navbar-brand-box horizontal-logo">
                     <a href="summary-dh.php" class="logo logo-dark">
                         <span class="logo-sm">
-                            <img src="../assets/images/logo-sm.png" alt="" height="22">
+                            <img src="{{asset('assets/login/images/logo-sm.png')}}" alt="" height="22">
                         </span>
                         <span class="logo-lg">
-                            <img src="../assets/images/logo-dark.png" alt="" height="17">
+                            <img src="{{asset('assets/login/images/logo-dark.png')}}" alt="" height="17">
                         </span>
                     </a>
 
                     <a href="summary-dh.php" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="../assets/images/logo-sm.png" alt="" height="22">
+                            <img src="{{asset('assets/login/images/logo-sm.png')}}" alt="" height="22">
                         </span>
                         <span class="logo-lg">
-                            <img src="../assets/images/logo-light.png" alt="" height="17">
+                            <img src="{{asset('assets/login/images/logo-light.png')}}" alt="" height="17">
                         </span>
                     </a>
                 </div>
@@ -81,7 +81,7 @@
                                 <!-- item -->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
                                     <div class="d-flex">
-                                        <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                        <img src="{{asset('assets/login/images/users/avatar-2.jpg')}}" class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                         <div class="flex-grow-1">
                                             <h6 class="m-0">Angela Bernier</h6>
                                             <span class="fs-11 mb-0 text-muted">Manager</span>
@@ -91,7 +91,7 @@
                                 <!-- item -->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
                                     <div class="d-flex">
-                                        <img src="assets/images/users/avatar-3.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                        <img src="{{asset('assets/login/images/users/avatar-3.jpg')}}" class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                         <div class="flex-grow-1">
                                             <h6 class="m-0">David Grasso</h6>
                                             <span class="fs-11 mb-0 text-muted">Web Designer</span>
@@ -101,7 +101,7 @@
                                 <!-- item -->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
                                     <div class="d-flex">
-                                        <img src="assets/images/users/avatar-5.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                        <img src="{{asset('assets/login/images/users/avatar-5.jpg')}}" class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                         <div class="flex-grow-1">
                                             <h6 class="m-0">Mike Bunch</h6>
                                             <span class="fs-11 mb-0 text-muted">React Developer</span>
@@ -169,19 +169,19 @@
                             <div class="row g-0">
                                 <div class="col">
                                     <a class="dropdown-icon-item" href="paadept">
-                                        <img src="../assets/images/companies/img-2.png" alt="Github">
+                                        <img src="{{asset('assets/login/images/companies/img-2.png')}}" alt="Github">
                                         <span>Department</span>
                                     </a>
                                 </div>
                                 <div class="col">
                                     <a class="dropdown-icon-item" href="paaprogram">
-                                        <img src="../assets/images/companies/img-3.png" alt="bitbucket">
+                                        <img src="{{asset('assets/login/images/companies/img-3.png')}}" alt="bitbucket">
                                         <span>Programs</span>
                                     </a>
                                 </div>
                                 <div class="col">
                                     <a class="dropdown-icon-item" href="paaalignment">
-                                        <img src="../assets/images/companies/img-4.png" alt="dribbble">
+                                        <img src="{{asset('assets/login/images/companies/img-4.png')}}" alt="dribbble">
                                         <span>PAA</span>
                                     </a>
                                 </div>
@@ -190,19 +190,19 @@
                             <div class="row g-0">
                                 <div class="col">
                                     <a class="dropdown-icon-item" href="acc_visitors">
-                                        <img src="../assets/images/companies/img-5.png" alt="dropbox">
+                                        <img src="{{asset('assets/login/images/companies/img-5.png')}}" alt="dropbox">
                                         <span>Team</span>
                                     </a>
                                 </div>
                                 <div class="col">
                                     <a class="dropdown-icon-item" href="acc_visitors">
-                                        <img src="../assets/images/companies/img-6.png" alt="mail_chimp">
+                                        <img src="{{asset('assets/login/images/companies/img-6.png')}}" alt="mail_chimp">
                                         <span>Advisors</span>
                                     </a>
                                 </div>
                                 <div class="col">
                                     <a class="dropdown-icon-item" href="#!">
-                                        <img src="../assets/images/companies/img-1.png" alt="slack">
+                                        <img src="{{asset('assets/login/images/companies/img-1.png')}}" alt="slack">
                                         <span>Database</span>
                                     </a>
                                 </div>
@@ -284,7 +284,7 @@
 
                                     <div class="text-reset notification-item d-block dropdown-item position-relative">
                                         <div class="d-flex">
-                                            <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                            <img src="{{asset('assets/login/images/users/avatar-2.jpg')}}" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                             <div class="flex-grow-1">
                                                 <a href="#!" class="stretched-link">
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">Angela Bernier</h6>
@@ -333,7 +333,7 @@
 
                                     <div class="text-reset notification-item d-block dropdown-item position-relative">
                                         <div class="d-flex">
-                                            <img src="assets/images/users/avatar-8.jpg" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
+                                            <img src="{{asset('assets/login/images/users/avatar-8.jpg')}}" class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                             <div class="flex-grow-1">
                                                 <a href="#!" class="stretched-link">
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">Maureen Gibson</h6>
@@ -366,7 +366,7 @@
                                 <div data-simplebar style="max-height: 300px;" class="pe-2">
                                     <div class="text-reset notification-item d-block dropdown-item">
                                         <div class="d-flex">
-                                            <img src="assets/images/users/avatar-3.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                            <img src="{{asset('assets/login/images/users/avatar-3.jpg')}}" class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-grow-1">
                                                 <a href="#!" class="stretched-link">
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">James Lemire</h6>
@@ -389,7 +389,7 @@
 
                                     <div class="text-reset notification-item d-block dropdown-item">
                                         <div class="d-flex">
-                                            <img src="assets/images/users/avatar-2.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                            <img src="{{asset('assets/login/images/users/avatar-2.jpg')}}" class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-grow-1">
                                                 <a href="#!" class="stretched-link">
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">Angela Bernier</h6>
@@ -413,7 +413,7 @@
 
                                     <div class="text-reset notification-item d-block dropdown-item">
                                         <div class="d-flex">
-                                            <img src="assets/images/users/avatar-6.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                            <img src="{{asset('assets/login/images/users/avatar-6.jpg')}}" class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-grow-1">
                                                 <a href="#!" class="stretched-link">
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">Kenneth Brown</h6>
@@ -437,7 +437,7 @@
 
                                     <div class="text-reset notification-item d-block dropdown-item">
                                         <div class="d-flex">
-                                            <img src="assets/images/users/avatar-8.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                            <img src="{{asset('assets/login/images/users/avatar-8.jpg')}}" class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-grow-1">
                                                 <a href="#!" class="stretched-link">
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">Maureen Gibson</h6>
@@ -478,24 +478,23 @@
                 <div class="dropdown ms-sm-3 header-item topbar-user">
                     <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
-                            <img class="rounded-circle header-profile-user" src="../assets/images/users/avatar-8.jpg" alt="Header Avatar">
+                            <img class="rounded-circle header-profile-user" src="{{asset('assets/login/images/users/avatar-8.jpg')}}" alt="Header Avatar">
                             <span class="text-start ms-xl-2">
-                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"><?php 
-        $userOb = new classUser;
-        $userOb->setUserEmail($_SESSION['security']['email']);
-        echo ucwords($userOb->getFirstName().' '.$userOb->getLastName());
-        ?></span>
+                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">
+
+
+
+        {{ucfirst(auth()->user()->first_name.' '. auth()->user()->last_name)}}
+    </span>
                                 <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text"><?php if(isset($userInfo[0]['jobtitle'])){echo $userInfo[0]['jobtitle'];}?></span>
                             </span>
                         </span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-end">
                         <!-- item-->
-                        <h6 class="dropdown-header">Welcome <?php 
-        $userOb = new classUser;
-        $userOb->setUserEmail($_SESSION['security']['email']);
-        echo ucwords($userOb->getFirstName());
-        ?>!</h6>
+                        <h6 class="dropdown-header">Welcome
+         {{ ucwords(auth()->user()->first_name)}}
+        </h6>
                         <a class="dropdown-item" href="admin-profile"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
                         <a class="dropdown-item" href="apps-chat"><i class="mdi mdi-message-text-outline text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Messages</span></a>
                         <a class="dropdown-item" href="apps-tasks-kanban"><i class="mdi mdi-calendar-check-outline text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Taskboard</span></a>

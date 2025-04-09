@@ -102,10 +102,11 @@ Route::prefix('{locale}')->middleware(['locale'])->group(function () {
     });
 
     // Subscription Routes
- Route::prefix('subscriptions')->group(function () {
-    Route::get('/modules', [SubscriptionController::class, 'modules'])->name('subscriptions.modules');
-    Route::get('/plans', [SubscriptionController::class, 'plans'])->name('subscriptions.plans');
-    Route::get('/info', [SubscriptionController::class, 'info'])->name('subscriptions.info');
+ Route::prefix('subscription')->group(function () {
+    Route::get('/modules', [SubscriptionController::class, 'modules'])->name('subscription.modules');
+    Route::get('/plans', [SubscriptionController::class, 'plans'])->name('subscription.plans');
+    Route::post('selected-modules', [SubscriptionController::class, 'selectedModules'])->name('subscription.selected-plans');
+    Route::get('/info', [SubscriptionController::class, 'info'])->name('subscription.info');
 
  });
 

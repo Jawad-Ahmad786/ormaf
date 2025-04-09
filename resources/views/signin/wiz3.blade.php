@@ -104,7 +104,6 @@
                                                                             aria-label="Close"></button>
                                                                     </div>
                                                                     <div class="modal-body">
-                                                                        <!-- Error messages will be displayed here -->
                                                                         <div id="errorMessages"></div>
                                                                         <form id="addTeamMemberForm" method="post"
                                                                             action="{{ route('team-member.store', ['locale' => app()->getLocale()]) }}">
@@ -139,93 +138,6 @@
                                                                                         class="form-control" id="email"
                                                                                         placeholder="Enter Email">
                                                                                 </div>
-
-                                                                                <div class="col-xxl-6">
-                                                                                    <label for="passwordInput"
-                                                                                        class="form-label">Password</label>
-                                                                                    <input type="password" name="password"
-                                                                                        class="form-control"
-                                                                                        id="passwordInput"
-                                                                                        placeholder="Enter password">
-                                                                                </div>
-
-                                                                                <div class="col-xxl-6">
-                                                                                    <label for="confirmPasswordInput"
-                                                                                        class="form-label">Confirm
-                                                                                        Password</label>
-                                                                                    <input type="password"
-                                                                                        name="password_confirmation"
-                                                                                        class="form-control"
-                                                                                        id="confirmPasswordInput"
-                                                                                        placeholder="Confirm password">
-                                                                                </div>
-
-                                                                                <!-- Country Dropdown -->
-                                                                                <div class="col-xxl-6">
-                                                                                    <label for="country"
-                                                                                        class="form-label">Country</label>
-                                                                                    <select class="form-select"
-                                                                                        name="country" id="country">
-                                                                                        <option value="">Choose...
-                                                                                        </option>
-                                                                                        @foreach ($countries as $country)
-                                                                                            <option
-                                                                                                value="{{ $country->id }}">
-                                                                                                {{ $country->name }}
-                                                                                            </option>
-                                                                                        @endforeach
-                                                                                    </select>
-                                                                                </div>
-
-                                                                                <!-- State Dropdown -->
-                                                                                <div class="col-xxl-6">
-                                                                                    <label for="state"
-                                                                                        class="form-label">State</label>
-                                                                                    <select name="state" id="state"
-                                                                                        class="form-select">
-                                                                                        <option value="">Choose...
-                                                                                        </option>
-                                                                                    </select>
-                                                                                </div>
-
-                                                                                <!-- City Dropdown -->
-                                                                                <div class="col-xxl-6">
-                                                                                    <label for="city"
-                                                                                        class="form-label">City</label>
-                                                                                    <select name="city" id="city"
-                                                                                        class="form-select">
-                                                                                        <option value="">Choose...
-                                                                                        </option>
-                                                                                    </select>
-                                                                                </div>
-
-                                                                                <div class="col-xxl-6">
-                                                                                    <label for="address"
-                                                                                        class="form-label">Address</label>
-                                                                                    <input type="text" name="address"
-                                                                                        class="form-control"
-                                                                                        id="address"
-                                                                                        placeholder="Enter Address">
-                                                                                </div>
-
-                                                                                <div class="col-xxl-6">
-                                                                                    <label for="zip_code"
-                                                                                        class="form-label">Zip Code</label>
-                                                                                    <input type="text" name="zip_code"
-                                                                                        class="form-control"
-                                                                                        id="zip_code"
-                                                                                        placeholder="Enter Zip Code">
-                                                                                </div>
-
-                                                                                  <div class="col-xxl-6">
-                                                                                    <label for="image"
-                                                                                        class="form-label">Image</label>
-                                                                                    <input type="file" name="image"
-                                                                                        class="form-control"
-                                                                                        id="image"
-                                                                                        >
-                                                                                </div>
-
                                                                                 <div class="col-lg-12">
                                                                                     <div
                                                                                         class="hstack gap-2 justify-content-end">
@@ -329,49 +241,6 @@
                                                                                                 <label for="email" class="form-label">Email</label>
                                                                                                 <input type="email" name="email" class="form-control" id="email">
                                                                                             </div>
-                                                                                            <div class="col-xxl-6">
-                                                                                                <label for="password" class="form-label">Password</label>
-                                                                                                <input type="password" name="password" class="form-control" id="password" >
-                                                                                            </div>
-                                                                                            <div class="col-xxl-6">
-                                                                                                <label for="password_confirmation" class="form-label">Confirm Password</label>
-                                                                                                <input type="password" name="password_confirmation" class="form-control" id="password_confirmation" >
-                                                                                            </div>
-                                                                                            <div class="col-xxl-6">
-                                                                                                <label for="country" class="form-label">Country</label>
-                                                                                                <select class="form-select" name="country_id" id="country">
-                                                                                                    <option value="">Choose...</option>
-                                                                                                    @foreach ($countries as $country)
-                                                                                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
-                                                                                                    @endforeach
-                                                                                                </select>
-                                                                                            </div>
-                                                                                            <div class="col-xxl-6">
-                                                                                                <label for="state" class="form-label">State</label>
-                                                                                                <select name="state_id" id="state" class="form-select">
-                                                                                                    <option value="">Choose...</option>
-                                                                                                </select>
-                                                                                            </div>
-                                                                                            <div class="col-xxl-6">
-                                                                                                <label for="city" class="form-label">City</label>
-                                                                                                <select name="city_id" id="city" class="form-select">
-                                                                                                    <option value="">Choose...</option>
-                                                                                                </select>
-                                                                                            </div>
-                                                                                            <div class="col-xxl-6">
-                                                                                                <label for="address" class="form-label">Address</label>
-                                                                                                <input type="text" name="address" class="form-control" id="address">
-                                                                                            </div>
-                                                                                            <div class="col-xxl-6">
-                                                                                                <label for="zip_code" class="form-label">Zip Code</label>
-                                                                                                <input type="text" name="zip_code" class="form-control" id="zip_code">
-                                                                                            </div>
-
-                                                                                              <div class="col-xxl-6">
-                                                                                                <label for="image" class="form-label">Image</label>
-                                                                                                <input type="file" name="image" class="form-control" id="image">
-                                                                                            </div>
-
                                                                                             <div class="col-lg-12">
                                                                                                 <div class="hstack gap-2 justify-content-end">
                                                                                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
@@ -550,67 +419,7 @@
                             $('#updateMemberModal #firstName').val(member.first_name);
                             $('#updateMemberModal #lastName').val(member.last_name);
                             $('#updateMemberModal #email').val(member.email);
-                            $('#updateMemberModal #address').val(member.address);
-                            $('#updateMemberModal #zip_code').val(member.zip_code);
-                            $('#updateMemberModal #country').val(member.country_id).trigger(
-                                'change');
-
-                            $('#updateMemberModal #country').on('change', function() {
-                                const countryId = $(this).val();
-                                let locale = "{{ app()->getLocale() }}";
-                                $('#updateMemberModal #state').html(
-                                    '<option value="">Choose...</option>');
-                                $('#updateMemberModal #city').html(
-                                    '<option value="">Choose...</option>');
-                                let url = `/${locale}/locations/states/${countryId}`;
-
-                                if (countryId) {
-                                    $.ajax({
-                                        url: url,
-                                        type: 'GET',
-                                        success: function(states) {
-                                            states.forEach(state => {
-                                                $('#updateMemberModal #state')
-                                                    .append(
-                                                        `<option value="${state.id}">${state.name}</option>`
-                                                        );
-                                            });
-                                            $('#updateMemberModal #state')
-                                                .val(member.state_id)
-                                                .trigger('change');
-                                        }
-                                    });
-                                }
-                            });
-
-                            $('#updateMemberModal #state').on('change', function() {
-                                const stateId = $(this).val();
-                                let locale = "{{ app()->getLocale() }}";
-                                $('#updateMemberModal #city').html(
-                                    '<option value="">Choose...</option>');
-                                let url = `/${locale}/locations/cities/${stateId}`;
-
-                                if (stateId) {
-                                    $.ajax({
-                                        url: url,
-                                        type: 'GET',
-                                        success: function(cities) {
-                                            cities.forEach(city => {
-                                                $('#updateMemberModal #city')
-                                                    .append(
-                                                        `<option value="${city.id}">${city.name}</option>`
-                                                        );
-                                            });
-                                            $('#updateMemberModal #city')
-                                                .val(member.city_id);
-                                        }
-                                    });
-                                }
-                            });
-
                             $('#updateMemberModal').modal('show');
-
-                            $('#updateMemberModal #country').trigger('change');
 
                         } else {
                             alert(response.message || 'Error fetching member data.');
