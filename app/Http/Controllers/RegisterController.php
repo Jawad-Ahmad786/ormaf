@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Country;
-use App\Http\Requests\Signup\StoreRequest;
-use App\Http\Requests\Signup\UpdateRequest;
+use App\Http\Requests\Register\StoreRequest;
 use App\Models\LogicModel;
 use App\Services\DepartmentService;
+use App\Services\RegisterService;
 use App\Services\SubscriptionService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
@@ -20,10 +17,13 @@ class RegisterController extends Controller
 
     protected DepartmentService $departmentService;
 
-    public function __construct(SubscriptionService $subscriptionService, DepartmentService $departmentService)
+    protected RegisterService $registerService;
+
+    public function __construct(SubscriptionService $subscriptionService, DepartmentService $departmentService, RegisterService $registerService)
     {
         $this->departmentService = $departmentService;
         $this->subscriptionService= $subscriptionService;
+        $this->registerService = $registerService;
     }
 
     public function create() {
@@ -31,6 +31,7 @@ class RegisterController extends Controller
         return view('auth.free_signup', compact('countries'));
 
     }
+
     public function store(StoreRequest $request)
     {
         DB::beginTransaction();
@@ -40,18 +41,7 @@ class RegisterController extends Controller
         $data = $request->validated();
         $data['terms_conditions'] = $request->terms_conditions ? 1 : 0;
 
-        $user = User::create([
-            'country_id' => $data['country'],
-            'state_id'  => $data['state'],
-            'city_id' => $data['city'],
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'email' => $data['email'],
-            'password' => $data['password'],
-            'zip_code' => $data['zip_code'],
-            'address' => $data['address'],
-            'terms_conditions' => $data['terms_conditions']
-        ]);
+           $user = $this->registerService->store($data);
 
     // Create Subscription
             $this->subscriptionService->store($user->id);

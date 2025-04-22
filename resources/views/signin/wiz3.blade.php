@@ -222,134 +222,129 @@
                                                                                                 data-bs-dismiss="modal"
                                                                                                 aria-label="Close"></button>
                                                                                         </div>
-                                                                                 <div class="modal-body">
-                                                                                    <form id="updtateTeamMemberForm" method="POST" action="" data-id="{{ $member->id }}">
-                                                                                        @csrf
-                                                                                        @method('PUT')
-                                                                                        <div class="row g-3">
-                                                                                        <div id="updateErrorMessages" class="text-danger"></div>
-                                                                                            <div class="col-xxl-6">
-                                                                                                <label for="firstName" class="form-label">First Name</label>
-                                                                                                <input type="hidden" id="member_id">
-                                                                                                <input type="text" name="first_name" class="form-control" id="firstName">
-                                                                                            </div>
-                                                                                            <div class="col-xxl-6">
-                                                                                                <label for="lastName" class="form-label">Last Name</label>
-                                                                                                <input type="text" name="last_name" class="form-control" id="lastName">
-                                                                                            </div>
-                                                                                            <div class="col-xxl-6">
-                                                                                                <label for="email" class="form-label">Email</label>
-                                                                                                <input type="email" name="email" class="form-control" id="email">
-                                                                                            </div>
-                                                                                            <div class="col-lg-12">
-                                                                                                <div class="hstack gap-2 justify-content-end">
-                                                                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                                                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                                                        <div class="modal-body">
+                                                                                            <form
+                                                                                                id="updtateTeamMemberForm"
+                                                                                                method="POST"
+                                                                                                action=""
+                                                                                                data-id="{{ $member->id }}">
+                                                                                                @csrf
+                                                                                                @method('PUT')
+                                                                                                <div class="row g-3">
+                                                                                                    <div id="updateErrorMessages"
+                                                                                                        class="text-danger">
+                                                                                                    </div>
+                                                                                                    <div class="col-xxl-6">
+                                                                                                        <label
+                                                                                                            for="firstName"
+                                                                                                            class="form-label">First
+                                                                                                            Name</label>
+                                                                                                        <input
+                                                                                                            type="hidden"
+                                                                                                            id="member_id">
+                                                                                                        <input
+                                                                                                            type="text"
+                                                                                                            name="first_name"
+                                                                                                            class="form-control"
+                                                                                                            id="firstName">
+                                                                                                    </div>
+                                                                                                    <div class="col-xxl-6">
+                                                                                                        <label
+                                                                                                            for="lastName"
+                                                                                                            class="form-label">Last
+                                                                                                            Name</label>
+                                                                                                        <input
+                                                                                                            type="text"
+                                                                                                            name="last_name"
+                                                                                                            class="form-control"
+                                                                                                            id="lastName">
+                                                                                                    </div>
+                                                                                                    <div class="col-xxl-6">
+                                                                                                        <label
+                                                                                                            for="email"
+                                                                                                            class="form-label">Email</label>
+                                                                                                        <input
+                                                                                                            type="email"
+                                                                                                            name="email"
+                                                                                                            class="form-control"
+                                                                                                            id="email">
+                                                                                                    </div>
+                                                                                                    <div class="col-lg-12">
+                                                                                                        <div
+                                                                                                            class="hstack gap-2 justify-content-end">
+                                                                                                            <button
+                                                                                                                type="button"
+                                                                                                                class="btn btn-light"
+                                                                                                                data-bs-dismiss="modal">Close</button>
+                                                                                                            <button
+                                                                                                                type="submit"
+                                                                                                                class="btn btn-primary">Update</button>
+                                                                                                        </div>
+                                                                                                    </div>
                                                                                                 </div>
-                                                                                            </div>
+                                                                                            </form>
                                                                                         </div>
-                                                                                    </form>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                            </div>
                                                                         @endforeach
-                                                                        @endif
-                                                                        </tbody>
-                                                                        </table>
+                                                                    @endif
+                                                                </tbody>
+                                                            </table>
 
-                                                                          </div>
-                                                </div>
-                                            </div><!-- end card body -->
+                                                        </div>
+                                                    </div>
+                                                </div><!-- end card body -->
+                                            </div>
+                                            <!-- end card -->
                                         </div>
-                                        <!-- end card -->
+                                        <!-- end col -->
                                     </div>
-                                    <!-- end col -->
+                                    <!-- end card body -->
                                 </div>
-                                <!-- end card body -->
+                                <!-- end card -->
                             </div>
-                            <!-- end card -->
+                            <!-- end col -->
                         </div>
-                        <!-- end col -->
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h6 class="card-title mb-0"><i class=" ri-stack-line align-middle me-1 lh-1"></i> Programs
-                                Alignment Architecture (PAA)</h6>
-                        </div>
-                        <div class="card-body">
-                            <p class="text-muted">A Program Alignment Architecture (PAA) is an inventory of programs and
-                                activities describing their linkages to the Department's Strategic Outcomes. All Programs
-                                within a Department are expected to be reflected in its PAA and their Performance
-                                Measurement and Risk Management Strategies should be based on how it is defined in the PAA.
-                                As the first step for effective management of performance and risks, it is important to
-                                understand your Programs in the context of your departmental Strategic Outcomes and PAA.</p>
-                        </div>
-                        <div class="card-footer">
-                            <div class="hstack gap-2 justify-content-end">
-                                <a href="javascript:void(0)" class="btn btn-link btn-sm link-success"><i
-                                        class="ri-close-line align-middle lh-1"></i> Close</a>
-                                <a href="javascript:void(0);" class="btn btn-primary btn-sm">Read More</a>
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="card-title mb-0"><i class=" ri-stack-line align-middle me-1 lh-1"></i> Programs
+                                    Alignment Architecture (PAA)</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted">A Program Alignment Architecture (PAA) is an inventory of programs
+                                    and
+                                    activities describing their linkages to the Department's Strategic Outcomes. All
+                                    Programs
+                                    within a Department are expected to be reflected in its PAA and their Performance
+                                    Measurement and Risk Management Strategies should be based on how it is defined in the
+                                    PAA.
+                                    As the first step for effective management of performance and risks, it is important to
+                                    understand your Programs in the context of your departmental Strategic Outcomes and PAA.
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="hstack gap-2 justify-content-end">
+                                    <a href="javascript:void(0)" class="btn btn-link btn-sm link-success"><i
+                                            class="ri-close-line align-middle lh-1"></i> Close</a>
+                                    <a href="javascript:void(0);" class="btn btn-primary btn-sm">Read More</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- end container -->
+                <!-- end container -->
 
+            </div>
+            <!-- End Page-content -->
         </div>
-        <!-- End Page-content -->
-    </div>
-    <!-- end main content-->
+        <!-- end main content-->
 
     </div>
     <!-- END layout-wrapper -->
     <script>
         $(document).ready(function() {
-            // When the country is selected
-            $('#country').on('change', function() {
-                const countryId = $(this).val();
-                let locale = "{{ app()->getLocale() }}"; // Get the locale from Laravel
-                $('#state').html('<option value="">Choose...</option>');
-                $('#city').html('<option value="">Choose...</option>');
-                let url = `/${locale}/locations/states/${countryId}`;
 
-                if (countryId) {
-                    $.ajax({
-                        url: url,
-                        type: 'GET',
-                        success: function(states) {
-                            states.forEach(state => {
-                                $('#state').append(
-                                    `<option value="${state.id}">${state.name}</option>`
-                                    );
-                            });
-                        }
-                    });
-                }
-            });
-
-            // When the state is selected
-            $('#state').on('change', function() {
-                const stateId = $(this).val();
-                let locale = "{{ app()->getLocale() }}"; // Get the locale from Laravel
-                $('#city').html('<option value="">Choose...</option>');
-                let url = `/${locale}/locations/cities/${stateId}`;
-
-                if (stateId) {
-                    $.ajax({
-                        url: url,
-                        type: 'GET',
-                        success: function(cities) {
-                            cities.forEach(city => {
-                                $('#city').append(
-                                    `<option value="${city.id}">${city.name}</option>`
-                                    );
-                            });
-                        }
-                    });
-                }
-            });
             $(document).on('click', '.previestab', function() {
                 let previousUrl = $(this).data('previous');
                 window.location.href = previousUrl;
@@ -360,50 +355,53 @@
                 window.location.href = nextUrl;
             });
             $('#addTeamMemberForm').on('submit', function(event) {
-        event.preventDefault();
+                event.preventDefault();
 
-        $('#errorMessages').empty();
-        $('#imageError').text('');
+                $('#errorMessages').empty();
+                $('#imageError').text('');
 
-        var formData = new FormData(this);
+                var formData = new FormData(this);
 
-        $.ajax({
-            url: $(this).attr('action'),
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                if (response.success) {
-                    alert(response.message);
-                    $('#createMemberModal').modal('hide');
-                    location.reload();
-                }
-            },
-            error: function(xhr) {
-                var errors = xhr.responseJSON.errors;
-                var errorHtml = '<div class="alert alert-danger alert-dismissible fade show" role="alert">';
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message);
+                            $('#createMemberModal').modal('hide');
+                            location.reload();
+                        }
+                    },
+                    error: function(xhr) {
+                        var errors = xhr.responseJSON.errors;
+                        var errorHtml =
+                            '<div class="alert alert-danger alert-dismissible fade show" role="alert">';
 
-                if (xhr.responseJSON.error) {
-                    errorHtml += '<strong>' + xhr.responseJSON.error + '</strong>';
-                } else {
-                    $.each(errors, function(field, messages) {
-                        $.each(messages, function(index, message) {
-                            errorHtml += '<strong>' + message + '</strong><br>';
+                        if (xhr.responseJSON.error) {
+                            errorHtml += '<strong>' + xhr.responseJSON.error + '</strong>';
+                        } else {
+                            $.each(errors, function(field, messages) {
+                                $.each(messages, function(index, message) {
+                                    errorHtml += '<strong>' + message +
+                                        '</strong><br>';
 
-                            if (field === 'image') {
-                                $('#imageError').text(message);
-                            }
-                        });
-                    });
-                }
+                                    if (field === 'image') {
+                                        $('#imageError').text(message);
+                                    }
+                                });
+                            });
+                        }
 
-                errorHtml += '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
-                errorHtml += '</div>';
-                $('#errorMessages').html(errorHtml);
-            }
-        });
-    });
+                        errorHtml +=
+                            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                        errorHtml += '</div>';
+                        $('#errorMessages').html(errorHtml);
+                    }
+                });
+            });
             $(document).on('click', '.edit-member', function() {
                 let memberId = $(this).data('id');
                 let locale = "{{ app()->getLocale() }}";
@@ -430,73 +428,73 @@
                     }
                 });
             });
-   $('#updtateTeamMemberForm').on('submit', function(event) {
-    event.preventDefault();
+            $('#updtateTeamMemberForm').on('submit', function(event) {
+                event.preventDefault();
 
-    let memberId = $('#updateMemberModal #member_id').val();
-    let locale = "{{ app()->getLocale() }}";
-    let url = `/${locale}/team-member/${memberId}/update`;
+                let memberId = $('#updateMemberModal #member_id').val();
+                let locale = "{{ app()->getLocale() }}";
+                let url = `/${locale}/team-member/${memberId}/update`;
 
-    let formData = new FormData(this);
+                let formData = new FormData(this);
 
-    $.ajax({
-        url: url,
-        type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response) {
-            if (response.success) {
-                alert(response.message);
-                $('#updateMemberModal').modal('hide');
-                location.reload();
-            } else {
-                alert(response.message || 'Error updating member.');
-            }
-        },
-        error: function(xhr, status, error) {
-            alert('Error updating member.');
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message);
+                            $('#updateMemberModal').modal('hide');
+                            location.reload();
+                        } else {
+                            alert(response.message || 'Error updating member.');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Error updating member.');
 
-            if (xhr.responseJSON && xhr.responseJSON.errors) {
-                let errorHtml = "<ul>";
-                $.each(xhr.responseJSON.errors, function(key, value) {
-                    errorHtml += "<li>" + value[0] + "</li>";
+                        if (xhr.responseJSON && xhr.responseJSON.errors) {
+                            let errorHtml = "<ul>";
+                            $.each(xhr.responseJSON.errors, function(key, value) {
+                                errorHtml += "<li>" + value[0] + "</li>";
+                            });
+                            errorHtml += "</ul>";
+                            $('#updateErrorMessages').html(errorHtml);
+                        }
+                    }
                 });
-                errorHtml += "</ul>";
-                $('#updateErrorMessages').html(errorHtml);
-            }
-        }
-    });
-});
-  });
-$(document).ready(function () {
-  $(document).on('click', '.delete-member', function () {
-
-    let memberId = $(this).data('id');
-    console.log('Member id: ', memberId);
-    let locale = "{{ app()->getLocale() }}";
-    let token = $('meta[name="csrf-token"]').attr('content');
-    let url = `/${locale}/team-member/destroy/${memberId}`;
-
-    if (confirm('Are you sure you want to delete this member?')) {
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: {
-                _token: token,
-            },
-            success: function (response) {
-                $(`#member-${memberId}`).remove();
-                alert(response.message);
-                location.reload();
-            },
-            error: function (xhr) {
-                alert('Failed to delete the member.');
-            }
+            });
         });
-    }
-});
-});
+        $(document).ready(function() {
+            $(document).on('click', '.delete-member', function() {
+
+                let memberId = $(this).data('id');
+                console.log('Member id: ', memberId);
+                let locale = "{{ app()->getLocale() }}";
+                let token = $('meta[name="csrf-token"]').attr('content');
+                let url = `/${locale}/team-member/destroy/${memberId}`;
+
+                if (confirm('Are you sure you want to delete this member?')) {
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        data: {
+                            _token: token,
+                        },
+                        success: function(response) {
+                            $(`#member-${memberId}`).remove();
+                            alert(response.message);
+                            location.reload();
+                        },
+                        error: function(xhr) {
+                            alert('Failed to delete the member.');
+                        }
+                    });
+                }
+            });
+        });
     </script>
 @endsection
 @push('scripts')

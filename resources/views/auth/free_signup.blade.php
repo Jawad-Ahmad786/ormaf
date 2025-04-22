@@ -47,7 +47,7 @@
                                     <p class="text-muted">Create New Account</p>
                                 </div>
                                 <div class="px-lg-4">
-                                            <form method="post" action="{{ route('free-signup.store', ['locale' => app()->getLocale()]) }}">
+                                            <form method="post" action="{{ route('register.store', ['locale' => app()->getLocale()]) }}">
                                             @csrf
 											<div class="tab-content">
 												<div class="tab-pane fade  show active" id="v-pills-bill-info" role="tabpanel" aria-labelledby="v-pills-bill-info-tab">

@@ -48,9 +48,11 @@ Route::prefix('{locale}')->middleware(['locale'])->group(function () {
         Route::get('/', [RegisterController::class, 'create'])
             ->name('free-signup.create')
             ->middleware('guest');
-        Route::post('/', [RegisterController::class, 'store'])
-            ->name('free-signup.store');
     });
+
+    // Register Routes
+    Route::post('/', [RegisterController::class, 'store'])
+            ->name('register.store');
 
     // Team Members Routes
       Route::prefix('team-member')->group(function () {

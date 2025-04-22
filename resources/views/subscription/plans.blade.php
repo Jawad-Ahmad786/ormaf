@@ -63,144 +63,146 @@
                                 </div>
                             </div>
                         </div><!-- end card header -->
-                        <div class="card-body form-steps">
-                            <form class="vertical-navs-step">
-                                <div class="row gy-5">
-                                    <!-- end col-->
-                                    <div class="col-xl-9">
-                                        @foreach ($selectedModules as $module)
-                                            <div class="mb-4">
-                                                <h5 class="fw-bold text-primary">{{ $module->name }}</h5>
-                                                <div class="row">
-                                                    @foreach ($module->plans as $plan)
-                                                        @php
-                                                            $monthly = $plan->pivot->price;
-                                                            $annual = round($monthly * 12, 2);
-                                                            $discounted = round($annual * 0.75, 2);
-                                                        @endphp
-                                                        <div class="col-lg-4">
-                                                            <div class="card pricing-box">
-                                                                <div class="card-body p-4 m-2">
-                                                                    <div class="d-flex align-items-center">
-                                                                        <div class="flex-grow-1">
-                                                                            <h5 class="mb-1 fw-semibold">{{ $plan->name }}
-                                                                            </h5>
-                                                                            <small class="text-success">
-                                                                                @if ($plan->name == 'Basic')
-                                                                                    For Single User
-                                                                                @elseif ($plan->name == 'Standard')
-                                                                                    For Multi User
-                                                                                @else
-                                                                                    For Multi Department
-                                                                                @endif
-                                                                            </small>
-                                                                        </div>
-                                                                        <div class="avatar-sm">
-                                                                            <div
-                                                                                class="avatar-title bg-light rounded-circle text-primary">
-                                                                                <i class="ri-book-mark-line fs-20"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                      <div class="card-body form-steps">
+    <form class="vertical-navs-step">
+        <div class="row gy-5">
+            <!-- Main Plans Section -->
+            <div class="col-xl-9">
+                @foreach ($selectedModules as $module)
+                    <div class="mb-4" data-module="{{ $module->name }}">
+                        <h5 class="fw-bold text-primary">{{ $module->name }}</h5>
+                        <div class="row">
+                            @foreach ($module->plans as $plan)
+                                @php
+                                    $monthly = $plan->pivot->price;
+                                    $annual = round($monthly * 12, 2);
+                                    $discounted = round($annual * 0.75, 2);
+                                @endphp
+                                <div class="col-lg-4">
+                                    <div class="card pricing-box plan-card"
+                                        data-id="{{ $plan->id }}"
+                                        data-name="{{ $plan->name }}"
+                                        data-price="{{ $plan->pivot->price }}"
+                                        >
+                                        <div class="card-body p-4 m-2">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-grow-1">
+                                                    <h5 class="mb-1 fw-semibold">{{ $plan->name }}</h5>
+                                                    <small class="text-success">
+                                                        @if ($plan->name == 'Basic')
+                                                            For Single User
+                                                        @elseif ($plan->name == 'Standard')
+                                                            For Multi User
+                                                        @else
+                                                            For Multi Department
+                                                        @endif
+                                                    </small>
+                                                </div>
+                                                <div class="avatar-sm">
+                                                    <div class="avatar-title bg-light rounded-circle text-primary">
+                                                        <i class="ri-book-mark-line fs-20"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                                                    <div class="pt-3 text-center">
-                                                                        <div class="price-display">
-                                                                            <span class="price-amount h2 fw-bold"
-                                                                                data-monthly="{{ $monthly }}"
-                                                                                data-annual="{{ $annual }}"
-                                                                                data-discounted="{{ $discounted }}">
-                                                                                ${{ $monthly }}
-                                                                            </span>
-                                                                            <span
-                                                                                class="price-type fs-13 text-muted">/Month</span>
-                                                                        </div>
-                                                                        <div class="discount-badge d-none mt-1">
-                                                                            <span
-                                                                                class="text-decoration-line-through text-muted me-2 strike-price"></span>
-                                                                            <span class="badge bg-success">25% Off</span>
-                                                                        </div>
-                                                                    </div>
+                                            <div class="pt-3 text-center">
+                                                <div class="price-display">
+                                                    <span class="price-amount h2 fw-bold"
+                                                        data-monthly="{{ $monthly }}"
+                                                        data-annual="{{ $annual }}"
+                                                        data-discounted="{{ $discounted }}">
+                                                        ${{ $monthly }}
+                                                    </span>
+                                                    <span class="price-type fs-13 text-muted">/Month</span>
+                                                </div>
+                                                <div class="discount-badge d-none mt-1">
+                                                    <span class="text-decoration-line-through text-muted me-2 strike-price"></span>
+                                                    <span class="badge bg-success">25% Off</span>
+                                                </div>
+                                            </div>
 
-                                                                    <hr class="my-4 text-muted">
+                                            <hr class="my-4 text-muted">
 
-                                                                    <ul class="list-unstyled text-muted vstack gap-3">
-                                                                        @foreach ($plan->features as $feature)
-                                                                            <li>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="flex-shrink-0 text-{{ $feature->pivot->value === 'No' ? 'danger' : 'success' }} me-1">
-                                                                                        <i
-                                                                                            class="ri-{{ $feature->pivot->value === 'No' ? 'close' : 'checkbox' }}-circle-fill fs-15 align-middle"></i>
-                                                                                    </div>
-                                                                                    <div class="flex-grow-1">
-                                                                                        @if ($feature->pivot->value === 'Yes' || $feature->pivot->value === 'No')
-                                                                                            {{ $feature->name }}
-                                                                                        @else
-                                                                                            {{ $feature->pivot->value }}
-                                                                                        @endif
-                                                                                    </div>
-                                                                                </div>
-                                                                            </li>
-                                                                        @endforeach
-                                                                    </ul>
-
-                                                                    <div class="mt-4">
-                                                                        <a href="#"
-                                                                            class="btn btn-success w-100 waves-effect waves-light select-plan"
-                                                                            data-plan-name="{{ $plan->name }}"
-                                                                            data-plan-price="{{ $monthly }}">
-                                                                            Select
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
+                                            <ul class="list-unstyled text-muted vstack gap-3">
+                                                @foreach ($plan->features as $feature)
+                                                    <li>
+                                                        <div class="d-flex">
+                                                            <div class="flex-shrink-0 text-{{ $feature->pivot->value === 'No' ? 'danger' : 'success' }} me-1">
+                                                                <i class="ri-{{ $feature->pivot->value === 'No' ? 'close' : 'checkbox' }}-circle-fill fs-15 align-middle"></i>
+                                                            </div>
+                                                            <div class="flex-grow-1">
+                                                                @if ($feature->pivot->value === 'Yes' || $feature->pivot->value === 'No')
+                                                                    {{ $feature->name }}
+                                                                @else
+                                                                    {{ $feature->pivot->value }}
+                                                                @endif
                                                             </div>
                                                         </div>
-                                                    @endforeach
-                                                </div>
-                                        @endforeach
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+
+                                            <div class="mt-4">
+                                                <button type="button"
+                                                    class="btn btn-success w-100 waves-effect waves-light select-plan">
+                                                    Select
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
-
-                                <!--end row-->
-                        </div>
-                        <!-- end col -->
-
-                        <div class="col-lg-3">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="fs-14 text-primary mb-0"><i class="ri-shopping-cart-fill align-middle me-2"></i>
-                                    Your selection</h5>
-                                <span class="badge bg-danger rounded-pill">3</span>
-                            </div>
-                            <ul class="list-group mb-3">
-                                <li class="list-group-item d-flex justify-content-between bg-light">
-                                    <div class="text-success">
-                                        <h6 class="my-0">Discount</h6>
-                                    </div>
-                                    <span class="text-success">-$10.00</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Sub Total (USD)</span>
-                                    <strong id="subtotal">$0.00</strong>
-                                </li>
-                            </ul>
-
-                            <div class="d-flex align-items-start gap-3 mt-4">
-                                <a href="{{ route('subscription.info', ['locale' => app()->getLocale()]) }}"><button
-                                        type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab"
-                                        data-nexttab="v-pills-bill-address-tab"><i
-                                            class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Checkout</button></a>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
-                    <!-- end row -->
-                    </form>
+                @endforeach
+            </div>
+            <!-- End Main Plans Section -->
+
+            <!-- Sidebar Selection Summary -->
+            <div class="col-lg-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fs-14 text-primary mb-0">
+                        <i class="ri-shopping-cart-fill align-middle me-2"></i> Your Selection
+                    </h5>
+                    <span class="badge bg-danger rounded-pill" id="item-count">0</span>
+                </div>
+
+                <ul class="list-group mb-3" id="selected-items">
+                    <!-- Selected plans will appear here -->
+                </ul>
+
+                <ul class="list-group mb-3">
+                    <li class="list-group-item d-flex justify-content-between bg-light">
+                        <div class="text-success">
+                            <h6 class="my-0">Discount</h6>
+                        </div>
+                        <span class="text-success" id="discount">-$0.00</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Sub Total (USD)</span>
+                        <strong id="subtotal">$0.00</strong>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-start gap-3 mt-4">
+                    <a href="{{ route('subscription.info', ['locale' => app()->getLocale()]) }}" class="w-100">
+                        <button type="button" class="btn btn-success w-100 btn-label right nexttab"
+                            data-nexttab="v-pills-bill-address-tab">
+                            Checkout <i class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>
+                        </button>
+                    </a>
                 </div>
             </div>
+            <!-- End Sidebar Selection Summary -->
+
         </div>
-        <!-- end row -->
-    </div>
-    <!-- end container -->
+        <!-- End Row -->
+    </form>
+</div>
+
+            <!-- end row -->
+        </div>
+        <!-- end container -->
     </div>
     <!-- end auth page content -->
     </div>
@@ -217,15 +219,38 @@
     <!-- end auth page content -->
     </div>
     <script>
-        $(document).ready(function() {
+     $(document).ready(function() {
+    let isAnnual = "{{ $annualTab }}" === "true";
+    let selectedPlans = [];
 
-    const isAnnual = "{{ $annualTab }}" === "true";
+    // Load stored plans safely
+    let storedPlans = localStorage.getItem("selectedPlans");
+    if (storedPlans) {
+        try {
+            const parsedPlans = JSON.parse(storedPlans);
+            if (Array.isArray(parsedPlans)) {
+                selectedPlans = parsedPlans;
+            } else {
+                selectedPlans = [];
+            }
+        } catch (error) {
+            selectedPlans = [];
+        }
+    }
+
+    let storedIsAnnual = localStorage.getItem("isAnnual");
+    if (storedIsAnnual !== null) {
+        isAnnual = JSON.parse(storedIsAnnual);
+    }
+
+    function getMonthlyPrice($card) {
+        return parseFloat($card.data("price"));
+    }
 
     function updatePrices(showAnnual) {
         $(".price-amount").each(function() {
             const $this = $(this);
             const originalMonthly = parseFloat($this.data("monthly"));
-            console.log('Monthly Prices: ', originalMonthly);
             let displayPrice;
 
             if (showAnnual) {
@@ -245,105 +270,140 @@
         });
     }
 
-    // Initial load
-    if (isAnnual) {
-        updatePrices(true);
-    } else {
-        updatePrices(false);
+    function storeSelectedPlans() {
+        localStorage.setItem("selectedPlans", JSON.stringify(selectedPlans));
+        localStorage.setItem("isAnnual", JSON.stringify(isAnnual));
     }
+
+    function updateInvoice() {
+    let subtotal = 0;
+    let totalDiscountAmount = 0;
+    let itemCount = 0;
+    $("#selected-items").empty();
+
+    selectedPlans.forEach(plan => {
+        let $card = $(`.mb-4[data-module="${plan.module_name}"] .plan-card[data-name="${plan.plan_name}"]`);
+        if ($card.length > 0) {
+            const monthlyPrice = parseFloat($card.data("price"));
+            const originalAnnualPrice = monthlyPrice * 12;
+            const discountedAnnualPrice = originalAnnualPrice * 0.75;
+            const displayedPrice = isAnnual ? originalAnnualPrice : monthlyPrice;
+            const originalPriceForCalculation = isAnnual ? originalAnnualPrice : monthlyPrice;
+            const discount = isAnnual ? (originalAnnualPrice - discountedAnnualPrice) : 0;
+
+            subtotal += displayedPrice;
+            subtotal -= discount;
+            totalDiscountAmount += discount;
+            itemCount++;
+
+            $("#selected-items").append(`
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>${plan.module_name} - ${plan.plan_name}</span>
+                    <div>
+                        ${isAnnual ? `<strong class="ms-2">$${displayedPrice.toFixed(2)}</strong>` : `<strong>$${displayedPrice.toFixed(2)}</strong>`}
+                    </div>
+                </li>
+            `);
+        }
+    });
+
+    $("#subtotal").text(`$${subtotal.toFixed(2)}`);
+    $("#discount").text(`-$${totalDiscountAmount.toFixed(2)}`);
+    $("#total").text(`$${subtotal.toFixed(2)}`);
+    $("#item-count").text(itemCount);
+    localStorage.setItem("discount", JSON.stringify(totalDiscountAmount || 0));
+}
+
+    function restoreSelections() {
+        $(".plan-card").each(function() {
+            const $card = $(this);
+            const moduleName = $card.closest(".mb-4").data("module");
+            const planName = $card.data("name");
+
+            const isSelected = selectedPlans.some(plan => plan.module_name === moduleName && plan.plan_name === planName);
+
+            if (isSelected) {
+                $card.css("border", "2px solid green");
+                $card.find(".select-plan").text("Unselect");
+            } else {
+                $card.css("border", "none");
+                $card.find(".select-plan").text("Select");
+            }
+        });
+
+        updateInvoice();
+    }
+
+    function updateSelectedPlansPrices() {
+        const updatedPlans = selectedPlans.map(plan => {
+            const $card = $(`.mb-4[data-module="${plan.module_name}"] .plan-card[data-name="${plan.plan_name}"]`);
+            if ($card.length > 0) {
+                const monthlyPrice = getMonthlyPrice($card);
+                const updatedPrice = isAnnual ? monthlyPrice * 12 : monthlyPrice;
+                return { ...plan, price: updatedPrice };
+            }
+            return plan;
+        });
+        selectedPlans = updatedPlans;
+        storeSelectedPlans();
+        console.log('Updated Selected Plans in Storage: ', JSON.parse(localStorage.getItem('selectedPlans')));
+    }
+
+    // Initial load
+    updatePrices(isAnnual);
+    restoreSelections();
 
     // Toggle listeners
     $("#month-tab").on("click", function() {
+        isAnnual = false;
         updatePrices(false);
+        updateSelectedPlansPrices();
+        updateInvoice();
+        storeSelectedPlans();
     });
 
     $("#annual-tab").on("click", function() {
+        isAnnual = true;
         updatePrices(true);
+        updateSelectedPlansPrices();
+        updateInvoice();
+        storeSelectedPlans();
     });
 
+    $(".select-plan").on("click", function() {
+        let clickedCard = $(this).closest(".plan-card");
+        let planName = clickedCard.data("name");
+        let moduleName = clickedCard.closest(".mb-4").data("module");
+        const monthlyPrice = getMonthlyPrice(clickedCard);
+        const priceToStore = isAnnual ? monthlyPrice * 12 : monthlyPrice;
 
-            {{-- let selectedModules = JSON.parse(localStorage.getItem("selectedModules")) || {};
-    let selectedPlan = JSON.parse(localStorage.getItem("selectedPlan")) || null;
-    let isAnnual = localStorage.getItem("isAnnual") === "true"; // Check if annual billing is selected
-    let subtotal = 0;
-    let discount = 0;
+        const existingIndex = selectedPlans.findIndex(plan =>
+            plan.module_name === moduleName && plan.plan_name === planName
+        );
 
-    let invoiceList = $(".list-group.mb-3");
-    invoiceList.find(".dynamic-item").remove(); // Remove previous items
-
-    // ✅ Add Selected Plan to Invoice (if exists)
-    if (selectedPlan) {
-        let planPrice = parseFloat(selectedPlan.price);
-
-        // If annual is selected, multiply by 12 and apply 25% discount
-        if (isAnnual) {
-            discount += planPrice * 12 * 0.25;
-            planPrice = planPrice * 12 - discount;
+        if (existingIndex > -1) {
+            // Unselect
+            selectedPlans.splice(existingIndex, 1);
+            clickedCard.css("border", "none");
+            clickedCard.find(".select-plan").text("Select");
+        } else {
+            // Select
+            selectedPlans.push({
+                module_name: moduleName,
+                plan_name: planName,
+                price: priceToStore
+            });
+            clickedCard.css("border", "2px solid green");
+            clickedCard.find(".select-plan").text("Unselect");
         }
 
-        subtotal += planPrice;
-
-        let planItem = `
-            <li class="list-group-item d-flex justify-content-between lh-sm dynamic-item">
-                <div>
-                    <h6 class="my-0">${selectedPlan.name} Plan</h6>
-                </div>
-                <span class="text-muted">$${planPrice.toFixed(2)}</span>
-            </li>
-        `;
-
-        invoiceList.prepend(planItem);
-    }
-
-    // ✅ Add Selected Modules to Invoice
-    $.each(selectedModules, function (moduleId, module) {
-        let price = isAnnual ? module.annualPrice : module.monthlyPrice;
-        let discountAmount = isAnnual ? module.discountAmount : 0;
-
-        subtotal += price;
-        discount += discountAmount;
-
-        let moduleItem = `
-            <li class="list-group-item d-flex justify-content-between lh-sm dynamic-item">
-                <div>
-                    <h6 class="my-0">${module.name}</h6>
-                </div>
-                <span class="text-muted">$${price.toFixed(2)}</span>
-            </li>
-        `;
-
-        invoiceList.prepend(moduleItem);
+        storeSelectedPlans();
+        updateInvoice();
+        console.log('Selected Plans: ', JSON.parse(localStorage.getItem('selectedPlans')));
     });
-
-    // ✅ If no modules or plan selected, show message
-    if (!selectedPlan && Object.keys(selectedModules).length === 0) {
-        let emptyMessage = `
-            <li class="list-group-item text-center text-muted dynamic-item">
-                No plan or modules selected.
-            </li>
-        `;
-        invoiceList.prepend(emptyMessage);
-    }
-
-    // ✅ Update discount row
-    $(".bg-light .text-success").text(discount > 0 ? `-$${discount.toFixed(2)}` : "-$0.00");
-
-    // ✅ Update Subtotal
-    $("#subtotal").text(`$${(subtotal - discount).toFixed(2)}`);
-
-    // ✅ Store updated subtotal in localStorage
-    localStorage.setItem("subtotal", subtotal - discount);
 });
 
-// ✅ Function to Handle Plan Selection
-$(".select-plan").click(function () {
-    let planName = $(this).data("plan-name");
-    let planPrice = $(this).data("plan-price");
 
-    localStorage.setItem("selectedPlan", JSON.stringify({ name: planName, price: planPrice }));
-
-    // Reload to update invoice
-    location.reload(); --}}
-        });
     </script>
+
 @endsection

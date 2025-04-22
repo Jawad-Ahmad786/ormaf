@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Country;
 use App\Models\Module;
 
 class SubscriptionController extends Controller
@@ -37,6 +38,7 @@ class SubscriptionController extends Controller
 
     public function info()
     {
-        return view('subscription.info');
+        $countries = Country::all();
+        return view('subscription.info', compact('countries'));
     }
 }
