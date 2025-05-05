@@ -11,9 +11,6 @@ use App\Models\City;
 
 class LocationsSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
 

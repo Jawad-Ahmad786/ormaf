@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
                 ModulesSeeder::class,
                 ModuleItemsSeeder::class,
                 PlansSeeder::class,
+                PaymentMethodsSeeder::class,
                 FeaturesSeeder::class,
                 ModulePlansSeeder::class
         ]);

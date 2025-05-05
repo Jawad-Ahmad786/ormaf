@@ -40,7 +40,7 @@
                         </div>
                         <!-- end card header -->
                         <div class="card-body form-steps">
-                            <form class="vertical-navs-step" method="post" action="{{ route('register.store', app()->getLocale()) }}">
+                            <form id="registerForm" class="vertical-navs-step" action="{{ route('register.store', app()->getLocale()) }}">
                                 @csrf
                                 <div class="row gy-5">
                                     <div class="col-lg-3">
@@ -98,9 +98,7 @@
                                                                 <input type="text" name="first_name" class="form-control"
                                                                     id="firstName" placeholder="Enter first name"
                                                                     value="{{ old('first_name') }}">
-                                                                @error('first_name')
-                                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                                @enderror
+                                                                <div class="invalid-feedback" style="display: none;"></div>
                                                             </div>
 
                                                             <div class="col-sm-6">
@@ -108,9 +106,7 @@
                                                                 <input type="text" name="last_name" class="form-control"
                                                                     id="lastName" placeholder="Enter last name"
                                                                     value="{{ old('last_name') }}">
-                                                                @error('last_name')
-                                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                                @enderror
+                                                                <div class="invalid-feedback" style="display: none;"></div>
                                                             </div>
 
                                                             <div class="col-12">
@@ -119,11 +115,8 @@
                                                                     <span class="input-group-text">@</span>
                                                                     <input type="email" name="email"
                                                                         class="form-control" id="email"
-                                                                        placeholder="Email"
-                                                                        value="{{ old('email') }}">
-                                                                    @error('email')
-                                                                        <div class="invalid-feedback">{{ $message }}</div>
-                                                                    @enderror
+                                                                        placeholder="Email" value="{{ old('email') }}">
+                                                                    <div class="invalid-feedback" style="display: none;"></div>
                                                                 </div>
                                                             </div>
 
@@ -132,9 +125,7 @@
                                                                 <input type="password" name="password"
                                                                     class="form-control" id="password"
                                                                     placeholder="Password" />
-                                                                @error('password')
-                                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                                @enderror
+                                                                <div class="invalid-feedback" style="display: none;"></div>
                                                             </div>
                                                             <div class="col-6">
                                                                 <label for="password_confirmation"
@@ -142,9 +133,7 @@
                                                                 <input type="password" name="password_confirmation"
                                                                     class="form-control" id="password_confirmation"
                                                                     placeholder="Confirm Password" />
-                                                                @error('password')
-                                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                                @enderror
+                                                                <div class="invalid-feedback" style="display: none;"></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -154,7 +143,8 @@
                                                     <div class="form-check mb-2">
                                                         <input type="checkbox" class="form-check-input"
                                                             id="terms_conditions">
-                                                        <label class="form-check-label" for="terms_conditions">By continuing,
+                                                        <label class="form-check-label" for="terms_conditions">By
+                                                            continuing,
                                                             I agree to the ORMAF <a href="#">Terms and
                                                                 Conditions</a></label>
                                                     </div>
@@ -170,63 +160,59 @@
                                                     <div>
                                                         <div class="row g-3">
                                                             <div class="col-12">
-                                                                <label for="organization_name" class="form-label">Name</label>
-                                                                <input type="text" name="organization_name" class="form-control" id="organization_name"
+                                                                <label for="organization_name"
+                                                                    class="form-label">Name</label>
+                                                                <input type="text" name="organization_name"
+                                                                    class="form-control" id="organization_name"
                                                                     placeholder="Organization Name"
                                                                     value="{{ old('organization_name') }}">
-                                                              @error('organization_name')
-                                                                <div class="invalid-feedback">
-                                                                {{ $message }}
-                                                                </div>
-                                                              @enderror
+                                                                <div class="invalid-feedback" style="display: none;"></div>
                                                             </div>
 
                                                             <div class="col-12">
                                                                 <label for="address" class="form-label">Address</label>
-                                                                <input type="text" name="address" class="form-control" id="address"
-                                                                    placeholder="Address"
+                                                                <input type="text" name="address" class="form-control"
+                                                                    id="address" placeholder="Address"
                                                                     value="{{ old('address') }}" />
+                                                                <div class="invalid-feedback" style="display: none;"></div>
                                                             </div>
 
                                                             <div class="col-md-5">
-                                                               <label for="country" class="form-label">Country</label>
-                                                            <select class="form-select" name="country" id="country">
-                                                                <option value="">Choose...</option>
-                                                                @foreach ($countries as $country)
-                                                                    <option value="{{ $country->id }}">{{ $country->name }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                            @error('country')
-                                                                <div class="invalid-feedback">{{ $message }}</div>
-                                                            @enderror
+                                                                <label for="country" class="form-label">Country</label>
+                                                                <select class="form-select" name="country"
+                                                                    id="country">
+                                                                    <option value="">Choose...</option>
+                                                                    @foreach ($countries as $country)
+                                                                        <option value="{{ $country->id }}">
+                                                                            {{ $country->name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                <div class="invalid-feedback" style="display: none;"></div>
                                                             </div>
 
                                                             <div class="col-md-4">
                                                                 <label for="state" class="form-label">State</label>
-                                                            <select class="form-select" name="state" id="state">
-                                                                <option value="">Choose...</option>
-                                                            </select>
-                                                            @error('state')
-                                                                <div class="invalid-feedback">{{ $message }}</div>
-                                                            @enderror
+                                                                <select class="form-select" name="state"
+                                                                    id="state">
+                                                                    <option value="">Choose...</option>
+                                                                </select>
+                                                                <div class="invalid-feedback" style="display: none;"></div>
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <label for="city" class="form-label">City</label>
-                                                            <select class="form-select" name="city" id="city">
-                                                                <option value="">Choose...</option>
-                                                            </select>
-                                                            @error('city')
-                                                                <div class="invalid-feedback">{{ $message }}</div>
-                                                            @enderror
+                                                                <select class="form-select" name="city"
+                                                                    id="city">
+                                                                    <option value="">Choose...</option>
+                                                                </select>
+                                                                <div class="invalid-feedback" style="display: none;"></div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <label for="zip_code" class="form-label">Zip</label>
-                                                                <input type="text" name="zip_code" class="form-control" id="zip_code"
+                                                                <input type="text" name="zip_code"
+                                                                    class="form-control" id="zip_code"
                                                                     placeholder="Enter Zip Code"
                                                                     value="{{ old('zip_code') }}" />
-                                                                @error('zip_code')
-                                                                <div class="invalid-feedback">{{ $message }}</div>
-                                                            @enderror
+                                                                <div class="invalid-feedback" style="display: none;"></div>
                                                             </div>
                                                         </div>
 
@@ -248,7 +234,7 @@
                                                         <h5>Invoice</h5>
 
                                                     </div>
-                                                <ul class="list-group mb-3" id="selected-plans-list"></ul>
+                                                    <ul class="list-group mb-3" id="selected-plans-list"></ul>
                                                     <ul class="list-group mb-3">
                                                         <li
                                                             class="list-group-item d-flex justify-content-between bg-light">
@@ -291,44 +277,22 @@
                                                                 Payment Method</h5>
                                                         </div>
                                                         <ul class="list-group mb-3">
-                                                            <li
-                                                                class="list-group-item d-flex justify-content-between lh-sm">
-                                                                <div>
-                                                                    <input id="credit" name="paymentMethod"
-                                                                        type="radio" class="form-check-input"
-                                                                        value="stripe"
-                                                                        >
-                                                                    <label class="form-check-label" for="credit">Credit
-                                                                        card </label>
-                                                                </div>
-                                                                <small class="text-success">Powered by Stripe</small>
-                                                            </li>
-                                                            <li
-                                                                class="list-group-item d-flex justify-content-between lh-sm">
-                                                                <div>
-                                                                    <input id="paypal" name="paymentMethod"
-                                                                        type="radio" class="form-check-input"
-                                                                        value="paypal"
-                                                                        >
-                                                                    <label class="form-check-label" for="paypal">PayPal
-                                                                    </label>
-
-                                                                </div>
-                                                                <small class="text-success">Coming Soon</small>
-                                                            </li>
-                                                            <li
-                                                                class="list-group-item d-flex justify-content-between bg-light">
-                                                                <div>
-                                                                    <input id="invoice" name="paymentMethod"
-                                                                        type="radio" class="form-check-input"
-                                                                        value="invoice"
-                                                                        >
-                                                                    <label class="form-check-label" for="invoice">Send
-                                                                        Invoice </label>
-                                                                </div>
-                                                                <small class="text-success">Email Invoice</small>
-                                                            </li>
-
+                                                            @foreach ($paymentMethods as $method)
+                                                                <li
+                                                                    class="list-group-item d-flex justify-content-between lh-sm">
+                                                                    <div>
+                                                                        <input id="paymentMethodId-{{ $method->id }}"
+                                                                            name="paymentMethod" type="radio"
+                                                                            class="form-check-input"
+                                                                            value="{{ $method->id }}">
+                                                                        <label class="form-check-label" for="credit">
+                                                                            {{ $method->name === 'Stripe' ? 'Credit/Debit Card' : ($method->name === 'Paypal' ? 'Paypal' : 'Send Invoice') }}
+                                                                        </label>
+                                                                    </div>
+                                                                    <small
+                                                                        class="text-success">{{ $method->name === 'Stripe' ? 'Powered by Stripe' : ($method->name === 'Paypal' ? 'Coming Soon' : 'Email Invoice') }}</small>
+                                                                </li>
+                                                            @endforeach
                                                         </ul>
                                                     </div>
 
@@ -347,45 +311,15 @@
                                             </h5>
                                             <span class="badge bg-danger rounded-pill">3</span>
                                         </div>
-                                        <ul class="list-group mb-3">
-                                            <li class="list-group-item d-flex justify-content-between lh-sm">
-                                                <div>
-                                                    <h6 class="my-0">Performance Management</h6>
-                                                    <small class="text-success">For Single User</small>
-                                                </div>
-                                                <span class="text-muted">$10.00</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between lh-sm">
-                                                <div>
-                                                    <h6 class="my-0">Risk Management</h6>
-                                                    <small class="text-success">For Single User</small>
-                                                </div>
-                                                <span class="text-muted">$20.00</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between lh-sm">
-                                                <div>
-                                                    <h6 class="my-0">Audit Planning</h6>
-                                                    <small class="text-success">For Single User</small>
-                                                </div>
-                                                <span class="text-muted">$30.00</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between bg-light">
-                                                <div class="text-success">
-                                                    <h6 class="my-0">Discount</h6>
-                                                </div>
-                                                <span class="text-success">-$10.00</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between">
-                                                <span>Sub Total (USD)</span>
-                                                <strong>$50.00</strong>
-                                            </li>
+                                        <ul class="list-group mb-3" id="second-invoice-list">
                                         </ul>
 
                                         <div class="d-flex align-items-start gap-3 mt-4">
-                                            <button type="submit"
-                                                    class="btn btn-success btn-label right ms-auto nexttab nexttab"
-                                                    data-nexttab="v-pills-bill-address-tab"><i
-                                                        class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Next</button>
+                                            <button type="button"
+                                                id="submitBtn"
+                                                class="btn btn-success btn-label right ms-auto"
+                                                ><i
+                                                    class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Next</button>
                                         </div>
 
                                     </div>
@@ -402,87 +336,170 @@
         <!-- end auth page content -->
     </div>
     <script>
-    $(document).ready(function () {
+        $(document).ready(function() {
 
-        // When the country is selected
-        $('#country').on('change', function () {
-            const countryId = $(this).val();
-            let locale = "{{ app()->getLocale() }}"; // Get the locale from Laravel
-            $('#state').html('<option value="">Choose...</option>');
-            $('#city').html('<option value="">Choose...</option>');
-            let url = `/${locale}/locations/states/${countryId}`;
+            // When the country is selected
+            $('#country').on('change', function() {
+                const countryId = $(this).val();
+                let locale = "{{ app()->getLocale() }}"; // Get the locale from Laravel
+                $('#state').html('<option value="">Choose...</option>');
+                $('#city').html('<option value="">Choose...</option>');
+                let url = `/${locale}/locations/states/${countryId}`;
 
-            if (countryId) {
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    success: function (states) {
-                        states.forEach(state => {
-                            $('#state').append(`<option value="${state.id}">${state.name}</option>`);
-                        });
-                    }
-                });
-            }
-        });
+                if (countryId) {
+                    $.ajax({
+                        url: url,
+                        type: 'GET',
+                        success: function(states) {
+                            states.forEach(state => {
+                                $('#state').append(
+                                    `<option value="${state.id}">${state.name}</option>`
+                                    );
+                            });
+                        }
+                    });
+                }
+            });
 
-        // When the state is selected
-        $('#state').on('change', function () {
-            const stateId = $(this).val();
-            let locale = "{{ app()->getLocale() }}"; // Get the locale from Laravel
-            $('#city').html('<option value="">Choose...</option>');
-            let url = `/${locale}/locations/cities/${stateId}`;
+            // When the state is selected
+            $('#state').on('change', function() {
+                const stateId = $(this).val();
+                let locale = "{{ app()->getLocale() }}"; // Get the locale from Laravel
+                $('#city').html('<option value="">Choose...</option>');
+                let url = `/${locale}/locations/cities/${stateId}`;
 
-            if (stateId) {
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    success: function (cities) {
-                        cities.forEach(city => {
-                            $('#city').append(`<option value="${city.id}">${city.name}</option>`);
-                        });
-                    }
-                });
-            }
-        });
+                if (stateId) {
+                    $.ajax({
+                        url: url,
+                        type: 'GET',
+                        success: function(cities) {
+                            cities.forEach(city => {
+                                $('#city').append(
+                                    `<option value="${city.id}">${city.name}</option>`
+                                    );
+                            });
+                        }
+                    });
+                }
+            });
+
+            const selectedPlans = JSON.parse(localStorage.getItem('selectedPlans')) || [];
+            const plansList = document.getElementById('selected-plans-list');
+            const secondInvoiceList = document.getElementById('second-invoice-list');
+
+            let totalAmount = 0;
+
+            selectedPlans.forEach(plan => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item d-flex justify-content-between lh-sm';
+
+                li.innerHTML = `
+            <div>
+                <h6 class="my-0">${plan.module_name}</h6>
+                <small class="text-success">${plan.plan_name}</small>
+            </div>
+            <span class="text-muted">$${plan.price.toFixed(2)}</span>
+        `;
+
+                plansList.appendChild(li);
+
+                // Also append to the second invoice
+                const liClone = li.cloneNode(true);
+                secondInvoiceList.appendChild(liClone);
+
+                totalAmount += plan.price;
+            });
+
+            const discount = parseFloat(localStorage.getItem('discount')) || 0;
+            const tax = 0.00;
+            const subTotal = totalAmount - discount;
+            const amountDue = totalAmount + tax - discount;
+
+            document.getElementById('sub-total').textContent = `$${subTotal.toFixed(2)}`;
+            document.getElementById('discount').textContent = `-$${discount.toFixed(2)}`;
+            document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('amount-due').textContent = `$${amountDue.toFixed(2)}`;
+
+            // Add discount row to second invoice
+            const discountLi = document.createElement('li');
+            discountLi.className = 'list-group-item d-flex justify-content-between bg-light';
+            discountLi.innerHTML = `
+        <div class="text-success">
+            <h6 class="my-0">Discount</h6>
+        </div>
+        <span class="text-success">-$${discount.toFixed(2)}</span>
+    `;
+            secondInvoiceList.appendChild(discountLi);
+
+            // Add subtotal row to second invoice
+            const subtotalLi = document.createElement('li');
+            subtotalLi.className = 'list-group-item d-flex justify-content-between';
+            subtotalLi.innerHTML = `
+        <span>Sub Total (USD)</span>
+        <strong>$${subTotal.toFixed(2)}</strong>
+    `;
+            secondInvoiceList.appendChild(subtotalLi);
+
+$(document).on('click', '#submitBtn', function (e) {
+        e.preventDefault();
+
+        // Create FormData object from the entire form
+        let form = $('#registerForm')[0];
+        let formData = new FormData(form);
 
         const selectedPlans = JSON.parse(localStorage.getItem('selectedPlans')) || [];
-
-        console.log(selectedPlans)
-        // 2. Get the UL element
-        const plansList = document.getElementById('selected-plans-list');
-
-        let totalAmount = 0;
-
-        // 3. Loop and inject each plan
-        selectedPlans.forEach(plan => {
-            const li = document.createElement('li');
-            li.className = 'list-group-item d-flex justify-content-between lh-sm';
-
-            li.innerHTML = `
-                <div>
-                    <h6 class="my-0">${plan.module_name}</h6>
-                    <small class="text-success">${plan.plan_name}</small>
-                </div>
-                <span class="text-muted">$${(plan.price ).toFixed(2)}</span>
-            `;
-
-            plansList.appendChild(li);
-
-            totalAmount += plan.price;
+        selectedPlans.forEach((plan, index) => {
+            formData.append(`invoice[${index}][module_name]`, plan.module_name);
+            formData.append(`invoice[${index}][plan_name]`, plan.plan_name);
+            formData.append(`invoice[${index}][price]`, plan.price);
         });
 
-        const subTotal = totalAmount
-        const discount = localStorage.getItem('discount');
+        // ✅ Append discount, subtotal, tax, and amount due
+        const discount = parseFloat(localStorage.getItem('discount')) || 0;
         const tax = 0.00;
-        const amountDue = subTotal + tax - discount;
+        const totalAmount = selectedPlans.reduce((acc, p) => acc + parseFloat(p.price), 0);
+        const subTotal = totalAmount - discount;
+        const amountDue = subTotal + tax;
 
-        document.getElementById('sub-total').textContent = `$${subTotal.toFixed(2)}`;
-        document.getElementById('discount').textContent = `-$${discount}`;
-        document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
-        document.getElementById('amount-due').textContent = `$${amountDue.toFixed(2)}`;
+        formData.append('subscriber', true);
+        formData.append('discount', discount);
+        formData.append('sub_total', subTotal);
+        formData.append('tax', tax);
+        formData.append('amount_due', amountDue);
 
+        // ✅ Append payment method ID (checked radio input)
+        const paymentMethod = $('input[name="paymentMethod"]:checked').val();
+        if (paymentMethod) {
+            formData.append('payment_method_id', paymentMethod);
+        }
+
+        $.ajax({
+            url: $('#registerForm').attr('action'),
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                // Handle success (maybe show a message or redirect)
+                alert('Registration successful!');
+            },
+            error: function (xhr) {
+                if (xhr.status === 422) {
+                    const errors = xhr.responseJSON.errors;
+                    for (let key in errors) {
+                        const field = $(`[name="${key}"]`);
+                        field.addClass('is-invalid');
+                        field.siblings('.invalid-feedback').text(errors[key][0]).show();
+                    }
+                } else {
+                    alert('Something went wrong.');
+                }
+            }
+        });
     });
-</script>
+        });
+
+    </script>
 @endsection
 @push('scripts')
     <script src="{{ asset('assets/login/js/pages/password-addon.init.js') }}"></script>

@@ -10,6 +10,7 @@ use App\Services\RegisterService;
 use App\Services\SubscriptionService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -37,11 +38,10 @@ class RegisterController extends Controller
         DB::beginTransaction();
 
      try {
-
         $data = $request->validated();
         $data['terms_conditions'] = $request->terms_conditions ? 1 : 0;
 
-           $user = $this->registerService->store($data);
+        $user = $this->registerService->store($data);
 
     // Create Subscription
             $this->subscriptionService->store($user->id);

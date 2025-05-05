@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Country;
 use App\Models\Module;
+use App\Models\PaymentMethod;
 
 class SubscriptionController extends Controller
 {
@@ -38,7 +39,8 @@ class SubscriptionController extends Controller
 
     public function info()
     {
+        $paymentMethods = PaymentMethod::all();
         $countries = Country::all();
-        return view('subscription.info', compact('countries'));
+        return view('subscription.info', compact('countries', 'paymentMethods'));
     }
 }
